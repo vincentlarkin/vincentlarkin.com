@@ -87,16 +87,6 @@
   <script src="/js/language-system.js"></script>
   
   <script>
-    // Initialize language system for changelog page
-    document.addEventListener('DOMContentLoaded', function() {
-      // Apply language after a short delay to ensure language system is loaded
-      setTimeout(() => {
-        if (typeof applyLanguage === 'function') {
-          applyLanguage();
-        }
-      }, 100);
-    });
-    
     // GitHub API configuration
     const GITHUB_USERNAME = 'VincentW2';
     const GITHUB_REPO = 'vincentwl.pt';

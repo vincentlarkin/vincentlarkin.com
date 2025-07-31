@@ -6,7 +6,7 @@ let translations = {};
 async function initLanguageSystem() {
   try {
     console.log('Initializing language system...');
-    const response = await fetch('/js/translations.json');
+    const response = await fetch('/js/translations.json?v=20241220');
     translations = await response.json();
     console.log('Loaded translations:', translations);
     applyLanguage(currentLang);
@@ -74,6 +74,7 @@ function getCurrentPage() {
   if (path.includes('/about.html')) return 'about';
   if (path.includes('/news.html')) return 'news';
   if (path.includes('/contact.html')) return 'contact';
+  if (path.includes('/changelog.html')) return 'changelog';
   if (path.includes('/articles/')) return 'article';
   return 'index';
 }
