@@ -47,6 +47,20 @@
     "nav-contact": {
       "pt": "Contacto",
       "en": "Contact"
+    },
+    "nav-changelog": {
+      "pt": "Changelog",
+      "en": "Changelog"
+    }
+  },
+  "changelog": {
+    "changelog-title": {
+      "pt": "Changelog",
+      "en": "Changelog"
+    },
+    "changelog-subtitle": {
+      "pt": "Commits recentes do repositório",
+      "en": "Recent commits from the repository"
     }
   }
 } 

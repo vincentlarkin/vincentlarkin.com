@@ -1,0 +1,171 @@
+<!-- changelog.html -->
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Changelog - vincentwl.pt</title>
+  <!-- Favicon for most browsers -->
+  <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
+  <!-- Standard PNG favicons for various devices -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="site-header"></div>
+  <script>
+    // Load theme first to prevent flashbang
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      document.body.className = savedTheme;
+    })();
+    
+    // Load header
+    fetch('/header.html?v=' + Date.now())
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('site-header').innerHTML = html;
+        
+        // Add theme and language buttons
+        const nav = document.querySelector('nav ul');
+        const themeBtn = document.createElement('li');
+        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
+        nav.appendChild(themeBtn);
+        
+        const langBtnLi = document.createElement('li');
+        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
+        nav.appendChild(langBtnLi);
+        
+        // Initialize theme system
+        const themes = ['theme-dark', 'theme-light', 'theme-retro'];
+        const themeIcons = ['🌙', '☀️', '💻'];
+        let currentThemeIndex = themes.indexOf(document.body.className);
+        
+        function switchTheme() {
+          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+          const newTheme = themes[currentThemeIndex];
+          document.body.className = newTheme;
+          localStorage.setItem('theme', newTheme);
+          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        }
+        
+        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
+        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        
+        // Initialize language button
+        const langBtn = document.getElementById('lang-toggle');
+        if (langBtn) {
+          langBtn.addEventListener('click', switchLanguage);
+        }
+      });
+  </script>
+  
+  <main>
+    <section class="changelog-section">
+      <h2 id="changelog-title">Changelog</h2>
+      <p id="changelog-subtitle">Recent commits from the repository</p>
+      
+      <div id="commits-container" class="commits-container">
+        <div class="loading">Loading commits...</div>
+      </div>
+    </section>
+  </main>
+  
+  <div id="site-footer"></div>
+  <script>
+    fetch('/footer.html')
+      .then(r => r.text())
+      .then(html => document.getElementById('site-footer').innerHTML = html);
+  </script>
+  
+  <!-- Language System -->
+  <script src="/js/language-system.js"></script>
+  
+  <script>
+    // GitHub API configuration
+    const GITHUB_USERNAME = 'VincentW2';
+    const GITHUB_REPO = 'vincentwl.pt';
+    const COMMITS_TO_FETCH = 15;
+    
+    // Fetch commits from GitHub API
+    async function fetchCommits() {
+      const container = document.getElementById('commits-container');
+      
+      try {
+        const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/commits?per_page=${COMMITS_TO_FETCH}`);
+        
+        if (!response.ok) {
+          throw new Error(`GitHub API error: ${response.status}`);
+        }
+        
+        const commits = await response.json();
+        
+        if (commits.length === 0) {
+          container.innerHTML = '<div class="no-commits">No commits found</div>';
+          return;
+        }
+        
+        // Get user info for profile picture
+        const userResponse = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`);
+        const userData = userResponse.ok ? await userResponse.json() : null;
+        
+        const commitsHTML = commits.map(commit => {
+          const commitDate = new Date(commit.commit.author.date);
+          const formattedDate = commitDate.toLocaleDateString('pt-PT', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          const shortHash = commit.sha.substring(0, 7);
+          const message = commit.commit.message.split('\n')[0]; // First line only
+          
+          return `
+            <div class="commit-item">
+              <div class="commit-avatar">
+                <img src="${userData?.avatar_url || '/images/profile.jpg'}" alt="Profile" class="profile-pic">
+              </div>
+              <div class="commit-content">
+                <div class="commit-header">
+                  <span class="commit-hash">${shortHash}</span>
+                  <span class="commit-date">${formattedDate}</span>
+                </div>
+                <div class="commit-message">${escapeHtml(message)}</div>
+                <div class="commit-author">${escapeHtml(commit.commit.author.name)}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        
+        container.innerHTML = commitsHTML;
+        
+      } catch (error) {
+        console.error('Error fetching commits:', error);
+        container.innerHTML = `
+          <div class="error-message">
+            <p>Failed to load commits. Please try again later.</p>
+            <p class="error-details">${error.message}</p>
+          </div>
+        `;
+      }
+    }
+    
+    // Helper function to escape HTML
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    // Load commits when page loads
+    document.addEventListener('DOMContentLoaded', fetchCommits);
+  </script>
+</body>
+</html> 
