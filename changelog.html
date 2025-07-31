@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=20241220">
 </head>
 <body>
   <div id="site-header"></div>
@@ -67,8 +67,8 @@
   
   <main>
     <section class="changelog-section">
-      <h2 id="changelog-title">Changelog</h2>
-      <p id="changelog-subtitle">Recent commits from the repository</p>
+      <h2 id="changelog-title">Loading...</h2>
+      <p id="changelog-subtitle">Loading...</p>
       
       <div id="commits-container" class="commits-container">
         <div class="loading">Loading commits...</div>
@@ -87,6 +87,16 @@
   <script src="/js/language-system.js"></script>
   
   <script>
+    // Initialize language system for changelog page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Apply language after a short delay to ensure language system is loaded
+      setTimeout(() => {
+        if (typeof applyLanguage === 'function') {
+          applyLanguage();
+        }
+      }, 100);
+    });
+    
     // GitHub API configuration
     const GITHUB_USERNAME = 'VincentW2';
     const GITHUB_REPO = 'vincentwl.pt';
