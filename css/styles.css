@@ -1,5 +1,18 @@
 /* css/styles.css */
 
+/* Base layout fixes to prevent overflow */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 /* Theme and Language Toggle Buttons */
 .theme-btn, .lang-btn {
   background: none !important;
@@ -83,11 +96,13 @@ body.theme-retro .theme-btn:hover {
 /* Mobile-specific theme button improvements */
 @media (max-width: 768px) {
   .theme-btn {
-    font-size: 1rem;
-    padding: 8px 12px;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
     border: 1px solid #00bfff;
     border-radius: 4px;
     background: rgba(0, 191, 255, 0.1);
+    min-width: auto;
+    min-height: auto;
   }
   
   .theme-btn:active {
@@ -120,11 +135,6 @@ body.theme-retro .theme-btn:hover {
 }
 
 /* Base styles */
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
 body {
   display: flex;
   flex-direction: column;
@@ -555,9 +565,9 @@ body.theme-retro .image-caption {
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .monthly-image-container {
-    max-width: 90%;
-    width: 90%;
-    margin: 1rem auto;
+    max-width: 100%;
+    width: 100%;
+    margin: 1rem 0;
     padding: 0.5rem;
   }
   
@@ -775,5 +785,160 @@ body.theme-retro .commit-author {
   
   .commit-message {
     font-size: 0.95rem;
+  }
+}
+
+/* Comprehensive mobile layout fixes */
+@media (max-width: 768px) {
+  /* Prevent horizontal overflow */
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    width: 100vw;
+  }
+  
+  /* Header mobile fixes */
+  header {
+    padding: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 100vw;
+  }
+  
+  .logo {
+    flex-shrink: 0;
+    min-width: 0;
+  }
+  
+  .logo h1 {
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Navigation mobile fixes */
+  nav {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    width: 100%;
+  }
+  
+  nav li {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  
+  nav a {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+  }
+  
+  /* Main content mobile fixes */
+  main {
+    width: 100%;
+    max-width: 100vw;
+    padding: 1rem 0.5rem;
+    overflow-x: hidden;
+  }
+  
+  /* Footer mobile fixes */
+  footer {
+    width: 100%;
+    max-width: 100vw;
+    padding: 1rem 0.5rem;
+    overflow-x: hidden;
+  }
+  
+  /* News list mobile fixes */
+  .news-list {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .news-list li {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .news-list a {
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Article content mobile fixes */
+  .news-article,
+  .about-profile {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem 0.5rem;
+    overflow-x: hidden;
+  }
+  
+  .news-content {
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Image mobile fixes */
+  .article-img {
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+  }
+  
+  .profile-img {
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+  }
+  
+  /* Monthly image mobile fixes */
+  .monthly-image-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 1rem 0;
+    padding: 0.5rem;
+  }
+  
+  .monthly-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Theme and language buttons mobile fixes */
+  .theme-btn, .lang-btn {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    min-width: auto;
+    min-height: auto;
+  }
+  
+  /* Ensure no horizontal scroll on any element */
+  * {
+    max-width: 100%;
+  }
+  
+  /* Fix for long text content */
+  h1, h2, h3, p, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 }
