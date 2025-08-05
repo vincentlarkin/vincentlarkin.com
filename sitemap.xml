@@ -2,28 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <!-- Main pages -->
     <url>
-        <loc>https://vincentwl.pt/</loc>
+        <loc>https://vincentlarkin.com/</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/about.html</loc>
+        <loc>https://vincentlarkin.com/about.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/contact.html</loc>
+        <loc>https://vincentlarkin.com/contact.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/news.html</loc>
+        <loc>https://vincentlarkin.com/news.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
@@ -31,63 +31,63 @@
     
     <!-- Articles (static content) -->
     <url>
-        <loc>https://vincentwl.pt/articles/abortion-babies.html</loc>
+        <loc>https://vincentlarkin.com/articles/abortion-babies.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/articles/bush-aging-family.html</loc>
+        <loc>https://vincentlarkin.com/articles/bush-aging-family.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/articles/farmers-suicides.html</loc>
+        <loc>https://vincentlarkin.com/articles/farmers-suicides.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/articles/icu-worse-off.html</loc>
+        <loc>https://vincentlarkin.com/articles/icu-worse-off.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/articles/learson-dies.html</loc>
+        <loc>https://vincentlarkin.com/articles/learson-dies.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/articles/pence-fiancee.html</loc>
+        <loc>https://vincentlarkin.com/articles/pence-fiancee.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/articles/trade-war-breakthrough.html</loc>
+        <loc>https://vincentlarkin.com/articles/trade-war-breakthrough.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/articles/voce-nao-esta-sozinho.html</loc>
+        <loc>https://vincentlarkin.com/articles/voce-nao-esta-sozinho.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentwl.pt/articles/weak-to-stop-israel.html</loc>
+        <loc>https://vincentlarkin.com/articles/weak-to-stop-israel.html</loc>
         <lastmod>2025-07-29</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>

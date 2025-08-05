@@ -59,7 +59,7 @@ Disallow: /error/
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://vincentwl.pt/sitemap.xml
+Sitemap: https://vincentlarkin.com/sitemap.xml
 
 # If Christ has died for my sin, I cannot trifle with the evil that killed my best friend.
 # Lam 3:39 Why should a living man complain, a man, about the punishment of his sins?

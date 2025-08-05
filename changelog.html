@@ -7,7 +7,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Changelog - vincentwl.pt</title>
+  <title>Changelog - vincentlarkin.com</title>
   <!-- Favicon for most browsers -->
   <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
   <!-- Standard PNG favicons for various devices -->
@@ -89,7 +89,7 @@
   <script>
     // GitHub API configuration
     const GITHUB_USERNAME = 'VincentW2';
-    const GITHUB_REPO = 'vincentwl.pt';
+    const GITHUB_REPO = 'vincentlarkin.com';
     const COMMITS_TO_FETCH = 15;
     
     // Fetch commits from GitHub API
@@ -107,7 +107,7 @@
         const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/commits?per_page=${COMMITS_TO_FETCH}`, {
           headers: {
             'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'vincentwl.pt'
+            'User-Agent': 'vincentlarkin.com'
           }
         });
         
@@ -129,7 +129,7 @@
           const userResponse = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, {
             headers: {
               'Accept': 'application/vnd.github.v3+json',
-              'User-Agent': 'vincentwl.pt'
+              'User-Agent': 'vincentlarkin.com'
             }
           });
           if (userResponse.ok) {
@@ -190,7 +190,7 @@
                 <span class="commit-hash">v1.0.0</span>
                 <span class="commit-date">Dezembro 2024</span>
               </div>
-              <div class="commit-message">Lançamento inicial do site vincentwl.pt</div>
+              <div class="commit-message">Lançamento inicial do site vincentlarkin.com</div>
               <div class="commit-author">Vincent</div>
             </div>
           </div>
