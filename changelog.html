@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css?v=20241220">
+  <link rel="stylesheet" href="css/styles.css?v=20250805">
 </head>
 <body>
   <div id="site-header"></div>
@@ -93,6 +93,19 @@
     const GITHUB_REPO = 'vincentlarkin.com';
     const COMMITS_TO_FETCH = 15;
     
+    // Date formatting function based on current language
+    function formatDate(date, lang) {
+      const locale = lang === 'pt' ? 'pt-PT' : 'en-US';
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      return date.toLocaleDateString(locale, options);
+    }
+    
     // Fetch commits from GitHub API
     async function fetchCommits() {
       const container = document.getElementById('commits-container');
@@ -142,13 +155,8 @@
         
         const commitsHTML = commits.map(commit => {
           const commitDate = new Date(commit.commit.author.date);
-          const formattedDate = commitDate.toLocaleDateString('pt-PT', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          });
+          const currentLang = localStorage.getItem('lang') || 'en';
+          const formattedDate = formatDate(commitDate, currentLang);
           
           const shortHash = commit.sha.substring(0, 7);
           const message = commit.commit.message.split('\n')[0]; // First line only
@@ -161,7 +169,7 @@
               <div class="commit-content">
                 <div class="commit-header">
                   <span class="commit-hash">${shortHash}</span>
-                  <span class="commit-date">${formattedDate}</span>
+                  <span class="commit-date" data-original-date="${commit.commit.author.date}">${formattedDate}</span>
                 </div>
                 <div class="commit-message">${escapeHtml(message)}</div>
                 <div class="commit-author">${escapeHtml(commit.commit.author.name)}</div>
@@ -232,8 +240,28 @@
       return div.innerHTML;
     }
     
+    // Function to refresh commits with current language
+    function refreshCommits() {
+      const container = document.getElementById('commits-container');
+      if (container && container.children.length > 0) {
+        // Re-render existing commits with new language
+        const commitItems = container.querySelectorAll('.commit-item');
+        commitItems.forEach(item => {
+          const dateSpan = item.querySelector('.commit-date');
+          if (dateSpan && dateSpan.dataset.originalDate) {
+            const originalDate = new Date(dateSpan.dataset.originalDate);
+            const currentLang = localStorage.getItem('lang') || 'en';
+            dateSpan.textContent = formatDate(originalDate, currentLang);
+          }
+        });
+      }
+    }
+    
     // Load commits when page loads
     document.addEventListener('DOMContentLoaded', fetchCommits);
+    
+    // Listen for language changes
+    document.addEventListener('languageChanged', refreshCommits);
   </script>
 </body>
 </html> 

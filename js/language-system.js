@@ -20,6 +20,9 @@ function applyLanguage(lang) {
   localStorage.setItem('lang', lang);
   document.documentElement.lang = lang;
   
+  // Dispatch custom event for language change
+  document.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
+  
   const currentPage = getCurrentPage();
   
   // Apply page translations
