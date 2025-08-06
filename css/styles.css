@@ -615,7 +615,7 @@ body.theme-retro .profile-img {
   max-width: 800px;
   width: 100%;
   margin-left: 0;
-  margin-right: auto;
+  margin-right: 1rem;
   overflow: hidden;
 }
 
