@@ -21,7 +21,7 @@
     })();
     
     // Load header
-    fetch('/header.html?v=' + Date.now())
+    fetch('/header.html?v=20250805')
       .then(r => r.text())
       .then(html => {
         document.getElementById('site-header').innerHTML = html;
@@ -79,7 +79,7 @@
   <!-- Shared Footer -->
   <div id="site-footer"></div>
   <script>
-    fetch('/footer.html')
+    fetch('/footer.html?v=20250805')
       .then(res => res.text())
       .then(html => document.getElementById('site-footer').innerHTML = html);
   </script>
