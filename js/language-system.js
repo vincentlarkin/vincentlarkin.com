@@ -1,5 +1,5 @@
 // Global language system
-let currentLang = localStorage.getItem('lang') || 'pt';
+let currentLang = localStorage.getItem('lang') || 'en';
 let translations = {};
 
 // Load language and content

@@ -692,6 +692,30 @@ body.theme-retro .image-caption {
   font-style: italic;
 }
 
+.changelog-source {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-style: normal;
+}
+
+.changelog-source a {
+  color: #00bfff;
+  text-decoration: underline;
+}
+
+.changelog-source a:hover {
+  color: #fff;
+}
+
+.news-description {
+  color: #888;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  font-style: italic;
+}
+
 .commits-container {
   display: flex;
   flex-direction: column;
@@ -792,6 +816,22 @@ body.theme-light .changelog-section h2 {
   color: #007bff;
 }
 
+body.theme-light .changelog-source {
+  color: #666;
+}
+
+body.theme-light .changelog-source a {
+  color: #007bff;
+}
+
+body.theme-light .changelog-source a:hover {
+  color: #0056b3;
+}
+
+body.theme-light .news-description {
+  color: #666;
+}
+
 body.theme-light .commit-item {
   border-color: #007bff;
   background: rgba(0, 123, 255, 0.05);
@@ -823,6 +863,23 @@ body.theme-light .commit-author {
 body.theme-retro .changelog-section h2 {
   color: #0000ff;
   text-decoration: underline;
+}
+
+body.theme-retro .changelog-source {
+  color: #666;
+}
+
+body.theme-retro .changelog-source a {
+  color: #0000ff;
+  text-decoration: underline;
+}
+
+body.theme-retro .changelog-source a:hover {
+  color: #000000;
+}
+
+body.theme-retro .news-description {
+  color: #666;
 }
 
 body.theme-retro .commit-item {
