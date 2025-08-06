@@ -159,7 +159,18 @@
           const formattedDate = formatDate(commitDate, currentLang);
           
           const shortHash = commit.sha.substring(0, 7);
-          const message = commit.commit.message.split('\n')[0]; // First line only
+          const messageLines = commit.commit.message.split('\n');
+          const title = messageLines[0]; // First line is the title
+          
+          // Find the description (everything after the first blank line)
+          let description = '';
+          for (let i = 1; i < messageLines.length; i++) {
+            if (messageLines[i].trim() === '') {
+              // Found blank line, everything after this is description
+              description = messageLines.slice(i + 1).filter(line => line.trim()).join('\n');
+              break;
+            }
+          }
           
           return `
             <div class="commit-item">
@@ -171,7 +182,8 @@
                   <span class="commit-hash">${shortHash}</span>
                   <span class="commit-date" data-original-date="${commit.commit.author.date}">${formattedDate}</span>
                 </div>
-                <div class="commit-message">${escapeHtml(message)}</div>
+                <div class="commit-message">${escapeHtml(title)}</div>
+                ${description ? `<div class="commit-description">${escapeHtml(description)}</div>` : ''}
                 <div class="commit-author">${escapeHtml(commit.commit.author.name)}</div>
               </div>
             </div>
