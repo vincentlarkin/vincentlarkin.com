@@ -41,6 +41,7 @@ Allow: /index.html
 Allow: /about.html
 Allow: /contact.html
 Allow: /news.html
+Allow: /changelog.html
 
 # Allow crawling of articles
 Allow: /articles/
