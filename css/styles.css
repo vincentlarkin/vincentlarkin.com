@@ -397,7 +397,7 @@ header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 1rem 1rem;
   border-radius: 0;
 }
 
@@ -533,7 +533,7 @@ footer {
   align-items: center;
   gap: 0.5rem;
   text-align: center;
-  padding: 1rem;
+  padding: 0.3rem;
   width: 100%;
   border-radius: 0;
 }
