@@ -138,6 +138,7 @@ body.theme-retro .theme-btn:hover {
 body {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   font-family: 'Fira Mono', 'Courier New', monospace;
   font-size: 18px;
   line-height: 1.6;
