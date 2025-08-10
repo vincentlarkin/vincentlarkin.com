@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css?v=20250805">
+  <link rel="stylesheet" href="css/styles.css?v=20250809">
 </head>
 <body>
   <div id="site-header"></div>
@@ -21,7 +21,7 @@
     })();
     
     // Load header
-    fetch('/header.html?v=20250805')
+    fetch('/header.html?v=20250809')
       .then(r => r.text())
       .then(html => {
         document.getElementById('site-header').innerHTML = html;
@@ -73,20 +73,45 @@
 
     <!-- Contact Section -->
     <section class="contact-section">
-      <h3 id="contact-title">Contacto</h3>
-      <p id="contact-text">Envie-me um email para <a href="mailto:vincent@vincentlarkin.com">vincent@vincentlarkin.com</a> ou siga no <a href="https://github.com/vincentw2">GitHub</a>.</p>
+      <h3 id="contact-title">Loading...</h3>
+      <p id="contact-text">Loading...</p>
     </section>
   </main>
 
   <!-- Shared Footer -->
   <div id="site-footer"></div>
   <script>
-    fetch('/footer.html?v=20250805')
+    fetch('/footer.html?v=20250809')
       .then(res => res.text())
       .then(html => document.getElementById('site-footer').innerHTML = html);
   </script>
   
   <!-- Language System -->
-  <script src="/js/language-system.js"></script>
+  <script src="/js/language-system.js?v=20250809"></script>
+  <script>
+    // Ensure language system initializes properly
+    document.addEventListener('DOMContentLoaded', function() {
+      // Fallback if language system doesn't load
+      setTimeout(function() {
+        const aboutTitle = document.getElementById('about-title');
+        const aboutIntro = document.getElementById('about-intro');
+        const contactTitle = document.getElementById('contact-title');
+        const contactText = document.getElementById('contact-text');
+        
+        if (aboutTitle && aboutTitle.textContent === 'Loading...') {
+          aboutTitle.textContent = 'Sobre Mim';
+        }
+        if (aboutIntro && aboutIntro.textContent === 'Loading...') {
+          aboutIntro.textContent = 'Olá. Sou Vincent.';
+        }
+        if (contactTitle && contactTitle.textContent === 'Loading...') {
+          contactTitle.textContent = 'Contacto';
+        }
+        if (contactText && contactText.textContent === 'Loading...') {
+          contactText.innerHTML = 'Envie-me um email para <a href="mailto:vincent@vincentlarkin.com">vincent@vincentlarkin.com</a> ou siga no <a href="https://github.com/vincentw2">GitHub</a>.';
+        }
+      }, 1000);
+    });
+  </script>
 </body>
 </html>
