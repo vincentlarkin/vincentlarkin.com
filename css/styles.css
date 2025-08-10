@@ -602,6 +602,21 @@ body.theme-retro .profile-img {
   font-size: 1.5rem;
 }
 
+.contact-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 191, 255, 0.2);
+}
+
+.contact-section h3 {
+  color: #00bfff;
+  margin-bottom: 1rem;
+}
+
+.contact-section p {
+  margin-bottom: 1rem;
+}
+
 /* Monthly Image Container */
 .monthly-image-container {
   display: flex;
@@ -1113,3 +1128,5 @@ body.theme-retro .commit-author {
     overflow-wrap: break-word;
   }
 }
+
+
