@@ -66,8 +66,8 @@
     <section class="about-profile">
       <img src="/images/profile.jpg" alt="Foto de Vincent Larkin" class="profile-img">
       <div>
-        <h2 id="about-title">Sobre Mim</h2>
-        <p id="about-intro">Olá. Sou Vincent.</p>
+        <h2 id="about-title">Loading...</h2>
+        <p id="about-intro">Loading...</p>
       </div>
     </section>
 
@@ -88,30 +88,5 @@
   
   <!-- Language System -->
   <script src="/js/language-system.js?v=20250809"></script>
-  <script>
-    // Ensure language system initializes properly
-    document.addEventListener('DOMContentLoaded', function() {
-      // Fallback if language system doesn't load
-      setTimeout(function() {
-        const aboutTitle = document.getElementById('about-title');
-        const aboutIntro = document.getElementById('about-intro');
-        const contactTitle = document.getElementById('contact-title');
-        const contactText = document.getElementById('contact-text');
-        
-        if (aboutTitle && aboutTitle.textContent === 'Loading...') {
-          aboutTitle.textContent = 'Sobre Mim';
-        }
-        if (aboutIntro && aboutIntro.textContent === 'Loading...') {
-          aboutIntro.textContent = 'Olá. Sou Vincent.';
-        }
-        if (contactTitle && contactTitle.textContent === 'Loading...') {
-          contactTitle.textContent = 'Contacto';
-        }
-        if (contactText && contactText.textContent === 'Loading...') {
-          contactText.innerHTML = 'Envie-me um email para <a href="mailto:vincent@vincentlarkin.com">vincent@vincentlarkin.com</a> ou siga no <a href="https://github.com/vincentw2">GitHub</a>.';
-        }
-      }, 1000);
-    });
-  </script>
 </body>
 </html>
