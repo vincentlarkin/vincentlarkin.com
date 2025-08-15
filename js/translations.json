@@ -17,6 +17,14 @@
     "about-intro": {
       "pt": "Olá. Sou Vincent.",
       "en": "Hello. I'm Vincent."
+    },
+    "contact-title": {
+      "pt": "Contacto",
+      "en": "Contact"
+    },
+    "contact-text": {
+      "pt": "Envie-me um email para {email} ou siga no {github}.",
+      "en": "Send me an email at {email} or follow me on {github}."
     }
   },
   "news": {
