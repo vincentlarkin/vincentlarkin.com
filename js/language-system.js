@@ -74,10 +74,10 @@ function switchLanguage() {
 function getCurrentPage() {
   const path = window.location.pathname;
   if (path === '/' || path === '/index.html') return 'index';
-  if (path.includes('/about.html')) return 'about';
-  if (path.includes('/news.html')) return 'news';
-  if (path.includes('/contact.html')) return 'contact';
-  if (path.includes('/changelog.html')) return 'changelog';
+  if (path.includes('about.html')) return 'about';
+  if (path.includes('news.html')) return 'news';
+  if (path.includes('contact.html')) return 'contact';
+  if (path.includes('changelog.html')) return 'changelog';
   if (path.includes('/articles/')) return 'article';
   return 'index';
 }
