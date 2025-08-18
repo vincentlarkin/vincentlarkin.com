@@ -1,0 +1,157 @@
+<!-- articles/bourdain-love-addiction.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Killed Anthony Bourdain?</title>
+  <!-- Favicon for most browsers -->
+<link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
+
+<!-- Standard PNG favicons for various devices -->
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32"   href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16"   href="/images/favicons/favicon-16x16.png">
+
+
+
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <div id="site-header"></div>
+  <script>
+    // Load theme first to prevent flashbang
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      document.body.className = savedTheme;
+    })();
+    
+    // Load header
+    fetch('/header.html?v=20250805')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('site-header').innerHTML = html;
+        
+        // Add theme and language buttons
+        const nav = document.querySelector('nav ul');
+        const themeBtn = document.createElement('li');
+        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
+        nav.appendChild(themeBtn);
+        
+        const langBtnLi = document.createElement('li');
+        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
+        nav.appendChild(langBtnLi);
+        
+        // Initialize theme system
+        const themes = ['theme-dark', 'theme-light', 'theme-retro'];
+        const themeIcons = ['🌙', '☀️', '💻'];
+        let currentThemeIndex = themes.indexOf(document.body.className);
+        
+        function switchTheme() {
+          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+          const newTheme = themes[currentThemeIndex];
+          document.body.className = newTheme;
+          localStorage.setItem('theme', newTheme);
+          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        }
+        
+        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
+        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        
+        // Initialize language button
+        const langBtn = document.getElementById('lang-toggle');
+        if (langBtn) {
+          langBtn.addEventListener('click', switchLanguage);
+          // Initial language button state will be set by applyLanguage() in language-system.js
+        }
+      });
+  </script>
+
+  <!-- Main Article -->
+  <main>
+    <article class="news-article-single">
+      <h2>What Killed Anthony Bourdain?</h2>
+      <p><a href="https://www.psychologytoday.com/us/blog/addiction-in-society/201810/what-killed-anthony-bourdain">Original Source</a></p>
+      
+      <!-- Author Section -->
+      <div class="author-section">
+        <img src="../images/articles/StantonPeele.webp" alt="Stanton Peele" class="author-img">
+        <div class="author-info">
+          <h3>Author: Stanton Peele, Ph.D.</h3>
+          <p>Addiction psychologist and author of "Love and Addiction"</p>
+        </div>
+      </div>
+      
+      <p><strong>Published:</strong> October 7, 2018</p>
+
+      <!-- First Image -->
+      <img src="../images/articles/bourdain.jpg" alt="Anthony Bourdain" class="article-img">
+      <code>PHOTO: Anthony Bourdain, celebrity chef and television personality</code>
+
+      <div class="news-content">
+        <p>Anthony Bourdain hanged himself on June 8, 2018, at Le Chambard Hotel in Alsace, France. He was on location for a shoot for his cable food and travel show, Parts Unknown. He was 61. He had an 11-year-old daughter.</p>
+
+        <p>What killed Bourdain? I had written of his former heroin and cocaine addictions, which he had eventually remedied himself, while he continued to drink and to smoke marijuana. So much for his recovery, many people taunted me.</p>
+
+        <p>But his toxicology report was negative.</p>
+
+        <p>What else might he have been addicted to? Love?</p>
+
+        <p>He had been involved with Asia Argento since early 2017.</p>
+
+        <p>"His love for her was evident among the people who worked with him. 'He would rave about Rome, where his girlfriend lived,' Bourdain's longtime photographer David Holloway told People. 'He would say it's an amazing city to fall in love in.'"</p>
+
+        <p>Bourdain himself admitted he was lighter around Argento. "Oh, yeah. I'm happier for sure," he said.</p>
+
+        <p>However, their relationship also caused some concern among Bourdain's friends.</p>
+
+        <p>"Like a teenage boy, [he was] just absolutely lovestruck. He would have done anything for her." That was a little red flag for some of his friends.</p>
+
+        <p>Their love flourished. Except, according to TMZ, writing after his death, "Anthony Bourdain and Asia Argento seemed as tight as ever just last week... but it appears something changed within the last few days."</p>
+
+        <p>"Just a few weeks ago, they were together in Florence, Italy... and still looking very happy and romantic." But while Bourdain was shooting in France, "Asia was back in Rome, strolling around with a French reporter... There were photos of them holding hands and hugging."</p>
+
+        <p>The URL for that piece in the usually reliable TMZ was "Anthony Bourdain-Asia Argento relationship split close."</p>
+
+        <p>Of course, some people argue that Bourdain was simply depressed and should have sought medical treatment (as though he never had). Was it just a coincidence that, at age 61, he was "in love" when he killed himself?</p>
+
+        <p>I thought of all of this when I had lunch with a highly successful man my age. He was dating a woman with whom, he repeatedly said, "I want to spend the rest of my life." Only they had broken up the day before our lunch. He kept texting her throughout our meal, preoccupied and depressed.</p>
+
+        <p>His story reminded me of Bourdain, who had dinner with a longtime friend and fellow chef the night before his suicide but was preoccupied throughout the meal, then he didn't show up for breakfast the next morning.</p>
+
+        <p>Like my friend, for Bourdain, all of his other relationships meant nothing next to his love life. For Bourdain, this included, tragically, his 11-year-old daughter.</p>
+
+        <p>The whole idea of love addiction strikes people as amusing—as in, "Yeah, and I'm addicted to jogging, sex, coffee"—or some equally implausible (in their minds) object of addiction.</p>
+
+        <p>Except, withdrawal from love is the only addiction that causes people to kill themselves.</p>
+
+        <p>All of this becomes relevant as Archie Brodsky and I give a commemorative podcast for SMART Recovery on the legacy of our 1975 book, Love and Addiction.</p>
+
+        <p>At the same time that the concept of addiction to processes has now become inscribed in the addiction lexicon, many people continue to find the idea laughable. Or, worse, they insist that only seeing a brain scan can convince them otherwise.</p>
+
+        <p>But by the following criteria, love is the worst addiction, as Bourdain (and my friend) demonstrate:</p>
+
+        <ol>
+          <li>Absorbing consciousness and sensation totally</li>
+          <li>Creating feelings of self-value and essential life motivation</li>
+          <li>Cutting off other sources of emotional satisfaction, like friends and family (Bourdain's daughter)</li>
+        </ol>
+
+        <p>And, as my friend and Anthony Bourdain also demonstrate, love addiction is worse the second time around when perhaps time's winged chariot makes men and women more desperate.</p>
+
+        <p>I have learned that Bourdain was "regularly suicidal" after the end of his first marriage. That kind of reaction often repeats itself. Love addiction is the hardest addiction to quit.</p>
+      </div>
+    </article>
+  </main>
+
+  <div id="site-footer"></div>
+  <script>
+    fetch('/footer.html?v=20250809')
+      .then(r => r.text())
+      .then(html => document.getElementById('site-footer').innerHTML = html);
+  </script>
+  
+  <!-- Language System -->
+  <script src="/js/language-system.js"></script>
+</body>
+</html>
