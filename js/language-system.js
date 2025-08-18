@@ -73,6 +73,7 @@ function switchLanguage() {
 // Helper function to get current page name
 function getCurrentPage() {
   const path = window.location.pathname;
+  console.log('Current pathname:', path);
   if (path === '/' || path === '/index.html') return 'index';
   if (path.includes('about.html')) return 'about';
   if (path.includes('news.html')) return 'news';
