@@ -19,7 +19,53 @@
 </head>
 <body>
   <div id="site-header"></div>
-  <script>fetch('/header.html').then(r=>r.text()).then(html=>document.getElementById('site-header').innerHTML=html);</script>
+  <script>
+    // Load theme first to prevent flashbang
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      document.body.className = savedTheme;
+    })();
+    
+    // Load header
+    fetch('/header.html?v=20250805')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('site-header').innerHTML = html;
+        
+        // Add theme and language buttons
+        const nav = document.querySelector('nav ul');
+        const themeBtn = document.createElement('li');
+        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
+        nav.appendChild(themeBtn);
+        
+        const langBtnLi = document.createElement('li');
+        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
+        nav.appendChild(langBtnLi);
+        
+        // Initialize theme system
+        const themes = ['theme-dark', 'theme-light', 'theme-retro'];
+        const themeIcons = ['🌙', '☀️', '💻'];
+        let currentThemeIndex = themes.indexOf(document.body.className);
+        
+        function switchTheme() {
+          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+          const newTheme = themes[currentThemeIndex];
+          document.body.className = newTheme;
+          localStorage.setItem('theme', newTheme);
+          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        }
+        
+        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
+        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        
+        // Initialize language button
+        const langBtn = document.getElementById('lang-toggle');
+        if (langBtn) {
+          langBtn.addEventListener('click', switchLanguage);
+          // Initial language button state will be set by applyLanguage() in language-system.js
+        }
+      });
+  </script>
   <main>
     <article class="news-article-single">
       <h2>We Are Too Weak to Stop Israel</h2>
@@ -60,6 +106,13 @@
     </article>
   </main>
   <div id="site-footer"></div>
-  <script>fetch('/footer.html').then(r=>r.text()).then(html=>document.getElementById('site-footer').innerHTML=html);</script>
+  <script>
+    fetch('/footer.html?v=20250809')
+      .then(r => r.text())
+      .then(html => document.getElementById('site-footer').innerHTML = html);
+  </script>
+  
+  <!-- Language System -->
+  <script src="/js/language-system.js"></script>
 </body>
 </html>

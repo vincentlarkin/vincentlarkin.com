@@ -500,6 +500,32 @@ a:hover {
   color: #ff8787;
 }
 
+/* News Categories */
+.news-category {
+  margin-bottom: 2.5rem;
+}
+
+.category-title {
+  color: #00bfff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #00bfff;
+  font-family: 'Fira Mono', 'Courier New', monospace;
+}
+
+body.theme-light .category-title {
+  color: #007bff;
+  border-bottom-color: #007bff;
+}
+
+body.theme-retro .category-title {
+  color: #0000ff;
+  border-bottom-color: #0000ff;
+  text-decoration: underline;
+}
+
 .article-img {
   max-width: 100%;
   height: auto;

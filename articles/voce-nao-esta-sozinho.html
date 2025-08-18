@@ -20,99 +20,51 @@
 <body>
   <div id="site-header"></div>
   <script>
-    // Load shared header with cache busting
-    const cacheBuster = '?v=' + Date.now();
-    fetch('/header.html' + cacheBuster)
-      .then(r => {
-        if (!r.ok) throw new Error('Failed to load header');
-        return r.text();
-      })
+    // Load theme first to prevent flashbang
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      document.body.className = savedTheme;
+    })();
+    
+    // Load header
+    fetch('/header.html?v=20250805')
+      .then(r => r.text())
       .then(html => {
         document.getElementById('site-header').innerHTML = html;
-        // Initialize theme system after header loads
-        initializeThemeSystem();
-      })
-      .catch(error => {
-        console.error('Header load failed:', error);
-        // Fallback header
-        document.getElementById('site-header').innerHTML = `
-          <header>
-            <a href="/index.html" class="logo">
-              <img src="/images/pt-flag.svg" alt="Bandeira de Portugal" width="24" height="16">
-              <h1 class="site-title">vincentlarkin.com</h1>
-            </a>
-            <nav>
-              <ul>
-                <li><a href="/about.html">&gt; Sobre</a></li>
-                <li><a href="/news.html">&gt; Notícias</a></li>
-                <li><a href="/contact.html">&gt; Contacto</a></li>
-                                 <li><button type="button" id="theme-toggle" class="theme-btn">&gt; Theme</button></li>
-              </ul>
-            </nav>
-          </header>
-        `;
-        initializeThemeSystem();
-      });
-    // Mobile-safe theme system
-    function initializeThemeSystem() {
-      const themes = ['theme-dark', 'theme-light', 'theme-retro'];
-      let currentThemeIndex = 0;
-      // Load saved theme or default to dark
-      function loadTheme() {
-        try {
-          const savedTheme = localStorage.getItem('theme');
-          if (savedTheme && themes.includes(savedTheme)) {
-            document.body.className = savedTheme;
-            currentThemeIndex = themes.indexOf(savedTheme);
-          } else {
-            document.body.className = 'theme-dark';
-          }
-        } catch (e) {
-          console.error('Theme load failed:', e);
-          document.body.className = 'theme-dark';
-        }
-      }
-      // Switch to next theme
-      function switchTheme() {
-        try {
+        
+        // Add theme and language buttons
+        const nav = document.querySelector('nav ul');
+        const themeBtn = document.createElement('li');
+        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
+        nav.appendChild(themeBtn);
+        
+        const langBtnLi = document.createElement('li');
+        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
+        nav.appendChild(langBtnLi);
+        
+        // Initialize theme system
+        const themes = ['theme-dark', 'theme-light', 'theme-retro'];
+        const themeIcons = ['🌙', '☀️', '💻'];
+        let currentThemeIndex = themes.indexOf(document.body.className);
+        
+        function switchTheme() {
           currentThemeIndex = (currentThemeIndex + 1) % themes.length;
           const newTheme = themes[currentThemeIndex];
           document.body.className = newTheme;
           localStorage.setItem('theme', newTheme);
-          // Update button text based on theme
-          const themeNames = ['Dark', 'Light', 'Retro'];
-          const themeToggle = document.getElementById('theme-toggle');
-          if (themeToggle) {
-            themeToggle.textContent = `> ${themeNames[currentThemeIndex]}`;
-          }
-        } catch (e) {
-          console.error('Theme switch failed:', e);
+          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
         }
-      }
-      // Initialize theme
-      loadTheme();
-      // Add click handler with mobile safeguards
-      const themeToggle = document.getElementById('theme-toggle');
-      if (themeToggle) {
-        // Remove any existing listeners
-        themeToggle.replaceWith(themeToggle.cloneNode(true));
-        const newThemeToggle = document.getElementById('theme-toggle');
-        // Add new listener with mobile-friendly event handling
-        newThemeToggle.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          switchTheme();
-        });
-        // Also add touch events for mobile
-        newThemeToggle.addEventListener('touchstart', function(e) {
-          e.preventDefault();
-          switchTheme();
-        });
-        // Set initial button text
-        const themeNames = ['Dark', 'Light', 'Retro'];
-        newThemeToggle.textContent = `> ${themeNames[currentThemeIndex]}`;
-      }
-    }
+        
+        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
+        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        
+        // Initialize language button
+        const langBtn = document.getElementById('lang-toggle');
+        if (langBtn) {
+          langBtn.addEventListener('click', switchLanguage);
+          // Initial language button state will be set by applyLanguage() in language-system.js
+        }
+      });
   </script>
 
   <main>
@@ -146,9 +98,12 @@
 
   <div id="site-footer"></div>
   <script>
-    fetch('/footer.html')
-      .then(res => res.text())
+    fetch('/footer.html?v=20250809')
+      .then(r => r.text())
       .then(html => document.getElementById('site-footer').innerHTML = html);
   </script>
+  
+  <!-- Language System -->
+  <script src="/js/language-system.js"></script>
 </body>
 </html>
