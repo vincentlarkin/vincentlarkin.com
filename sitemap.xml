@@ -3,35 +3,28 @@
     <!-- Main pages -->
     <url>
         <loc>https://vincentlarkin.com/</loc>
-        <lastmod>2025-08-05</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     
     <url>
         <loc>https://vincentlarkin.com/about.html</loc>
-        <lastmod>2025-08-05</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://vincentlarkin.com/contact.html</loc>
-        <lastmod>2025-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    
-    <url>
         <loc>https://vincentlarkin.com/news.html</loc>
-        <lastmod>2025-08-05</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     
     <url>
         <loc>https://vincentlarkin.com/changelog.html</loc>
-        <lastmod>2025-08-05</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
     </url>
@@ -39,63 +32,70 @@
     <!-- Articles (static content) -->
     <url>
         <loc>https://vincentlarkin.com/articles/abortion-babies.html</loc>
-        <lastmod>2025-07-29</lastmod>
+        <lastmod>2025-08-20</lastmod>
+        <changefreq>never</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://vincentlarkin.com/articles/bourdain-love-addiction.html</loc>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>https://vincentlarkin.com/articles/bush-aging-family.html</loc>
-        <lastmod>2025-07-29</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>https://vincentlarkin.com/articles/farmers-suicides.html</loc>
-        <lastmod>2025-07-29</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>https://vincentlarkin.com/articles/icu-worse-off.html</loc>
-        <lastmod>2025-07-29</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>https://vincentlarkin.com/articles/learson-dies.html</loc>
-        <lastmod>2025-07-29</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>https://vincentlarkin.com/articles/pence-fiancee.html</loc>
-        <lastmod>2025-07-29</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>https://vincentlarkin.com/articles/trade-war-breakthrough.html</loc>
-        <lastmod>2025-07-29</lastmod>
-        <changefreq>never</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://vincentlarkin.com/articles/voce-nao-esta-sozinho.html</loc>
-        <lastmod>2025-07-29</lastmod>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>https://vincentlarkin.com/articles/weak-to-stop-israel.html</loc>
-        <lastmod>2025-07-29</lastmod>
+        <lastmod>2025-08-20</lastmod>
+        <changefreq>never</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://vincentlarkin.com/articles/youre-not-alone-loss.html</loc>
+        <lastmod>2025-08-20</lastmod>
         <changefreq>never</changefreq>
         <priority>0.8</priority>
     </url>
