@@ -1000,6 +1000,34 @@ body.theme-retro .commit-author {
   }
 }
 
+/* Status link styling */
+#footer-status {
+  color: #28a745 !important;
+  text-decoration: underline;
+}
+
+#footer-status:hover {
+  color: #20c997 !important;
+}
+
+/* Theme-specific status link colors */
+body.theme-light #footer-status {
+  color: #28a745 !important;
+}
+
+body.theme-light #footer-status:hover {
+  color: #20c997 !important;
+}
+
+body.theme-retro #footer-status {
+  color: #008000 !important;
+  text-decoration: underline;
+}
+
+body.theme-retro #footer-status:hover {
+  color: #006000 !important;
+}
+
 /* Comprehensive mobile layout fixes */
 @media (max-width: 768px) {
   /* Prevent horizontal overflow */
