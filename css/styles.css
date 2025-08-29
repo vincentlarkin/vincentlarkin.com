@@ -557,11 +557,18 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   text-align: center;
   padding: 0.3rem;
   width: 100%;
   border-radius: 0;
+}
+
+.footer-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .site-title {
