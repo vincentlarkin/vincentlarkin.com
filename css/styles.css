@@ -557,9 +557,9 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   text-align: center;
-  padding: 0.3rem;
+  padding: 1rem;
   width: 100%;
   border-radius: 0;
 }
@@ -568,7 +568,22 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.5rem;
+}
+
+.footer-text p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.footer-text p:first-child {
+  font-weight: 500;
+  color: inherit;
+}
+
+.footer-text p:last-child {
+  font-size: 0.95rem;
+  opacity: 0.9;
 }
 
 .site-title {
@@ -1010,29 +1025,45 @@ body.theme-retro .commit-author {
 /* Status link styling */
 #footer-status {
   color: #28a745 !important;
-  text-decoration: underline;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(40, 167, 69, 0.1);
+  transition: all 0.2s ease;
+  border: 1px solid rgba(40, 167, 69, 0.3);
 }
 
 #footer-status:hover {
   color: #20c997 !important;
+  background: rgba(40, 167, 69, 0.2);
+  border-color: rgba(40, 167, 69, 0.5);
+  transform: translateY(-1px);
 }
 
 /* Theme-specific status link colors */
 body.theme-light #footer-status {
   color: #28a745 !important;
+  background: rgba(40, 167, 69, 0.1);
+  border-color: rgba(40, 167, 69, 0.3);
 }
 
 body.theme-light #footer-status:hover {
   color: #20c997 !important;
+  background: rgba(40, 167, 69, 0.2);
+  border-color: rgba(40, 167, 69, 0.5);
 }
 
 body.theme-retro #footer-status {
   color: #008000 !important;
-  text-decoration: underline;
+  background: rgba(0, 128, 0, 0.1);
+  border: 2px solid #008000;
+  text-decoration: none;
 }
 
 body.theme-retro #footer-status:hover {
   color: #006000 !important;
+  background: rgba(0, 128, 0, 0.2);
+  border-color: #006000;
 }
 
 /* Comprehensive mobile layout fixes */
