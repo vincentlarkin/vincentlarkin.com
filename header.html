@@ -12,54 +12,8 @@
   </nav>
 </header>
 
-<div
-  id="ad-note-hidden"
-  class="ftf-dma-note ad native-ad native-ad-1 ytd-j yxd-j yxd-jd aff-content-col aff-inner-col aff-item-list ark-ad-message inplayer-ad inplayer_banners in_stream_banner trafficjunky-float-right dbanner preroll-blocker happy-inside-player blocker-notice blocker-overlay exo-horizontal ave-pl bottom-hor-block brs-block advboxemb wgAdBlockMessage glx-watermark-container overlay-advertising-new header-menu-bottom-ads rkads mdp-deblocker-wrapper amp-ad-inner imggif bloc-pub bloc-pub2 hor_banner aan_fake aan_fake__video-units rps_player_ads fints-block__row full-ave-pl full-bns-block vertbars video-brs player-bns-block wps-player__happy-inside gallery-bns-bl stream-item-widget adsbyrunactive happy-under-player adde_modal_detector adde_modal-overlay ninja-recommend-block aoa_overlay message">
+<div id="ad-note-hidden" class="ad-note">
   <p id="ad-note-content-wrapper"></p>
 </div>
 
-<script defer src="/js/nativeads.js"></script>
-
-<script>
-// Theme switching functionality
-const themes = ['theme-dark', 'theme-light', 'theme-retro'];
-let currentThemeIndex = 0;
-
-// Load saved theme or default to dark
-function loadTheme() {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    document.body.className = savedTheme;
-    currentThemeIndex = themes.indexOf(savedTheme);
-  } else {
-    document.body.className = 'theme-dark';
-  }
-}
-
-// Switch to next theme
-function switchTheme() {
-  currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-  const newTheme = themes[currentThemeIndex];
-  document.body.className = newTheme;
-  localStorage.setItem('theme', newTheme);
-  
-  // Update button text based on theme
-  const themeNames = ['Dark', 'Light', 'Retro'];
-  document.getElementById('theme-toggle').textContent = `> ${themeNames[currentThemeIndex]}`;
-}
-
-// Initialize theme
-loadTheme();
-
-// Add click handler
-document.addEventListener('DOMContentLoaded', function() {
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', switchTheme);
-    
-    // Set initial button text
-    const themeNames = ['Dark', 'Light', 'Retro'];
-    themeToggle.textContent = `> ${themeNames[currentThemeIndex]}`;
-  }
-});
-</script>
+<script defer src="/js/site-note.js?v=1"></script>
