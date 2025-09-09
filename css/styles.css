@@ -1222,3 +1222,62 @@ body.theme-retro #footer-status:hover {
 }
 
 
+/* Ad note (desktop-only) */
+#ad-note-hidden, #ad-note { display: none; }
+
+@media (min-width: 75em) and (min-height: 30em) {
+  #ad-note {
+    display: block;
+    position: fixed;
+    top: 0.75rem;
+    right: 0.75rem;
+    max-width: 18rem;
+    border-radius: 6px;
+    padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+    z-index: 50;
+  }
+  #ad-note a { text-decoration: underline; }
+  #ad-note button {
+    margin-top: 0.5rem;
+    background: none;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  /* Theme variants */
+  body.theme-dark #ad-note {
+    background: #1f1f1f;
+    color: #ddd;
+    border: 1px solid #4da6ff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  }
+  body.theme-dark #ad-note a { color: #4da6ff; }
+  body.theme-dark #ad-note button:hover { background: rgba(77,166,255,0.1); }
+
+  body.theme-light #ad-note {
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #007bff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+  body.theme-light #ad-note a { color: #007bff; }
+  body.theme-light #ad-note button:hover { background: rgba(0,123,255,0.08); }
+
+  body.theme-retro #ad-note {
+    background: #f0f0f0;
+    color: #000;
+    border: 2px solid #000;
+    box-shadow: 2px 2px 0 #000;
+  }
+  body.theme-retro #ad-note a { color: #0000ff; text-decoration: underline; }
+  body.theme-retro #ad-note button {
+    border: 2px solid #000;
+    box-shadow: 1px 1px 0 #000;
+  }
+  body.theme-retro #ad-note button:hover { background: #e0e0e0; }
+}
+
+
