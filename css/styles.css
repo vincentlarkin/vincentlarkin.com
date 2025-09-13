@@ -683,7 +683,7 @@ body.theme-retro .profile-img {
 
 .monthly-image {
   max-width: 75%;
-  width: 75%;
+  width: 50%;
   height: auto;
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
