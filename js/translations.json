@@ -27,7 +27,7 @@
       "en": "Contact"
     },
     "contact-text": {
-      "pt": "Envie-me um email para {email} ou siga no {github}.",
+      "pt": "Envie-me um email para {email} ou siga-me no {github}.",
       "en": "Send me an email at {email} or follow me on {github}."
     }
   },
@@ -43,7 +43,7 @@
       "en": "Contact"
     },
     "contact-text": {
-      "pt": "Envie-me um email para {email} ou siga no {github}.",
+      "pt": "Envie-me um email para {email} ou siga-me no {github}.",
       "en": "Send me an email at {email} or follow me on {github}."
     }
   },
@@ -73,6 +73,10 @@
     "changelog-subtitle": {
       "pt": "Commits recentes do repositório",
       "en": "Recent commits from the repository"
+    },
+    "changelog-source": {
+      "pt": "Obtido de <a href=\"https://github.com/VincentW2/vincentlarkin.com/commits?author=VincentW2\" target=\"_blank\" rel=\"noopener\">Commits do GitHub</a>",
+      "en": "Pulled from <a href=\"https://github.com/VincentW2/vincentlarkin.com/commits?author=VincentW2\" target=\"_blank\" rel=\"noopener\">GitHub Commits</a>"
     }
   }
 } 

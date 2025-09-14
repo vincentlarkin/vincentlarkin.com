@@ -38,6 +38,9 @@ function applyLanguage(lang) {
         const githubLink = '<a href="https://github.com/vincentw2">GitHub</a>';
         content = content.replace('{email}', emailLink).replace('{github}', githubLink);
         element.innerHTML = content;
+      } else if (id === 'changelog-source') {
+        // Handle HTML content for changelog source
+        element.innerHTML = content;
       } else {
         element.textContent = content;
       }
