@@ -1,0 +1,127 @@
+<!-- articles/medical-equipment-end-of-life.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rethinking 'end of life' for aging medical equipment</title>
+  <!-- Favicon for most browsers -->
+<link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
+
+<!-- Standard PNG favicons for various devices -->
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32"   href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16"   href="/images/favicons/favicon-16x16.png">
+
+
+
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Header Include -->
+  <div id="site-header"></div>
+  <script>
+    // Load theme first to prevent flashbang
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      document.body.className = savedTheme;
+    })();
+    
+    // Load header
+    fetch('/header.html?v=20250805')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('site-header').innerHTML = html;
+        
+        // Add theme and language buttons
+        const nav = document.querySelector('nav ul');
+        const themeBtn = document.createElement('li');
+        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
+        nav.appendChild(themeBtn);
+        
+        const langBtnLi = document.createElement('li');
+        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
+        nav.appendChild(langBtnLi);
+        
+        // Initialize theme system
+        const themes = ['theme-dark', 'theme-light', 'theme-retro'];
+        const themeIcons = ['🌙', '☀️', '💻'];
+        let currentThemeIndex = themes.indexOf(document.body.className);
+        
+        function switchTheme() {
+          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+          const newTheme = themes[currentThemeIndex];
+          document.body.className = newTheme;
+          localStorage.setItem('theme', newTheme);
+          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        }
+        
+        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
+        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        
+        // Initialize language button
+        const langBtn = document.getElementById('lang-toggle');
+        if (langBtn) {
+          langBtn.addEventListener('click', switchLanguage);
+          // Initial language button state will be set by applyLanguage() in language-system.js
+        }
+      });
+  </script>
+
+  <!-- Main Article -->
+  <main>
+    <article class="news-article-single">
+      <h2>Rethinking 'end of life' for aging medical equipment</h2>
+      <p><a href="https://www.dotmed.com/news/story/64958">Original Source</a></p>
+      <h3>Author: Keri Stephens, Contributing Reporter</h3>
+      <p><strong>Published:</strong> June 25, 2025</p>
+
+      <div class="news-content">
+        <p><strong>When is a medical device truly at the end of its life?</strong></p>
+        
+        <p>"It depends," according to consultant Carol Davis-Smith, MS, CCE. For healthcare technology management (HTM) professionals, that answer may be more helpful than it sounds — because it demands an informed decision. That intersection, Davis-Smith added, is the "sweet spot"; where meaningful, sustainable choices happen.</p>
+
+        <p>Davis-Smith, who co-presented "Don't Let Medical Equipment End-of-Life Be the End-of-You" with Matt Baretich, Ph.D., PE, at the 2025 AAMI eXchange in New Orleans, wants HTM teams to rethink how they approach aging equipment. "We'd like the end-of-life (EOL) discussion to not be the end of you," she quipped; a pointed reminder that EOL doesn't necessarily mean immediate replacement or risk.</p>
+
+        <h3>The three-lens framework</h3>
+        
+        <p>"One of the cornerstones of my practice is to look at things from three perspectives: clinical, technical, and financial," Davis-Smith told AAMI attendees. Only when all three are examined, she stressed, can teams make informed, balanced decisions.</p>
+
+        <p>From a technical standpoint, Davis-Smith uses a straightforward, color-coded system. Green means the product is still manufactured and sold, so support isn't a concern. Yellow signals that it's no longer sold but likely still in use, raising questions about long-term serviceability. Red is the most critical, marking products that are neither sold nor supported, putting hospitals at serious risk if the device fails.</p>
+
+        <p>The financial framework follows a similar system, based on the American Hospital Association's useful life guidelines. Green indicates the device is still within its expected lifespan. Yellow signifies it's less than five years past that mark — potentially manageable, but not ideal. Red, again, is the danger zone: five or more years beyond useful life, where the risk of failure — and the urgency of replacement — are significantly higher.</p>
+
+        <p>Finally, Davis-Smith outlined the clinical flags: green signals the device fully meets standards of care and clinical protocols. Yellow means it falls short in some areas. Red signifies that the device is inadequate for current clinical needs.</p>
+
+        <p>"We have to [ask], 'what's the clinical end of life?'" Davis-Smith said. "For me, first and foremost, does that piece of gear do what the clinician needs to do, whether they're a doctor, nurse, etc.? If the answer is 'yes,' great and keep going. But if the technology no longer meets their clinical needs, [then it raises significant concern]," Davis-Smith explained.</p>
+
+        <p>Even so, clinical evaluation isn't static, Davis-Smith emphasized. "That area is more dynamic," she said. "It takes time to realize what your clinicians are doing and why they're doing it." Understanding clinical workflows, she stressed, takes more than data — it takes dialogue.</p>
+
+        <p>"Spend this time to learn the clinician side and it will serve you well," she advised AAMI attendees. "Remember: Clinicians are not technicians or engineers."</p>
+
+        <h3>A data-driven future</h3>
+        
+        <p>That human-centered perspective pairs well with a growing body of data supporting more nuanced equipment decisions. After all, equipment age is just one part of a much larger equation, Baretich told AAMI attendees. "The question of 'is a device end-of-life' is a complex one," he notes, citing a 2024 Journal of Clinical Engineering study analyzing 342,000 devices over 30-plus years. The conclusion? Age alone is not a primary driver for retirement.</p>
+
+        <p>Baretich's recent work in British Columbia underscores this. He's helping launch a new computerized maintenance management system (CMMS) for BC Biomedical Engineering, with a 2025 go-live date. The CMMS will prioritize usability for frontline biomeds and offer advanced analytics for planning and predictive maintenance. "In Canada," he says, "we've gotten really good at hanging onto equipment longer than in the U.S."</p>
+
+        <p>Ultimately, the message to HTM teams is clear: aging equipment isn't automatically unsafe; and replacement shouldn't be the default response. Instead, teams should focus on thoughtful, data-driven evaluations that consider clinical performance, technical supportability, and financial sustainability.</p>
+
+        <p>"Healthcare is a team sport," Davis-Smith reminded AAMI attendees. And in that team, HTM professionals have a critical role to play — not just maintaining equipment but guiding smarter decisions across the organization.</p>
+
+        <p>In short, don't let "end-of-life" thinking signal the end of innovation. As Davis-Smith put it, HTM professionals "need to be bridge-builders," connecting clinicians and administrators to ensure that decisions are informed, collaborative, and ultimately in service of better patient care.</p>
+      </div>
+    </article>
+  </main>
+
+  <div id="site-footer"></div>
+  <script>
+    fetch('/footer.html?v=20250809')
+      .then(r => r.text())
+      .then(html => document.getElementById('site-footer').innerHTML = html);
+  </script>
+  
+  <!-- Language System -->
+  <script src="/js/language-system.js"></script>
+</body>
+</html>
