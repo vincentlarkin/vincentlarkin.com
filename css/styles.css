@@ -264,12 +264,21 @@ body.theme-light .site-title:hover {
   color: #0056b3;
 }
 
-body.theme-light .news-list a {
-  color: #dc3545;
+body.theme-light .news-item {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
 }
 
-body.theme-light .news-list a:hover {
-  color: #c82333;
+body.theme-light .news-meta {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+body.theme-light .news-link {
+  color: #1b1b1b;
+}
+
+body.theme-light .news-link:hover {
+  color: #007bff;
+  text-decoration-color: rgba(0, 123, 255, 0.6);
 }
 
 /* Retro Theme (Netscape-style "broken CSS") */
@@ -326,11 +335,19 @@ body.theme-retro .site-title:hover {
   color: #000000;
 }
 
-body.theme-retro .news-list a {
+body.theme-retro .news-item {
+  border-bottom: 1px dotted #000;
+}
+
+body.theme-retro .news-meta {
+  color: #000000;
+}
+
+body.theme-retro .news-link {
   color: #0000ff;
 }
 
-body.theme-retro .news-list a:hover {
+body.theme-retro .news-link:hover {
   color: #000000;
 }
 
@@ -486,18 +503,39 @@ a:hover {
   margin: 0;
 }
 
-.news-list li {
-  margin-bottom: 1rem;
+.news-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.news-list a {
-  color: #ff6b6b;
+.news-item:first-child {
+  padding-top: 0.5rem;
+}
+
+.news-meta {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.news-link {
+  color: #f5f5f5;
   text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.45;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
-.news-list a:hover {
+.news-link:hover {
+  color: #90e0ff;
   text-decoration: underline;
-  color: #ff8787;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(144, 224, 255, 0.7);
 }
 
 /* News Categories */
@@ -1146,12 +1184,12 @@ body.theme-retro #footer-status:hover {
     max-width: 100%;
   }
   
-  .news-list li {
+  .news-item {
     width: 100%;
     max-width: 100%;
   }
   
-  .news-list a {
+  .news-link {
     width: 100%;
     max-width: 100%;
     word-wrap: break-word;
