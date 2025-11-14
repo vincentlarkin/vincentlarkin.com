@@ -41,6 +41,9 @@ function applyLanguage(lang) {
       } else if (id === 'changelog-source') {
         // Handle HTML content for changelog source
         element.innerHTML = content;
+      } else if (id.startsWith('label-') || id === 'about-title' || id === 'personal-info-title' || id === 'contact-title') {
+        // Handle about page labels - just text content
+        element.textContent = content;
       } else {
         element.textContent = content;
       }

@@ -15,14 +15,19 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32"   href="/images/favicons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16"   href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css?v=20250806">
+  <link rel="stylesheet" href="css/styles.css?v=20250109">
 </head>
 <body>
   <div id="site-header"></div>
   <script>
     // Load theme first to prevent flashbang
     (function() {
-      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      let savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      // Remove retro theme, default to dark
+      if (savedTheme === 'theme-retro') {
+        savedTheme = 'theme-dark';
+        localStorage.setItem('theme', savedTheme);
+      }
       document.body.className = savedTheme;
     })();
     
@@ -43,8 +48,8 @@
         nav.appendChild(langBtnLi);
         
         // Initialize theme system
-        const themes = ['theme-dark', 'theme-light', 'theme-retro'];
-        const themeIcons = ['🌙', '☀️', '💻'];
+        const themes = ['theme-dark', 'theme-light'];
+        const themeIcons = ['🌙', '☀️'];
         let currentThemeIndex = themes.indexOf(document.body.className);
         
         function switchTheme() {

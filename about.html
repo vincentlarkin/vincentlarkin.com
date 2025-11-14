@@ -9,14 +9,19 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css?v=20250809">
+  <link rel="stylesheet" href="css/styles.css?v=20250109">
 </head>
 <body>
   <div id="site-header"></div>
   <script>
     // Load theme first to prevent flashbang
     (function() {
-      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      let savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      // Remove retro theme, default to dark
+      if (savedTheme === 'theme-retro') {
+        savedTheme = 'theme-dark';
+        localStorage.setItem('theme', savedTheme);
+      }
       document.body.className = savedTheme;
     })();
     
@@ -37,8 +42,8 @@
         nav.appendChild(langBtnLi);
         
         // Initialize theme system
-        const themes = ['theme-dark', 'theme-light', 'theme-retro'];
-        const themeIcons = ['🌙', '☀️', '💻'];
+        const themes = ['theme-dark', 'theme-light'];
+        const themeIcons = ['🌙', '☀️'];
         let currentThemeIndex = themes.indexOf(document.body.className);
         
         function switchTheme() {
@@ -63,20 +68,40 @@
   </script>
 
   <main>
-    <!-- Profile Section -->
-    <section class="about-profile">
-      <img src="/images/profile.jpg" alt="Foto de Vincent Larkin" class="profile-img">
-      <div>
-        <h2 id="about-title">Loading...</h2>
-        <p id="about-intro">Loading...</p>
-      </div>
-    </section>
+    <h1 id="about-title">About</h1>
+    
+    <!-- About Grid Layout -->
+    <div class="about-grid">
+      <!-- Personal Information Section -->
+      <section class="about-section">
+        <div class="about-section-header" id="personal-info-title">Personal Information</div>
+        <div class="about-section-content">
+          <div class="about-row">
+            <div class="about-row-label" id="label-occupation">Occupation</div>
+            <div class="about-row-value" id="value-occupation">Director of Operations</div>
+          </div>
+          <div class="about-row">
+            <div class="about-row-label" id="label-employer">Employer</div>
+            <div class="about-row-value" id="value-employer">Med Mission Supplies</div>
+          </div>
+        </div>
+      </section>
 
-    <!-- Contact Section -->
-    <section class="contact-section">
-      <h3 id="contact-title">Loading...</h3>
-      <p id="contact-text">Loading...</p>
-    </section>
+      <!-- Contact Section -->
+      <section class="about-section">
+        <div class="about-section-header" id="contact-title">Contact</div>
+        <div class="about-section-content">
+          <div class="about-row">
+            <div class="about-row-label" id="label-github">Github</div>
+            <div class="about-row-value" id="value-github"><a href="https://github.com/vincentw2" target="_blank" rel="noopener">vincentw2</a></div>
+          </div>
+          <div class="about-row">
+            <div class="about-row-label" id="label-linkedin">LinkedIn</div>
+            <div class="about-row-value" id="value-linkedin"><a href="https://www.linkedin.com/in/vincentwlarkin/" target="_blank" rel="noopener">vincentwlarkin</a></div>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <!-- Shared Footer -->

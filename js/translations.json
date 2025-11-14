@@ -15,20 +15,32 @@
   },
   "about": {
     "about-title": {
-      "pt": "Sobre Mim",
-      "en": "About Me"
+      "pt": "Sobre",
+      "en": "About"
     },
-    "about-intro": {
-      "pt": "Olá. Sou Vincent.",
-      "en": "Hello. I'm Vincent."
+    "personal-info-title": {
+      "pt": "Informação Pessoal",
+      "en": "Personal Information"
     },
     "contact-title": {
       "pt": "Contacto",
       "en": "Contact"
     },
-    "contact-text": {
-      "pt": "Envie-me um email para {email} ou siga-me no {github}.",
-      "en": "Send me an email at {email} or follow me on {github}."
+    "label-occupation": {
+      "pt": "Ocupação",
+      "en": "Occupation"
+    },
+    "label-employer": {
+      "pt": "Empregador",
+      "en": "Employer"
+    },
+    "label-github": {
+      "pt": "Github",
+      "en": "Github"
+    },
+    "label-linkedin": {
+      "pt": "LinkedIn",
+      "en": "LinkedIn"
     }
   },
   "news": {
