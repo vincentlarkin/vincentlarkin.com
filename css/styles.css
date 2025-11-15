@@ -1,35 +1,104 @@
 /* css/styles.css */
 
-/* Import better monospace fonts */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700&display=swap');
 
-/* Base layout fixes to prevent overflow */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-  box-sizing: border-box;
+:root {
+  --font-mono: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* Theme and Language Toggle Buttons - Plan9 style */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  font-weight: 400;
+  transition: all 0.3s ease;
+}
+
+/* Theme colors */
+body.theme-dark {
+  background: #1a1a1a;
+  color: #d0d0d0;
+}
+
+body.theme-light {
+  background: #ffffff;
+  color: #000000;
+}
+
+body.theme-dark main,
+body.theme-dark header,
+body.theme-dark .news-article,
+body.theme-dark .news-article-single,
+body.theme-dark .about-profile {
+  background: #1a1a1a;
+}
+
+body.theme-light main,
+body.theme-light header,
+body.theme-light .news-article,
+body.theme-light .news-article-single,
+body.theme-light .about-profile {
+  background: #ffffff;
+}
+
+body.theme-dark header {
+  border-bottom: 1px solid #333;
+}
+
+body.theme-light header {
+  border-bottom: 1px solid #000;
+}
+
+body.theme-dark footer {
+  border-top: 1px solid #333;
+  color: #888;
+}
+
+body.theme-light footer {
+  border-top: 1px solid #000;
+  color: #333;
+}
+
+body.theme-dark .news-article,
+body.theme-dark .news-article-single,
+body.theme-dark .about-profile {
+  border: 1px solid #333;
+}
+
+body.theme-light .news-article,
+body.theme-light .news-article-single,
+body.theme-light .about-profile {
+  border: 1px solid #000;
+}
+
+/* Buttons */
 .theme-btn, .lang-btn {
   background: none !important;
   border: 1px solid currentColor !important;
   color: inherit;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 0.9rem;
   font-weight: 400;
   cursor: pointer;
   text-decoration: none;
   padding: 0.25rem 0.5rem;
   border-radius: 0;
-  /* Mobile improvements */
   min-height: 44px;
   min-width: 44px;
   touch-action: manipulation;
@@ -39,37 +108,38 @@ html, body {
   justify-content: center;
 }
 
-body.theme-dark .theme-btn, body.theme-dark .lang-btn {
-  color: #4da6ff;
-  border-color: #333 !important;
-}
-
-body.theme-dark .theme-btn:hover, body.theme-dark .lang-btn:hover {
-  color: #d0d0d0;
-  border-color: #555 !important;
-}
-
-body.theme-light .theme-btn, body.theme-light .lang-btn {
-  color: #0000ff;
-  border-color: #000 !important;
-}
-
-body.theme-light .theme-btn:hover, body.theme-light .lang-btn:hover {
-  color: #000000;
-  border-color: #000 !important;
-}
-
-
 .theme-btn {
   margin-left: auto;
 }
 
-/* Language button specific styling */
 .lang-btn {
   margin-left: 0.5rem;
 }
 
-/* Language button active/inactive states */
+body.theme-dark .theme-btn,
+body.theme-dark .lang-btn {
+  color: #4da6ff;
+  border-color: #333 !important;
+}
+
+body.theme-dark .theme-btn:hover,
+body.theme-dark .lang-btn:hover {
+  color: #d0d0d0;
+  border-color: #555 !important;
+}
+
+body.theme-light .theme-btn,
+body.theme-light .lang-btn {
+  color: #0000ff;
+  border-color: #000 !important;
+}
+
+body.theme-light .theme-btn:hover,
+body.theme-light .lang-btn:hover {
+  color: #000000;
+  border-color: #000 !important;
+}
+
 .lang-active {
   color: inherit;
   font-weight: 600;
@@ -84,10 +154,6 @@ body.theme-dark .lang-active {
   color: #4da6ff;
 }
 
-body.theme-dark .lang-inactive {
-  color: #666;
-}
-
 body.theme-light .lang-active {
   color: #0000ff;
 }
@@ -96,212 +162,18 @@ body.theme-light .lang-inactive {
   color: #999;
 }
 
-
-/* Mobile-specific theme button improvements */
-@media (max-width: 768px) {
-  .theme-btn, .lang-btn {
-    font-size: 0.85rem;
-    padding: 0.25rem 0.5rem;
-    min-width: auto;
-    min-height: auto;
-  }
-  
-  /* Ensure theme button is visible on mobile */
-  nav li:last-child {
-    margin-right: 0;
-  }
-}
-
-/* Base styles - Plan9-ish monospace default */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-  font-size: 16px;
-  line-height: 1.6;
-  letter-spacing: 0;
-  font-weight: 400;
-  transition: all 0.3s ease;
-}
-
-/* Monospace for all themes - Plan9 aesthetic */
-body.theme-dark,
-body.theme-light {
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-  font-size: 16px;
-  line-height: 1.6;
-  letter-spacing: 0;
-  font-weight: 400;
-}
-
-/* Dark Theme (Default) - Simplified Plan9 style */
-body.theme-dark {
-  background: #1a1a1a;
-  color: #d0d0d0;
-}
-
-body.theme-dark main {
-  background: #1a1a1a;
-  border: none;
-}
-
-body.theme-dark header {
-  background: #1a1a1a;
-  border-bottom: 1px solid #333;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-}
-
-body.theme-dark footer {
-  background: #1a1a1a;
-  border-top: 1px solid #333;
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
-  color: #888;
-}
-
-body.theme-dark .news-article,
-body.theme-dark .news-article-single {
-  background: #1a1a1a;
-  border: 1px solid #333;
-}
-
-body.theme-dark .about-profile {
-  background: #1a1a1a;
-  border: 1px solid #333;
-}
-
-/* Light Theme - Simplified Plan9 style */
-body.theme-light {
-  background: #ffffff;
-  color: #000000;
-}
-
-body.theme-light main {
-  background: #ffffff;
-  border: none;
-}
-
-body.theme-light header {
-  background: #ffffff;
-  border-bottom: 1px solid #000;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-}
-
-body.theme-light footer {
-  background: #ffffff;
-  border-top: 1px solid #000;
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
-  color: #333;
-}
-
-body.theme-light .news-article,
-body.theme-light .news-article-single {
-  background: #ffffff;
-  border: 1px solid #000;
-}
-
-body.theme-light .about-profile {
-  background: #ffffff;
-  border: 1px solid #000;
-}
-
-body.theme-light a {
-  color: #0000ff;
-}
-
-body.theme-light a:hover {
-  color: #000000;
-  text-decoration: underline;
-}
-
-body.theme-light .site-title {
-  color: #000000;
-}
-
-body.theme-light .site-title:hover {
-  color: #000000;
-}
-
-
-
-/* Common styles */
+/* Layout */
 main {
   flex: 1;
   padding: 2rem;
   border-radius: 0;
 }
 
-/* Plan9-style typography - monospace for all with colored headings */
-h1 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1.4;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-}
-
-body.theme-dark h1 {
-  color: #4da6ff;
-}
-
-body.theme-light h1 {
-  color: #0066cc;
-}
-
-h2 {
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1.4;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-}
-
-body.theme-dark h2 {
-  color: #4da6ff;
-}
-
-body.theme-light h2 {
-  color: #0066cc;
-}
-
-h3 {
-  font-size: 1.125rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1.4;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-}
-
-body.theme-dark h3 {
-  color: #4da6ff;
-}
-
-body.theme-light h3 {
-  color: #0066cc;
-}
-
-p {
-  margin-bottom: 1rem;
-  line-height: 1.6;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-}
-
 header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 1rem 1rem;
+  padding: 1rem;
   border-radius: 0;
 }
 
@@ -316,9 +188,8 @@ header {
   color: inherit;
   margin: 0;
   font-weight: 600;
-  letter-spacing: 0;
   font-size: 1.25rem;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 nav ul {
@@ -340,18 +211,88 @@ nav li:last-child {
   margin-left: auto;
 }
 
+footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0;
+}
+
+.footer-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+}
+
+.footer-text p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.footer-text p:last-child {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+body.theme-dark h1,
+body.theme-dark h2,
+body.theme-dark h3 {
+  color: #4da6ff;
+}
+
+body.theme-light h1,
+body.theme-light h2,
+body.theme-light h3 {
+  color: #0066cc;
+}
+
+p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  font-family: var(--font-mono);
+}
+
+/* Links */
 a {
   color: #00bfff;
   text-decoration: underline;
   font-size: 1rem;
   font-weight: 400;
-  letter-spacing: 0;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 a:hover {
   color: inherit;
-  background: none;
   text-decoration: underline;
 }
 
@@ -371,6 +312,32 @@ body.theme-light a:hover {
   color: #000000;
 }
 
+.site-title {
+  display: inline-block;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-left: 0.5rem;
+  transition: color 0.2s;
+  font-family: var(--font-mono);
+  text-decoration: none;
+}
+
+body.theme-light .site-title {
+  color: #000000;
+}
+
+.site-title:hover {
+  color: inherit;
+  background: none;
+  text-decoration: none;
+}
+
+/* News */
 .news-list {
   list-style: none;
   padding: 0;
@@ -389,23 +356,19 @@ body.theme-light .news-item {
   border-bottom: 1px solid #000;
 }
 
-
 .news-item:first-child {
   padding-top: 0.5rem;
 }
 
 .news-meta {
   font-size: 0.75rem;
-  letter-spacing: 0;
-  text-transform: none;
   color: #888;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-light .news-meta {
   color: #666;
 }
-
 
 .news-link {
   color: inherit;
@@ -413,7 +376,7 @@ body.theme-light .news-meta {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.6;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-dark .news-link {
@@ -432,8 +395,6 @@ body.theme-light .news-link:hover {
   color: #0000ff;
 }
 
-
-/* News Categories */
 .news-category {
   margin-bottom: 2rem;
 }
@@ -445,7 +406,7 @@ body.theme-light .news-link:hover {
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid currentColor;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-dark .category-title {
@@ -457,7 +418,6 @@ body.theme-light .category-title {
   color: #000000;
   border-bottom-color: #000;
 }
-
 
 .article-img {
   max-width: 100%;
@@ -475,82 +435,33 @@ body.theme-light .category-title {
 
 .news-content {
   color: inherit;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
-footer {
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
-  text-align: center;
-  padding: 1rem;
-  width: 100%;
-  border-radius: 0;
-}
-
-.footer-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-}
-
-.footer-text p {
-  margin: 0;
+.news-description {
+  color: inherit;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
   line-height: 1.6;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-style: normal;
+  font-family: var(--font-mono);
 }
 
-.footer-text p:first-child {
-  font-weight: 400;
-  color: inherit;
+body.theme-dark .news-description {
+  color: #888;
 }
 
-.footer-text p:last-child {
-  font-size: 0.9rem;
-  opacity: 0.8;
+body.theme-light .news-description {
+  color: #666;
 }
 
-.site-title {
-  display: inline-block;
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  border-radius: 0;
-  font-weight: 600;
-  font-size: 1.25rem;
-  margin-left: 0.5rem;
-  transition: color 0.2s;
-  letter-spacing: 0;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-  text-decoration: none;
-}
-
-.site-title:hover {
-  color: inherit;
-  background: none;
-  text-decoration: none;
-}
-
-/* About page grid layout - Plan9 style */
+/* About */
 .about-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
   margin-bottom: 2rem;
   max-width: 900px;
-}
-
-@media (max-width: 768px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    max-width: 100%;
-  }
 }
 
 .about-section {
@@ -568,20 +479,16 @@ body.theme-light .about-section {
   border-bottom: 2px solid #000;
   font-weight: 600;
   font-size: 1rem;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-light .about-section-header {
   background: #e0e0e0;
-  border-bottom: 2px solid #000;
+  color: #000000;
 }
 
 body.theme-dark .about-section-header {
   color: #d0d0d0;
-}
-
-body.theme-light .about-section-header {
-  color: #000000;
 }
 
 .about-section-content {
@@ -593,7 +500,7 @@ body.theme-light .about-section-header {
   grid-template-columns: 1fr 2fr;
   border-bottom: 1px solid #333;
   padding: 0.75rem 1rem;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-light .about-row {
@@ -640,7 +547,6 @@ body.theme-light .about-row-value a:hover {
   color: #000000;
 }
 
-/* Legacy about-profile for backwards compatibility */
 .about-profile {
   display: flex;
   align-items: center;
@@ -662,11 +568,9 @@ body.theme-light .profile-img {
   border: 1px solid #000;
 }
 
-
 .about-details h3 {
   margin-top: 2rem;
   font-size: 1.25rem;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 .contact-section {
@@ -682,14 +586,13 @@ body.theme-light .contact-section {
 .contact-section h3 {
   color: inherit;
   margin-bottom: 1rem;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 .contact-section p {
   margin-bottom: 1rem;
 }
 
-/* Monthly Image Container - Simplified Plan9 style */
+/* Monthly Image */
 .monthly-image-container {
   display: flex;
   flex-direction: column;
@@ -729,25 +632,10 @@ body.theme-light .monthly-image {
   color: inherit;
   font-weight: 400;
   text-align: center;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .monthly-image-container {
-    max-width: 95vw;
-    width: fit-content;
-    margin: 1rem auto;
-    padding: 0.75rem;
-  }
-  
-  .monthly-image {
-    max-width: 100%;
-    width: auto;
-  }
-}
-
-/* Changelog Styles - Plan9 style */
+/* Changelog */
 .changelog-section {
   max-width: 800px;
   margin: 0 auto;
@@ -758,14 +646,12 @@ body.theme-light .monthly-image {
   color: inherit;
   margin-bottom: 0.5rem;
   font-size: 1.5rem;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 .changelog-section p {
   color: inherit;
   margin-bottom: 2rem;
   font-style: normal;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 body.theme-dark .changelog-section p {
@@ -777,7 +663,7 @@ body.theme-dark .changelog-section p {
   color: inherit;
   margin-bottom: 1.5rem;
   font-style: normal;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-dark .changelog-source {
@@ -809,15 +695,7 @@ body.theme-light .changelog-source a:hover {
   color: #000000;
 }
 
-.news-description {
-  color: #888;
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
-  line-height: 1.6;
-  font-style: italic;
-}
-
-/* Commits Container - Plan9 style */
+/* Commits */
 .commits-container {
   display: flex;
   flex-direction: column;
@@ -831,13 +709,12 @@ body.theme-light .changelog-source a:hover {
   border: 1px solid #333;
   border-radius: 0;
   background: transparent;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-light .commit-item {
   border: 1px solid #000;
 }
-
 
 .commit-item:hover {
   background: transparent;
@@ -861,7 +738,6 @@ body.theme-light .commit-avatar .profile-pic {
   border: 1px solid #000;
 }
 
-
 .commit-content {
   flex: 1;
   display: flex;
@@ -878,7 +754,7 @@ body.theme-light .commit-avatar .profile-pic {
 }
 
 .commit-hash {
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 0.9rem;
   color: inherit;
   background: transparent;
@@ -892,17 +768,15 @@ body.theme-light .commit-hash {
   border: 1px solid #000;
 }
 
-
 body.theme-dark .commit-hash {
   color: #d0d0d0;
-  border-color: #333;
 }
 
 .commit-date {
   font-size: 0.9rem;
   color: inherit;
   font-style: normal;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-dark .commit-date {
@@ -918,7 +792,7 @@ body.theme-light .commit-date {
   color: inherit;
   line-height: 1.6;
   font-weight: 400;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 .commit-description {
@@ -928,7 +802,7 @@ body.theme-light .commit-date {
   font-style: normal;
   margin-top: 0.25rem;
   white-space: pre-line;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-dark .commit-description {
@@ -943,7 +817,7 @@ body.theme-light .commit-description {
   font-size: 0.9rem;
   color: inherit;
   font-weight: 400;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-dark .commit-author {
@@ -954,20 +828,21 @@ body.theme-light .commit-author {
   color: #0000ff;
 }
 
-
 .loading, .no-commits, .error-message {
   text-align: center;
   padding: 2rem;
   color: inherit;
   font-style: normal;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
-body.theme-dark .loading, body.theme-dark .no-commits {
+body.theme-dark .loading,
+body.theme-dark .no-commits {
   color: #888;
 }
 
-body.theme-light .loading, body.theme-light .no-commits {
+body.theme-light .loading,
+body.theme-light .no-commits {
   color: #666;
 }
 
@@ -983,56 +858,13 @@ body.theme-light .error-message {
   color: #cc0000;
 }
 
-
 .error-details {
   font-size: 0.8rem;
   margin-top: 0.5rem;
   opacity: 0.7;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
-.news-description {
-  color: inherit;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-  font-style: normal;
-}
-
-body.theme-dark .news-description {
-  color: #888;
-}
-
-body.theme-light .news-description {
-  color: #666;
-}
-
-
-/* Mobile responsiveness for changelog */
-@media (max-width: 768px) {
-  .changelog-section {
-    padding: 1rem 0.5rem;
-  }
-  
-  .commit-item {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .commit-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .commit-avatar .profile-pic {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .commit-message {
-    font-size: 0.95rem;
-  }
-}
-
-/* Status link styling - Plan9 style */
 #footer-status {
   color: inherit !important;
   text-decoration: underline;
@@ -1040,7 +872,7 @@ body.theme-light .news-description {
   border-radius: 0;
   background: transparent;
   border: 1px solid currentColor;
-  font-family: 'JetBrains Mono', 'Inconsolata', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
 }
 
 body.theme-dark #footer-status {
@@ -1060,20 +892,26 @@ body.theme-light #footer-status {
 
 body.theme-light #footer-status:hover {
   color: #006000 !important;
-  border-color: #000;
 }
 
-
-/* Comprehensive mobile layout fixes */
+/* Mobile */
 @media (max-width: 768px) {
-  /* Prevent horizontal overflow */
+  .theme-btn, .lang-btn {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    min-width: auto;
+    min-height: auto;
+  }
+
+  nav li:last-child {
+    margin-right: 0;
+  }
+
   body {
-    min-height: 100vh;
     overflow-x: hidden;
     width: 100vw;
   }
-  
-  /* Header mobile fixes */
+
   header {
     padding: 0.5rem;
     flex-wrap: wrap;
@@ -1081,26 +919,25 @@ body.theme-light #footer-status:hover {
     width: 100%;
     max-width: 100vw;
   }
-  
+
   .logo {
     flex-shrink: 0;
     min-width: 0;
   }
-  
+
   .logo h1 {
     font-size: 1.2rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  
-  /* Navigation mobile fixes */
+
   nav {
     flex: 1;
     min-width: 0;
     overflow: hidden;
   }
-  
+
   nav ul {
     display: flex;
     flex-wrap: wrap;
@@ -1110,115 +947,110 @@ body.theme-light #footer-status:hover {
     list-style: none;
     width: 100%;
   }
-  
+
   nav li {
     flex-shrink: 0;
     white-space: nowrap;
   }
-  
+
   nav a {
     font-size: 0.9rem;
     padding: 0.25rem 0.5rem;
     white-space: nowrap;
   }
-  
-  /* Main content mobile fixes */
+
   main {
     width: 100%;
     max-width: 100vw;
     padding: 1rem 0.5rem;
     overflow-x: hidden;
   }
-  
-  /* Footer mobile fixes */
+
   footer {
     width: 100%;
     max-width: 100vw;
     padding: 1rem 0.5rem;
     overflow-x: hidden;
   }
-  
-  /* News list mobile fixes */
-  .news-list {
-    width: 100%;
-    max-width: 100%;
-  }
-  
-  .news-item {
-    width: 100%;
-    max-width: 100%;
-  }
-  
-  .news-link {
-    width: 100%;
-    max-width: 100%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-  
-  /* Article content mobile fixes */
+
+  .news-list,
+  .news-item,
+  .news-link,
   .news-article,
-  .about-profile {
-    width: 100%;
-    max-width: 100%;
-    padding: 1rem 0.5rem;
-    overflow-x: hidden;
-  }
-  
+  .about-profile,
   .news-content {
     width: 100%;
     max-width: 100%;
+  }
+
+  .news-article,
+  .about-profile {
+    padding: 1rem 0.5rem;
+    overflow-x: hidden;
+  }
+
+  .news-link,
+  .news-content {
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
-  
-  /* Image mobile fixes */
-  .article-img {
-    max-width: 100%;
-    height: auto;
-    width: 100%;
-  }
-  
+
+  .article-img,
   .profile-img {
     max-width: 100%;
     height: auto;
     width: 100%;
   }
-  
-  /* Monthly image mobile fixes */
+
   .monthly-image-container {
     max-width: 95vw;
     width: fit-content;
     margin: 1rem auto;
     padding: 0.75rem;
   }
-  
+
   .monthly-image {
     max-width: 100%;
     width: auto;
     height: auto;
   }
-  
-  /* Theme and language buttons mobile fixes */
-  .theme-btn, .lang-btn {
-    font-size: 0.9rem;
-    padding: 0.25rem 0.5rem;
-    min-width: auto;
-    min-height: auto;
-  }
-  
-  /* Ensure no horizontal scroll on any element */
+
   * {
     max-width: 100%;
   }
-  
-  /* Fix for long text content */
+
   h1, h2, h3, p, span, div {
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
+
+  .changelog-section {
+    padding: 1rem 0.5rem;
+  }
+
+  .commit-item {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .commit-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .commit-avatar .profile-pic {
+    width: 40px;
+    height: 40px;
+  }
+
+  .commit-message {
+    font-size: 0.95rem;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 100%;
+  }
 }
-
-
- 
 

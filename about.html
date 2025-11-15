@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css?v=20250109">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <div id="site-header"></div>
@@ -26,7 +26,7 @@
     })();
     
     // Load header
-    fetch('/header.html?v=20250809')
+    fetch('/header.html')
       .then(r => r.text())
       .then(html => {
         document.getElementById('site-header').innerHTML = html;
@@ -107,12 +107,12 @@
   <!-- Shared Footer -->
   <div id="site-footer"></div>
   <script>
-    fetch('/footer.html?v=20250809')
+    fetch('/footer.html')
       .then(res => res.text())
       .then(html => document.getElementById('site-footer').innerHTML = html);
   </script>
   
   <!-- Language System -->
-  <script src="/js/language-system.js?v=20250809"></script>
+  <script src="/js/language-system.js"></script>
 </body>
 </html>

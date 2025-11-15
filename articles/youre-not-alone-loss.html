@@ -27,7 +27,7 @@
     })();
     
     // Load header
-    fetch('/header.html?v=20250805')
+    fetch('/header.html')
       .then(r => r.text())
       .then(html => {
         document.getElementById('site-header').innerHTML = html;
@@ -98,7 +98,7 @@
 
   <div id="site-footer"></div>
   <script>
-    fetch('/footer.html?v=20250809')
+    fetch('/footer.html')
       .then(r => r.text())
       .then(html => document.getElementById('site-footer').innerHTML = html);
   </script>
