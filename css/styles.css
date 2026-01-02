@@ -597,44 +597,66 @@ body.theme-light .contact-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2rem auto;
-  padding: 1rem;
+  margin: 3rem auto;
+  padding: 2rem;
   border: 1px solid #333;
   border-radius: 0;
   background: transparent;
-  max-width: 90vw;
+  max-width: 95vw;
   width: fit-content;
   overflow: hidden;
+  transition: border-color 0.3s ease;
 }
 
 body.theme-light .monthly-image-container {
   border: 1px solid #000;
 }
 
+.monthly-image-container:hover {
+  border-color: #555;
+}
+
+body.theme-light .monthly-image-container:hover {
+  border-color: #333;
+}
+
 .monthly-image,
 .monthly-image-container video {
-  max-width: 45%;
-  width: 30%;
+  max-width: 75%;
+  width: 70%;
   height: auto;
   border-radius: 0;
   border: 1px solid #333;
-  box-shadow: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   object-fit: contain;
   display: block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.monthly-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 body.theme-light .monthly-image,
 body.theme-light .monthly-image-container video {
   border: 1px solid #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+body.theme-light .monthly-image:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .image-caption {
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
+  margin-top: 1rem;
+  font-size: 1rem;
   color: inherit;
   font-weight: 400;
   text-align: center;
   font-family: var(--font-mono);
+  letter-spacing: 0.5px;
 }
 
 /* Changelog */
@@ -1007,13 +1029,13 @@ body.theme-light #footer-status:hover {
   .monthly-image-container {
     max-width: 95vw;
     width: fit-content;
-    margin: 1rem auto;
-    padding: 0.75rem;
+    margin: 2rem auto;
+    padding: 1.5rem;
   }
 
   .monthly-image {
-    max-width: 100%;
-    width: auto;
+    max-width: 90%;
+    width: 85%;
     height: auto;
   }
 

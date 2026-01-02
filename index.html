@@ -79,7 +79,7 @@
       
       <!-- Monthly Image Display -->
       <div class="monthly-image-container">
-        <img src="/images/mês/janeiro-2026.webp" alt="Janeiro de 2026" class="monthly-image" loading="lazy">
+        <img src="/images/mês/janeiro-2026.webp" alt="Janeiro de 2026" class="monthly-image" loading="lazy" onclick="openLightbox('/images/mês/janeiro-2026.webp', 'Janeiro de 2026')">
         <div class="image-caption" id="monthly-caption">Janeiro de 2026</div>
       </div>
     </section>
@@ -97,5 +97,46 @@
   
   <!-- Language System -->
   <script src="/js/language-system.js"></script>
+  
+  <!-- Lightbox Modal for homepage image -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <img id="lightbox-img" class="lightbox-content" src="" alt="">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+  </div>
+  
+  <script>
+    function openLightbox(src, caption) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      
+      lightbox.style.display = 'flex';
+      lightboxImg.src = src;
+      lightboxCaption.textContent = caption || '';
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox(event) {
+      if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+    
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox.style.display === 'flex') {
+          lightbox.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      }
+    });
+    
+    window.openLightbox = openLightbox;
+    window.closeLightbox = closeLightbox;
+  </script>
 </body>
 </html>
