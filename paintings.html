@@ -98,8 +98,12 @@
   <script>
     // Paintings data - add your paintings here
     const paintings = [
-      // Example format:
-      // { file: "painting1.jpg", title: "Painting Title", artist: "Artist Name", year: 2024 }
+      {
+        file: "red-roses-still-life.webp",
+        title: "Red Roses in Ornate Vase",
+        artist: "Unattributed, circa unknown",
+        credit: "AI assisted frame scan by Vincent L."
+      }
     ];
 
     function renderPaintings() {
@@ -133,6 +137,7 @@
               ${painting.title ? `<strong>${painting.title}</strong>` : ''}
               ${painting.artist ? `<br>${painting.artist}` : ''}
               ${painting.year ? ` (${painting.year})` : ''}
+              ${painting.credit ? `<br><em style="font-size: 0.85em; opacity: 0.8;">${painting.credit}</em>` : ''}
             </div>
           </div>
         `;
