@@ -100,7 +100,11 @@
   <script>
     fetch('/footer.html')
       .then(r => r.text())
-      .then(html => document.getElementById('site-footer').innerHTML = html);
+      .then(html => {
+        document.getElementById('site-footer').innerHTML = html;
+        const yearSpan = document.getElementById('copyright-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+      });
   </script>
   
   <!-- Language System -->

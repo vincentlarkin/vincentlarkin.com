@@ -82,7 +82,11 @@
   <script>
     fetch('/footer.html')
       .then(r => r.text())
-      .then(html => document.getElementById('site-footer').innerHTML = html);
+      .then(html => {
+        document.getElementById('site-footer').innerHTML = html;
+        const yearSpan = document.getElementById('copyright-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+      });
   </script>
   
   <!-- Language System -->
@@ -118,14 +122,15 @@
         });
 
         if (response.ok) {
-          return await response.json();
+          const userData = await response.json();
+          return userData;
         }
       } catch (error) {
-        console.warn('Could not fetch user avatar:', error);
+        console.warn('Could not fetch user avatar from API:', error);
       }
       
-      // Fallback to default avatar
-      return { avatar_url: '/images/profile.jpg' };
+      // Fallback to direct GitHub avatar URL
+      return { avatar_url: `https://github.com/${username}.png` };
     }
     
     // Fetch commits from GitHub API

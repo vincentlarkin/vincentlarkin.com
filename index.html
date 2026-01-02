@@ -79,8 +79,8 @@
       
       <!-- Monthly Image Display -->
       <div class="monthly-image-container">
-        <img src="/images/mês/novembro-2025.webp" alt="Novembro de 2025" class="monthly-image" loading="lazy">
-        <div class="image-caption" id="monthly-caption">Novembro de 2025</div>
+        <img src="/images/mês/janeiro-2026.webp" alt="Janeiro de 2026" class="monthly-image" loading="lazy">
+        <div class="image-caption" id="monthly-caption">Janeiro de 2026</div>
       </div>
     </section>
   </main>
@@ -88,7 +88,11 @@
   <script>
     fetch('/footer.html')
       .then(r => r.text())
-      .then(html => document.getElementById('site-footer').innerHTML = html);
+      .then(html => {
+        document.getElementById('site-footer').innerHTML = html;
+        const yearSpan = document.getElementById('copyright-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+      });
   </script>
   
   <!-- Language System -->

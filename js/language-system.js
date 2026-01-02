@@ -85,6 +85,7 @@ function getCurrentPage() {
   if (path.includes('news.html')) return 'news';
   if (path.includes('contact.html')) return 'contact';
   if (path.includes('changelog.html')) return 'changelog';
+  if (path.includes('gallery.html')) return 'gallery';
   if (path.includes('/articles/')) return 'article';
   return 'index';
 }

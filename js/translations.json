@@ -9,8 +9,8 @@
       "en": ""
     },
     "monthly-caption": {
-      "pt": "Novembro de 2025",
-      "en": "November 2025"
+      "pt": "Janeiro de 2026",
+      "en": "January 2026"
     }
   },
   "about": {
@@ -75,6 +75,10 @@
     "nav-changelog": {
       "pt": "Changelog",
       "en": "Changelog"
+    },
+    "nav-gallery": {
+      "pt": "Galeria",
+      "en": "Gallery"
     }
   },
   "changelog": {
@@ -89,6 +93,16 @@
     "changelog-source": {
       "pt": "Obtido de <a href=\"https://github.com/VincentW2/vincentlarkin.com/commits?author=VincentW2\" target=\"_blank\" rel=\"noopener\">Commits do GitHub</a>",
       "en": "Pulled from <a href=\"https://github.com/VincentW2/vincentlarkin.com/commits?author=VincentW2\" target=\"_blank\" rel=\"noopener\">GitHub Commits</a>"
+    }
+  },
+  "gallery": {
+    "gallery-title": {
+      "pt": "Galeria",
+      "en": "Gallery"
+    },
+    "gallery-description": {
+      "pt": "Imagens e vídeos mensais organizados por ano.",
+      "en": "Monthly images and videos organized by year."
     }
   }
 } 
