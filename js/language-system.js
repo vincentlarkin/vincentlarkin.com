@@ -44,6 +44,9 @@ function applyLanguage(lang) {
       } else if (id.startsWith('label-') || id === 'about-title' || id === 'personal-info-title' || id === 'contact-title') {
         // Handle about page labels - just text content
         element.textContent = content;
+      } else if (id === 'gallery-paintings-link' || id === 'paintings-gallery-link') {
+        // Handle gallery navigation links
+        element.textContent = content;
       } else {
         element.textContent = content;
       }
@@ -86,6 +89,7 @@ function getCurrentPage() {
   if (path.includes('contact.html')) return 'contact';
   if (path.includes('changelog.html')) return 'changelog';
   if (path.includes('gallery.html')) return 'gallery';
+  if (path.includes('paintings.html')) return 'paintings';
   if (path.includes('/articles/')) return 'article';
   return 'index';
 }

@@ -103,6 +103,24 @@
     "gallery-description": {
       "pt": "Imagens e vídeos mensais organizados por ano.",
       "en": "Monthly images and videos organized by year."
+    },
+    "gallery-paintings-link": {
+      "pt": "→ Pinturas",
+      "en": "→ Paintings"
+    },
+    "paintings-gallery-link": {
+      "pt": "→ Galeria Mensal",
+      "en": "→ Monthly Gallery"
+    }
+  },
+  "paintings": {
+    "paintings-title": {
+      "pt": "Pinturas",
+      "en": "Paintings"
+    },
+    "paintings-description": {
+      "pt": "Uma coleção de pinturas e imagens que gosto.",
+      "en": "A collection of paintings and images I like."
     }
   }
 } 

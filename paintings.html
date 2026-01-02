@@ -1,0 +1,149 @@
+<!-- paintings.html -->
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Paintings - vincentlarkin.com</title>
+  <!-- Favicon for most browsers -->
+  <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
+  <!-- Standard PNG favicons for various devices -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="site-header"></div>
+  <script>
+    // Load theme first to prevent flashbang
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
+      document.body.className = savedTheme;
+    })();
+    
+    // Load header
+    fetch('/header.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('site-header').innerHTML = html;
+        
+        // Add theme and language buttons
+        const nav = document.querySelector('nav ul');
+        const themeBtn = document.createElement('li');
+        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
+        nav.appendChild(themeBtn);
+        
+        const langBtnLi = document.createElement('li');
+        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
+        nav.appendChild(langBtnLi);
+        
+        // Initialize theme system
+        const themes = ['theme-dark', 'theme-light'];
+        const themeIcons = ['🌙', '☀️'];
+        let currentThemeIndex = themes.indexOf(document.body.className);
+        
+        function switchTheme() {
+          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+          const newTheme = themes[currentThemeIndex];
+          document.body.className = newTheme;
+          localStorage.setItem('theme', newTheme);
+          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        }
+        
+        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
+        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
+        
+        // Initialize language button
+        const langBtn = document.getElementById('lang-toggle');
+        if (langBtn) {
+          langBtn.addEventListener('click', switchLanguage);
+        }
+        
+      });
+  </script>
+  
+  <main>
+    <section class="gallery-section">
+      <h2 id="paintings-title">Pinturas</h2>
+      <p id="paintings-description">Uma coleção de pinturas e imagens que gosto.</p>
+      
+      <div class="gallery-nav">
+        <a href="/gallery.html" id="paintings-gallery-link" class="gallery-nav-link">→ Galeria Mensal</a>
+      </div>
+      
+      <div id="paintings-container" class="gallery-container">
+        <!-- Paintings will be rendered here -->
+      </div>
+    </section>
+  </main>
+  
+  <div id="site-footer"></div>
+  <script>
+    fetch('/footer.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('site-footer').innerHTML = html;
+        const yearSpan = document.getElementById('copyright-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+      });
+  </script>
+  
+  <!-- Language System -->
+  <script src="/js/language-system.js"></script>
+  
+  <script>
+    // Paintings data - add your paintings here
+    const paintings = [
+      // Example format:
+      // { file: "painting1.jpg", title: "Painting Title", artist: "Artist Name", year: 2024 }
+    ];
+
+    function renderPaintings() {
+      const container = document.getElementById('paintings-container');
+      
+      const currentLang = localStorage.getItem('lang') || 'en';
+      const emptyText = currentLang === 'pt' 
+        ? 'Adicione pinturas e imagens aqui.' 
+        : 'Add paintings and images here.';
+      
+      if (paintings.length === 0) {
+        container.innerHTML = `
+          <div class="paintings-empty">
+            <p>${emptyText}</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">Edit paintings.html and add items to the paintings array.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      let html = '<div class="gallery-grid">';
+      
+      paintings.forEach(painting => {
+        const filePath = `/images/paintings/${painting.file}`;
+        html += `
+          <div class="gallery-item">
+            <div class="gallery-item-container">
+              <img src="${filePath}" alt="${painting.title || ''}" class="gallery-media" loading="lazy">
+            </div>
+            <div class="gallery-item-caption">
+              ${painting.title ? `<strong>${painting.title}</strong>` : ''}
+              ${painting.artist ? `<br>${painting.artist}` : ''}
+              ${painting.year ? ` (${painting.year})` : ''}
+            </div>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    document.addEventListener('DOMContentLoaded', renderPaintings);
+  </script>
+</body>
+</html>
+
