@@ -185,7 +185,7 @@
             html += `
               <div class="gallery-item">
                 <div class="gallery-item-container">
-                  <img src="${filePath}" alt="${monthName} ${item.year}" class="gallery-media" loading="lazy">
+                  <img src="${filePath}" alt="${monthName} ${item.year}" class="gallery-media" loading="lazy" onclick="openLightbox('${filePath}', '${monthName} ${item.year}')" style="cursor: pointer;">
                 </div>
                 <div class="gallery-item-caption">${monthName} ${item.year}</div>
               </div>
@@ -240,6 +240,50 @@
 
     document.addEventListener('DOMContentLoaded', renderGallery);
     document.addEventListener('languageChanged', refreshGallery);
+  </script>
+  
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <img id="lightbox-img" class="lightbox-content" src="" alt="">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+  </div>
+  
+  <script>
+    function openLightbox(src, caption) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      
+      lightbox.style.display = 'flex';
+      lightboxImg.src = src;
+      lightboxCaption.textContent = caption || '';
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox(event) {
+      // Only close if clicking the backdrop or close button, not the image itself
+      if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+    
+    // Close on ESC key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox.style.display === 'flex') {
+          lightbox.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      }
+    });
+    
+    // Make functions globally available
+    window.openLightbox = openLightbox;
+    window.closeLightbox = closeLightbox;
   </script>
 </body>
 </html>
