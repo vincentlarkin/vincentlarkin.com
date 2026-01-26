@@ -4,12 +4,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>News — vincentlarkin.com</title>
+  <title>News / Books — vincentlarkin.com</title>
   <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
   <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .section-toggle {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--highlight);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--fg);
+      margin-top: 1rem;
+    }
+    .section-toggle:first-of-type {
+      margin-top: 0;
+    }
+    .section-toggle:hover {
+      background: var(--border);
+    }
+    .section-content {
+      display: none;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-top: none;
+    }
+    .news-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .news-item:last-child {
+      border-bottom: none;
+    }
+    .news-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .news-link {
+      color: var(--fg);
+      font-size: 0.95rem;
+    }
+    .news-link:hover {
+      color: var(--accent);
+    }
+    
+    /* Bookshelf styles */
+    .bookshelf {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .bookshelf-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .bookshelf-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .bookshelf-empty {
+      border: 2px dashed var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+    }
+    .bookshelf-empty-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.5;
+    }
+    .wip-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      background: var(--highlight);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
 </head>
 <body class="theme-dark">
   <script>
@@ -28,16 +119,10 @@
       .then(html => {
         document.getElementById('site-header').innerHTML = html;
         
-        // Mark current page as active
-        const currentPath = window.location.pathname;
         document.querySelectorAll('.nav a').forEach(link => {
-          if (link.getAttribute('href') === currentPath || 
-              (currentPath === '/news.html' && link.id === 'nav-news')) {
-            link.classList.add('active');
-          }
+          if (link.id === 'nav-news') link.classList.add('active');
         });
         
-        // Theme toggle
         const themeBtn = document.getElementById('theme-toggle');
         themeBtn.addEventListener('click', function() {
           const isDark = document.body.classList.contains('theme-dark');
@@ -47,7 +132,6 @@
         });
         themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
         
-        // Language toggle
         const langBtn = document.getElementById('lang-toggle');
         let currentLang = localStorage.getItem('lang') || 'pt';
         
@@ -55,15 +139,29 @@
           langBtn.textContent = lang.toUpperCase();
           langBtn.className = 'ctrl-btn lang-' + lang;
           
-          // Update nav text
           const navTexts = {
-            pt: { 'nav-news': 'Notícias', 'nav-paintings': 'Pinturas', 'nav-gallery': 'Galeria', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
-            en: { 'nav-news': 'News', 'nav-paintings': 'Paintings', 'nav-gallery': 'Gallery', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
+            pt: { 'nav-news': 'Notícias / Livros', 'nav-gallery': 'Galeria / Pinturas', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
+            en: { 'nav-news': 'News / Books', 'nav-gallery': 'Gallery / Paintings', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
           };
           Object.entries(navTexts[lang]).forEach(([id, text]) => {
             const el = document.getElementById(id);
             if (el) el.textContent = text;
           });
+          
+          // Page content translations
+          document.getElementById('news-title').textContent = lang === 'pt' ? 'Notícias / Livros' : 'News / Books';
+          document.getElementById('news-description').textContent = lang === 'pt' 
+            ? 'Artigos interessantes da internet e minha estante de livros.' 
+            : 'Interesting articles from the internet and my bookshelf.';
+          document.getElementById('bookshelf-title').innerHTML = lang === 'pt' 
+            ? 'Estante de Livros <span class="wip-badge">Em Progresso</span>' 
+            : 'Bookshelf <span class="wip-badge">Work in Progress</span>';
+          document.getElementById('bookshelf-subtitle').textContent = lang === 'pt' 
+            ? 'Livros que estou lendo ou li recentemente.' 
+            : 'Books I am reading or have recently read.';
+          document.getElementById('bookshelf-empty-text').textContent = lang === 'pt' 
+            ? 'Nenhum livro adicionado ainda.' 
+            : 'No books added yet.';
         }
         
         langBtn.addEventListener('click', function() {
@@ -77,80 +175,97 @@
   </script>
 
   <main>
-    <h2 id="news-title">News</h2>
-    <p class="news-description">Articles found on the internet that I have found interesting.</p>
+    <h2 id="news-title">News / Books</h2>
+    <p id="news-description">Interesting articles from the internet and my bookshelf.</p>
     
-    <!-- Society & Culture -->
-    <section class="news-category">
-      <h3 class="category-title">Society & Culture</h3>
-      <ul class="news-list">
-        <li class="news-item">
+    <div class="news-sections">
+      <!-- Society & Culture -->
+      <button class="section-toggle" onclick="toggleSection('section-society')">
+        <span>Society & Culture</span>
+        <span class="toggle-icon">▼</span>
+      </button>
+      <div class="section-content" id="section-society">
+        <div class="news-item">
           <span class="news-meta">Dec 2, 2018</span>
           <a class="news-link" href="articles/bush-aging-family.html">George H.W. Bush reflects on aging and the importance of family in letter to his children</a>
-        </li>
-        <li class="news-item">
+        </div>
+        <div class="news-item">
           <span class="news-meta">Oct 7, 2018</span>
           <a class="news-link" href="articles/bourdain-love-addiction.html">What Killed Anthony Bourdain?</a>
-        </li>
-        <li class="news-item">
+        </div>
+        <div class="news-item">
           <span class="news-meta">Aug 29, 2018</span>
           <a class="news-link" href="articles/pence-fiancee.html">Mike Pence dumped his college fiancee for being a 'sinner' and narced on his beer‑drinking frat bros</a>
-        </li>
-        <li class="news-item">
+        </div>
+        <div class="news-item">
           <span class="news-meta">Jun 15, 2018</span>
           <a class="news-link" href="articles/youre-not-alone-loss.html">You're not alone in the uncomfortable silence of loss</a>
-        </li>
-      </ul>
-    </section>
+        </div>
+      </div>
 
-    <!-- Health & Medicine -->
-    <section class="news-category">
-      <h3 class="category-title">Health & Medicine</h3>
-      <ul class="news-list">
-        <li class="news-item">
+      <!-- Health & Medicine -->
+      <button class="section-toggle" onclick="toggleSection('section-health')">
+        <span>Health & Medicine</span>
+        <span class="toggle-icon">▼</span>
+      </button>
+      <div class="section-content" id="section-health">
+        <div class="news-item">
           <span class="news-meta">Jun 25, 2025</span>
           <a class="news-link" href="articles/medical-equipment-end-of-life.html">Rethinking 'end of life' for aging medical equipment</a>
-        </li>
-        <li class="news-item">
+        </div>
+        <div class="news-item">
           <span class="news-meta">Dec 6, 2017</span>
           <a class="news-link" href="articles/farmers-suicides.html">Why are America's farmers killing themselves in record numbers?</a>
-        </li>
-        <li class="news-item">
+        </div>
+        <div class="news-item">
           <span class="news-meta">Jun 16, 2017</span>
           <a class="news-link" href="articles/icu-worse-off.html">Why a stay in the ICU can leave patients worse off</a>
-        </li>
-        <li class="news-item">
+        </div>
+        <div class="news-item">
           <span class="news-meta">Feb 29, 2012</span>
           <a class="news-link" href="articles/abortion-babies.html">Killing babies no different from abortion, experts say</a>
-        </li>
-      </ul>
-    </section>
+        </div>
+      </div>
 
-    <!-- Politics & International Relations -->
-    <section class="news-category">
-      <h3 class="category-title">Politics & International Relations</h3>
-      <ul class="news-list">
-        <li class="news-item">
+      <!-- Politics & International Relations -->
+      <button class="section-toggle" onclick="toggleSection('section-politics')">
+        <span>Politics & International Relations</span>
+        <span class="toggle-icon">▼</span>
+      </button>
+      <div class="section-content" id="section-politics">
+        <div class="news-item">
           <span class="news-meta">Apr 4, 2019</span>
           <a class="news-link" href="articles/weak-to-stop-israel.html">We Are Too Weak to Stop Israel</a>
-        </li>
-        <li class="news-item">
+        </div>
+        <div class="news-item">
           <span class="news-meta">Oct 10, 2018</span>
           <a class="news-link" href="articles/trade-war-breakthrough.html">Chinese finance ministry official says 'optimistic' on trade war breakthrough</a>
-        </li>
-      </ul>
-    </section>
+        </div>
+      </div>
 
-    <!-- Business & Technology -->
-    <section class="news-category">
-      <h3 class="category-title">Business & Technology</h3>
-      <ul class="news-list">
-        <li class="news-item">
+      <!-- Business & Technology -->
+      <button class="section-toggle" onclick="toggleSection('section-business')">
+        <span>Business & Technology</span>
+        <span class="toggle-icon">▼</span>
+      </button>
+      <div class="section-content" id="section-business">
+        <div class="news-item">
           <span class="news-meta">Nov 6, 1996</span>
           <a class="news-link" href="articles/learson-dies.html">T. Vincent Learson, 84, I.B.M. Chief, Dies</a>
-        </li>
-      </ul>
-    </section>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bookshelf Section -->
+    <div class="bookshelf">
+      <h3 class="bookshelf-title" id="bookshelf-title">Bookshelf <span class="wip-badge">Work in Progress</span></h3>
+      <p class="bookshelf-subtitle" id="bookshelf-subtitle">Books I am reading or have recently read.</p>
+      
+      <div class="bookshelf-empty">
+        <div class="bookshelf-empty-icon">📚</div>
+        <p id="bookshelf-empty-text">No books added yet.</p>
+      </div>
+    </div>
   </main>
 
   <div id="site-footer"></div>
@@ -161,6 +276,33 @@
         document.getElementById('site-footer').innerHTML = html;
         document.getElementById('copyright-year').textContent = new Date().getFullYear();
       });
+  </script>
+  
+  <script>
+    function toggleSection(sectionId) {
+      const content = document.getElementById(sectionId);
+      const btn = content.previousElementSibling;
+      const icon = btn.querySelector('.toggle-icon');
+      
+      if (content.style.display === 'none' || !content.style.display) {
+        content.style.display = 'block';
+        icon.textContent = '▲';
+      } else {
+        content.style.display = 'none';
+        icon.textContent = '▼';
+      }
+    }
+    
+    // Expand first section by default
+    document.addEventListener('DOMContentLoaded', function() {
+      const firstSection = document.getElementById('section-society');
+      if (firstSection) {
+        firstSection.style.display = 'block';
+        firstSection.previousElementSibling.querySelector('.toggle-icon').textContent = '▲';
+      }
+    });
+    
+    window.toggleSection = toggleSection;
   </script>
 </body>
 </html>

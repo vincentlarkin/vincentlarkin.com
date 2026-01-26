@@ -29,7 +29,7 @@
         document.getElementById('site-header').innerHTML = html;
         
         document.querySelectorAll('.nav a').forEach(link => {
-          if (link.id === 'nav-paintings') link.classList.add('active');
+          if (link.id === 'nav-gallery') link.classList.add('active');
         });
         
         const themeBtn = document.getElementById('theme-toggle');
@@ -49,8 +49,8 @@
           langBtn.className = 'ctrl-btn lang-' + lang;
           
           const navTexts = {
-            pt: { 'nav-news': 'Notícias', 'nav-paintings': 'Pinturas', 'nav-gallery': 'Galeria', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
-            en: { 'nav-news': 'News', 'nav-paintings': 'Paintings', 'nav-gallery': 'Gallery', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
+            pt: { 'nav-news': 'Notícias / Livros', 'nav-gallery': 'Galeria / Pinturas', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
+            en: { 'nav-news': 'News / Books', 'nav-gallery': 'Gallery / Paintings', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
           };
           Object.entries(navTexts[lang]).forEach(([id, text]) => {
             const el = document.getElementById(id);
