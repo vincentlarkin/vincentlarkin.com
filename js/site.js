@@ -50,6 +50,14 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
     document.getElementById('site-header').innerHTML = headerHtml;
     document.getElementById('site-footer').innerHTML = footerHtml;
     
+    // Immediately set language button class
+    const lang = localStorage.getItem('lang') || 'pt';
+    const langBtn = document.getElementById('lang-toggle');
+    if (langBtn) {
+      langBtn.textContent = lang.toUpperCase();
+      langBtn.className = 'ctrl-btn lang-' + lang;
+    }
+    
     if (activeNavId) setActiveNav(activeNavId);
     initThemeToggle();
     initFooter();
