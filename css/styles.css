@@ -522,6 +522,237 @@ p {
   margin-bottom: 1.25rem;
 }
 
+/* Section toggles (News, etc.) */
+.section-toggle {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--highlight);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin-top: 1rem;
+}
+
+.section-toggle:first-of-type {
+  margin-top: 0;
+}
+
+.section-toggle:hover {
+  background: var(--border);
+}
+
+.section-content {
+  display: none;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-top: none;
+}
+
+/* Bookshelf styles */
+.bookshelf {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.bookshelf-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bookshelf-subtitle {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.bookshelf-empty {
+  border: 2px dashed var(--border);
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.bookshelf-empty-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.wip-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--highlight);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* See more button */
+.see-more-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--highlight);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.see-more-btn:hover {
+  background: var(--border);
+  border-color: var(--accent);
+}
+
+/* Homepage specific */
+.home-main {
+  max-width: 720px;
+}
+
+.intro-block {
+  margin-bottom: 2.5rem;
+}
+
+.intro-block h1 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--fg);
+}
+
+.intro-block p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+}
+
+.status-link {
+  color: #22c55e;
+  text-decoration: underline;
+}
+
+.status-link:hover {
+  color: #4ade80;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.monthly-block {
+  margin-bottom: 2.5rem;
+}
+
+.monthly-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.monthly-frame {
+  border: 1px solid var(--border);
+  padding: 1rem;
+  background: var(--bg);
+}
+
+.monthly-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.monthly-frame img:hover {
+  opacity: 0.9;
+}
+
+.monthly-caption {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.links-block {
+  margin-bottom: 2rem;
+}
+
+.links-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.link-item {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.link-item:hover {
+  border-color: var(--accent);
+  background: var(--highlight);
+  text-decoration: none;
+}
+
+.link-item .arrow {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
 /* Mobile */
 @media (max-width: 600px) {
   .header {
@@ -553,5 +784,9 @@ p {
   .commit-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+  
+  .links-grid {
+    grid-template-columns: 1fr;
   }
 }

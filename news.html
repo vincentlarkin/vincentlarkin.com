@@ -9,170 +9,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css">
-  <style>
-    .section-toggle {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background: var(--highlight);
-      border: 1px solid var(--border);
-      border-bottom: none;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--font-mono);
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--fg);
-      margin-top: 1rem;
-    }
-    .section-toggle:first-of-type {
-      margin-top: 0;
-    }
-    .section-toggle:hover {
-      background: var(--border);
-    }
-    .section-content {
-      display: none;
-      padding: 1rem;
-      border: 1px solid var(--border);
-      border-top: none;
-    }
-    .news-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      padding: 0.75rem 0;
-      border-bottom: 1px dashed var(--border);
-    }
-    .news-item:last-child {
-      border-bottom: none;
-    }
-    .news-meta {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .news-link {
-      color: var(--fg);
-      font-size: 0.95rem;
-    }
-    .news-link:hover {
-      color: var(--accent);
-    }
-    
-    /* Bookshelf styles */
-    .bookshelf {
-      margin-top: 2.5rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .bookshelf-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .bookshelf-subtitle {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-    }
-    .bookshelf-empty {
-      border: 2px dashed var(--border);
-      padding: 2rem;
-      text-align: center;
-      color: var(--muted);
-    }
-    .bookshelf-empty-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      opacity: 0.5;
-    }
-    .wip-badge {
-      font-size: 0.7rem;
-      padding: 0.2rem 0.5rem;
-      background: var(--highlight);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body class="theme-dark">
-  <script>
-    (function() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'theme-light') {
-        document.body.className = 'theme-light';
-      }
-    })();
-  </script>
-  
   <div id="site-header"></div>
-  <script>
-    fetch('/header.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-header').innerHTML = html;
-        
-        document.querySelectorAll('.nav a').forEach(link => {
-          if (link.id === 'nav-news') link.classList.add('active');
-        });
-        
-        const themeBtn = document.getElementById('theme-toggle');
-        themeBtn.addEventListener('click', function() {
-          const isDark = document.body.classList.contains('theme-dark');
-          document.body.className = isDark ? 'theme-light' : 'theme-dark';
-          localStorage.setItem('theme', document.body.className);
-          themeBtn.textContent = isDark ? '◑' : '◐';
-        });
-        themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
-        
-        const langBtn = document.getElementById('lang-toggle');
-        let currentLang = localStorage.getItem('lang') || 'pt';
-        
-        function applyLang(lang) {
-          langBtn.textContent = lang.toUpperCase();
-          langBtn.className = 'ctrl-btn lang-' + lang;
-          
-          const navTexts = {
-            pt: { 'nav-news': 'Notícias / Livros', 'nav-gallery': 'Galeria / Pinturas', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
-            en: { 'nav-news': 'News / Books', 'nav-gallery': 'Gallery / Paintings', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
-          };
-          Object.entries(navTexts[lang]).forEach(([id, text]) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = text;
-          });
-          
-          // Page content translations
-          document.getElementById('news-title').textContent = lang === 'pt' ? 'Notícias / Livros' : 'News / Books';
-          document.getElementById('news-description').textContent = lang === 'pt' 
-            ? 'Artigos interessantes da internet e minha estante de livros.' 
-            : 'Interesting articles from the internet and my bookshelf.';
-          document.getElementById('bookshelf-title').innerHTML = lang === 'pt' 
-            ? 'Estante de Livros <span class="wip-badge">Em Progresso</span>' 
-            : 'Bookshelf <span class="wip-badge">Work in Progress</span>';
-          document.getElementById('bookshelf-subtitle').textContent = lang === 'pt' 
-            ? 'Livros que estou lendo ou li recentemente.' 
-            : 'Books I am reading or have recently read.';
-          document.getElementById('bookshelf-empty-text').textContent = lang === 'pt' 
-            ? 'Nenhum livro adicionado ainda.' 
-            : 'No books added yet.';
-        }
-        
-        langBtn.addEventListener('click', function() {
-          currentLang = currentLang === 'pt' ? 'en' : 'pt';
-          localStorage.setItem('lang', currentLang);
-          applyLang(currentLang);
-        });
-        
-        applyLang(currentLang);
-      });
-  </script>
 
   <main>
     <h2 id="news-title">News / Books</h2>
@@ -269,16 +109,12 @@
   </main>
 
   <div id="site-footer"></div>
-  <script>
-    fetch('/footer.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-footer').innerHTML = html;
-        document.getElementById('copyright-year').textContent = new Date().getFullYear();
-      });
-  </script>
   
+  <script src="/js/site.js"></script>
   <script>
+    siteUtils.loadHeaderFooter('nav-news');
+    
+    // Section toggle function
     function toggleSection(sectionId) {
       const content = document.getElementById(sectionId);
       const btn = content.previousElementSibling;
@@ -292,6 +128,7 @@
         icon.textContent = '▼';
       }
     }
+    window.toggleSection = toggleSection;
     
     // Expand first section by default
     document.addEventListener('DOMContentLoaded', function() {
@@ -302,7 +139,36 @@
       }
     });
     
-    window.toggleSection = toggleSection;
+    // Page translations
+    const pageTranslations = {
+      pt: {
+        'news-title': 'Notícias / Livros',
+        'news-description': 'Artigos interessantes da internet e minha estante de livros.',
+        'bookshelf-subtitle': 'Livros que estou lendo ou li recentemente.',
+        'bookshelf-empty-text': 'Nenhum livro adicionado ainda.'
+      },
+      en: {
+        'news-title': 'News / Books',
+        'news-description': 'Interesting articles from the internet and my bookshelf.',
+        'bookshelf-subtitle': 'Books I am reading or have recently read.',
+        'bookshelf-empty-text': 'No books added yet.'
+      }
+    };
+    
+    function applyPageTranslations(lang) {
+      const texts = pageTranslations[lang];
+      Object.entries(texts).forEach(([id, text]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+      });
+      // Update bookshelf title with badge
+      document.getElementById('bookshelf-title').innerHTML = lang === 'pt' 
+        ? 'Estante de Livros <span class="wip-badge">Em Progresso</span>' 
+        : 'Bookshelf <span class="wip-badge">Work in Progress</span>';
+    }
+    
+    document.addEventListener('languageChanged', (e) => applyPageTranslations(e.detail.lang));
+    applyPageTranslations(siteUtils.getCurrentLang());
   </script>
 </body>
 </html>
