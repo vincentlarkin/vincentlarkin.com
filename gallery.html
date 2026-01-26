@@ -70,10 +70,9 @@
     <div id="lightbox-caption" class="lightbox-caption"></div>
   </div>
   
+  <script src="/js/language-system.js"></script>
   <script src="/js/site.js"></script>
   <script>
-    siteUtils.loadHeaderFooter('nav-gallery');
-    
     // Toggle sections
     function toggleSection(sectionId) {
       const content = document.getElementById(sectionId);
@@ -101,15 +100,8 @@
       ]
     };
 
-    const monthNames = {
-      pt: { janeiro: "Janeiro", fevereiro: "Fevereiro", março: "Março", abril: "Abril", maio: "Maio", junho: "Junho", julho: "Julho", agosto: "Agosto", setembro: "Setembro", outubro: "Outubro", novembro: "Novembro", dezembro: "Dezembro" },
-      en: { janeiro: "January", fevereiro: "February", março: "March", abril: "April", maio: "May", junho: "June", julho: "July", agosto: "August", setembro: "September", outubro: "October", novembro: "November", dezembro: "December" }
-    };
-
     function renderGallery() {
       const container = document.getElementById('gallery-container');
-      const currentLang = siteUtils.getCurrentLang();
-      const months = monthNames[currentLang];
       
       let html = '';
       const years = Object.keys(monthlyImages).sort((a, b) => parseInt(b) - parseInt(a));
@@ -129,7 +121,7 @@
         `;
         
         yearItems.forEach(item => {
-          const monthName = months[item.month] || item.month;
+          const monthName = langSystem.getMonthName(item.month);
           const filePath = `/images/mês/${item.file}`;
           
           html += `
@@ -230,25 +222,16 @@
     window.openLightbox = openLightbox;
     window.closeLightbox = closeLightbox;
 
-    // Page translations
-    function applyPageTranslations(lang) {
-      document.getElementById('gallery-title').textContent = lang === 'pt' ? 'Galeria / Pinturas' : 'Gallery / Paintings';
-      document.getElementById('gallery-description').textContent = lang === 'pt' 
-        ? 'Imagens mensais e minha coleção de pinturas.' 
-        : 'Monthly images and my painting collection.';
-      document.getElementById('monthly-label').textContent = lang === 'pt' ? 'Galeria Mensal' : 'Monthly Gallery';
-      document.getElementById('paintings-label').textContent = lang === 'pt' ? 'Pinturas' : 'Paintings';
-      document.getElementById('paintings-description').textContent = lang === 'pt' 
-        ? 'Uma coleção de pinturas e imagens que gosto.' 
-        : 'A collection of paintings and images I like.';
-      renderGallery(); // Re-render with new month names
+    // Language change callback - re-render gallery with new month names
+    function onLanguageChange(lang) {
+      renderGallery();
     }
     
-    document.addEventListener('languageChanged', (e) => applyPageTranslations(e.detail.lang));
+    // Initialize
+    siteUtils.loadHeaderFooter('nav-gallery', 'gallery', onLanguageChange);
+    
     document.addEventListener('DOMContentLoaded', () => {
-      renderGallery();
       renderPaintings();
-      applyPageTranslations(siteUtils.getCurrentLang());
     });
   </script>
 </body>

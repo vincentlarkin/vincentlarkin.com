@@ -32,10 +32,9 @@
   
   <div id="site-footer"></div>
   
+  <script src="/js/language-system.js"></script>
   <script src="/js/site.js"></script>
   <script>
-    siteUtils.loadHeaderFooter('nav-changelog');
-    
     // GitHub config
     const GITHUB_USERNAME = 'vincentlarkin';
     const GITHUB_REPO = 'vincentlarkin.com';
@@ -67,7 +66,7 @@
     }
     
     function renderCommit(commit) {
-      const currentLang = siteUtils.getCurrentLang();
+      const currentLang = langSystem.getCurrentLang();
       const commitDate = new Date(commit.commit.author.date);
       const formattedDate = formatDate(commitDate, currentLang);
       const shortHash = commit.sha.substring(0, 7);
@@ -103,13 +102,13 @@
     
     function updateSeeMoreButton() {
       const btn = document.getElementById('see-more-btn');
-      const currentLang = siteUtils.getCurrentLang();
+      const currentLang = langSystem.getCurrentLang();
       
       if (displayedCount < allCommits.length) {
         const remaining = allCommits.length - displayedCount;
-        btn.textContent = currentLang === 'pt' 
-          ? `Ver Mais (${remaining} restantes)` 
-          : `See More (${remaining} remaining)`;
+        const seeMoreText = currentLang === 'pt' ? 'Ver Mais' : 'See More';
+        const remainingText = currentLang === 'pt' ? 'restantes' : 'remaining';
+        btn.textContent = `${seeMoreText} (${remaining} ${remainingText})`;
         btn.style.display = 'block';
       } else {
         btn.style.display = 'none';
@@ -157,7 +156,7 @@
     }
 
     function refreshCommitDates() {
-      const currentLang = siteUtils.getCurrentLang();
+      const currentLang = langSystem.getCurrentLang();
       document.querySelectorAll('.commit-date[data-original-date]').forEach(el => {
         const date = new Date(el.dataset.originalDate);
         el.textContent = formatDate(date, currentLang);
@@ -165,20 +164,15 @@
       updateSeeMoreButton();
     }
     
-    // Page translations
-    function applyPageTranslations(lang) {
-      document.getElementById('changelog-title').textContent = 'Changelog';
-      document.getElementById('changelog-subtitle').textContent = lang === 'pt' 
-        ? 'Atualizações recentes do site' 
-        : 'Recent site updates';
+    // Language change callback
+    function onLanguageChange(lang) {
       refreshCommitDates();
     }
     
-    document.addEventListener('languageChanged', (e) => applyPageTranslations(e.detail.lang));
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchCommits();
-      applyPageTranslations(siteUtils.getCurrentLang());
-    });
+    // Initialize
+    siteUtils.loadHeaderFooter('nav-changelog', 'changelog', onLanguageChange);
+    
+    document.addEventListener('DOMContentLoaded', fetchCommits);
   </script>
 </body>
 </html>

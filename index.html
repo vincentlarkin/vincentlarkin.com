@@ -90,6 +90,7 @@
     <div id="lightbox-caption" class="lightbox-caption"></div>
   </div>
   
+  <script src="/js/language-system.js"></script>
   <script>
     // Copyright year
     document.getElementById('copyright-year').textContent = new Date().getFullYear();
@@ -104,62 +105,8 @@
     });
     themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
     
-    // Language system
-    const translations = {
-      pt: {
-        'welcome-title': 'Bem-vindo',
-        'intro-text': 'Olá. Este é meu site pessoal onde compartilho notícias, escrevo artigos e mostro fotos que gosto. Navegue pelo menu acima para explorar.',
-        'status-text': 'site online',
-        'monthly-label': 'Imagem do Mês',
-        'links-label': 'Links Rápidos',
-        'link-gallery': 'Galeria',
-        'link-about': 'Sobre',
-        'nav-news': 'Notícias / Livros',
-        'nav-gallery': 'Galeria / Pinturas',
-        'nav-about': 'Sobre',
-        'nav-changelog': 'Changelog'
-      },
-      en: {
-        'welcome-title': 'Welcome',
-        'intro-text': 'Hello. This is my personal website where I share news, write articles and show photos I like. Use the menu above to explore.',
-        'status-text': 'site online',
-        'monthly-label': 'Image of the Month',
-        'links-label': 'Quick Links',
-        'link-gallery': 'Gallery',
-        'link-about': 'About',
-        'nav-news': 'News / Books',
-        'nav-gallery': 'Gallery / Paintings',
-        'nav-about': 'About',
-        'nav-changelog': 'Changelog'
-      }
-    };
-    
-    let currentLang = localStorage.getItem('lang') || 'pt';
-    const langBtn = document.getElementById('lang-toggle');
-    
-    function applyLanguage(lang) {
-      const t = translations[lang];
-      for (const [id, text] of Object.entries(t)) {
-        const el = document.getElementById(id);
-        if (el) {
-          if (el.tagName === 'A' && el.querySelector('span')) {
-            el.querySelector('span').textContent = text;
-          } else {
-            el.textContent = text;
-          }
-        }
-      }
-      langBtn.textContent = lang.toUpperCase();
-      langBtn.className = 'ctrl-btn lang-' + lang;
-    }
-    
-    langBtn.addEventListener('click', function() {
-      currentLang = currentLang === 'pt' ? 'en' : 'pt';
-      localStorage.setItem('lang', currentLang);
-      applyLanguage(currentLang);
-    });
-    
-    applyLanguage(currentLang);
+    // Initialize language system
+    langSystem.init('index');
     
     // Lightbox
     function openLightbox(src, caption) {

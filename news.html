@@ -98,7 +98,7 @@
     
     <!-- Bookshelf Section -->
     <div class="bookshelf">
-      <h3 class="bookshelf-title" id="bookshelf-title">Bookshelf <span class="wip-badge">Work in Progress</span></h3>
+      <h3 class="bookshelf-title"><span id="bookshelf-title">Bookshelf</span> <span class="wip-badge" id="wip-badge">Work in Progress</span></h3>
       <p class="bookshelf-subtitle" id="bookshelf-subtitle">Books I am reading or have recently read.</p>
       
       <div class="bookshelf-empty">
@@ -110,10 +110,9 @@
 
   <div id="site-footer"></div>
   
+  <script src="/js/language-system.js"></script>
   <script src="/js/site.js"></script>
   <script>
-    siteUtils.loadHeaderFooter('nav-news');
-    
     // Section toggle function
     function toggleSection(sectionId) {
       const content = document.getElementById(sectionId);
@@ -130,6 +129,14 @@
     }
     window.toggleSection = toggleSection;
     
+    // Custom language callback for WIP badge
+    function onLanguageChange(lang) {
+      document.getElementById('wip-badge').textContent = lang === 'pt' ? 'Em Progresso' : 'Work in Progress';
+    }
+    
+    // Load header/footer and init language
+    siteUtils.loadHeaderFooter('nav-news', 'news', onLanguageChange);
+    
     // Expand first section by default
     document.addEventListener('DOMContentLoaded', function() {
       const firstSection = document.getElementById('section-society');
@@ -138,37 +145,6 @@
         firstSection.previousElementSibling.querySelector('.toggle-icon').textContent = '▲';
       }
     });
-    
-    // Page translations
-    const pageTranslations = {
-      pt: {
-        'news-title': 'Notícias / Livros',
-        'news-description': 'Artigos interessantes da internet e minha estante de livros.',
-        'bookshelf-subtitle': 'Livros que estou lendo ou li recentemente.',
-        'bookshelf-empty-text': 'Nenhum livro adicionado ainda.'
-      },
-      en: {
-        'news-title': 'News / Books',
-        'news-description': 'Interesting articles from the internet and my bookshelf.',
-        'bookshelf-subtitle': 'Books I am reading or have recently read.',
-        'bookshelf-empty-text': 'No books added yet.'
-      }
-    };
-    
-    function applyPageTranslations(lang) {
-      const texts = pageTranslations[lang];
-      Object.entries(texts).forEach(([id, text]) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = text;
-      });
-      // Update bookshelf title with badge
-      document.getElementById('bookshelf-title').innerHTML = lang === 'pt' 
-        ? 'Estante de Livros <span class="wip-badge">Em Progresso</span>' 
-        : 'Bookshelf <span class="wip-badge">Work in Progress</span>';
-    }
-    
-    document.addEventListener('languageChanged', (e) => applyPageTranslations(e.detail.lang));
-    applyPageTranslations(siteUtils.getCurrentLang());
   </script>
 </body>
 </html>
