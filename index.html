@@ -8,130 +8,575 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>vincentlarkin.com</title>
-<!-- Favicon for most browsers -->
-<link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
-
-<!-- Standard PNG favicons for various devices -->
-<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32"   href="/images/favicons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16"   href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <div id="site-header"></div>
-  <script>
-    // Load theme first to prevent flashbang
-    (function() {
-      let savedTheme = localStorage.getItem('theme') || 'theme-dark';
-      // Remove retro theme, default to dark
-      if (savedTheme === 'theme-retro') {
-        savedTheme = 'theme-dark';
-        localStorage.setItem('theme', savedTheme);
-      }
-      document.body.className = savedTheme;
-    })();
+  <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
     
-    // Load header
-    fetch('/header.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-header').innerHTML = html;
-        
-        // Add theme and language buttons
-        const nav = document.querySelector('nav ul');
-        const themeBtn = document.createElement('li');
-        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
-        nav.appendChild(themeBtn);
-        
-        const langBtnLi = document.createElement('li');
-        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
-        nav.appendChild(langBtnLi);
-        
-        // Initialize theme system
-        const themes = ['theme-dark', 'theme-light'];
-        const themeIcons = ['🌙', '☀️'];
-        let currentThemeIndex = themes.indexOf(document.body.className);
-        
-        function switchTheme() {
-          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-          const newTheme = themes[currentThemeIndex];
-          document.body.className = newTheme;
-          localStorage.setItem('theme', newTheme);
-          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        }
-        
-        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
-        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        
-        // Initialize language button
-        const langBtn = document.getElementById('lang-toggle');
-        if (langBtn) {
-          langBtn.addEventListener('click', switchLanguage);
-          // Initial language button state will be set by applyLanguage() in language-system.js
-        }
-        
-      });
-  </script>
-  <main>
-    <section class="intro">
-      <!-- <h2 id="welcome-title">Loading...</h2> -->
-      <p id="intro-text">Loading...</p>
+    :root {
+      --font-mono: 'IBM Plex Mono', 'Consolas', 'Monaco', monospace;
+      --bg: #fffff8;
+      --fg: #111;
+      --accent: #0055aa;
+      --muted: #666;
+      --border: #ccc;
+      --highlight: #ffffcc;
+    }
+    
+    .theme-dark {
+      --bg: #1c1c1c;
+      --fg: #e0e0e0;
+      --accent: #6cb6ff;
+      --muted: #888;
+      --border: #444;
+      --highlight: #2a2a00;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html, body {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+    }
+    
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    
+    /* Header */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .site-id {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .site-id img {
+      width: 42px;
+      height: 42px;
+    }
+    
+    .site-id span {
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: -0.5px;
+    }
+    
+    .header-controls {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    
+    .caddo-link {
+      color: #e57373 !important;
+    }
+    
+    .caddo-link:hover {
+      color: #ff8a80 !important;
+    }
+    
+    .ctrl-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--fg);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      padding: 0.5rem 0.9rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ctrl-btn:hover {
+      border-color: var(--accent);
+    }
+    
+    /* Language button with flag colors */
+    #lang-toggle.lang-pt {
+      background: linear-gradient(135deg, #006600 0%, #006600 50%, #cc0000 50%, #cc0000 100%);
+      color: #fff;
+      border-color: #004400;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+    
+    #lang-toggle.lang-en {
+      background: 
+        linear-gradient(90deg, #002868 0%, #002868 40%, transparent 40%),
+        linear-gradient(180deg, 
+          #bf0a30 0%, #bf0a30 14%, 
+          #fff 14%, #fff 28%, 
+          #bf0a30 28%, #bf0a30 42%,
+          #fff 42%, #fff 56%,
+          #bf0a30 56%, #bf0a30 70%,
+          #fff 70%, #fff 84%,
+          #bf0a30 84%, #bf0a30 100%
+        );
+      background-size: 100% 60%, 100% 100%;
+      background-position: left top, left top;
+      background-repeat: no-repeat;
+      color: #fff;
+      border-color: #002868;
+      text-shadow: 
+        1px 1px 0 #002868,
+        -1px -1px 0 #002868,
+        1px -1px 0 #002868,
+        -1px 1px 0 #002868;
+    }
+    
+    #lang-toggle.lang-pt:hover {
+      border-color: #00aa00;
+    }
+    
+    #lang-toggle.lang-en:hover {
+      border-color: #bf0a30;
+    }
+    
+    /* Navigation */
+    .nav {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      gap: 2rem;
+      font-size: 1.05rem;
+      flex-wrap: wrap;
+    }
+    
+    .nav a {
+      color: var(--muted);
+    }
+    
+    .nav a:hover, .nav a.active {
+      color: var(--accent);
+    }
+    
+    /* Main */
+    .main {
+      flex: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      width: 100%;
+    }
+    
+    /* Intro Block */
+    .intro-block {
+      margin-bottom: 2.5rem;
+    }
+    
+    .intro-block h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--fg);
+    }
+    
+    .intro-block p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    
+    /* Status Row */
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--border);
+    }
+    
+    .status-link {
+      color: #22c55e;
+      text-decoration: underline;
+    }
+    
+    .status-link:hover {
+      color: #4ade80;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* Monthly Image */
+    .monthly-block {
+      margin-bottom: 2.5rem;
+    }
+    
+    .monthly-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    
+    .monthly-frame {
+      border: 1px solid var(--border);
+      padding: 1rem;
+      background: var(--bg);
+    }
+    
+    .monthly-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    
+    .monthly-frame img:hover {
+      opacity: 0.9;
+    }
+    
+    .monthly-caption {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    
+    /* Quick Links */
+    .links-block {
+      margin-bottom: 2rem;
+    }
+    
+    .links-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem;
+    }
+    
+    .link-item {
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      color: var(--fg);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    
+    .link-item:hover {
+      border-color: var(--accent);
+      background: var(--highlight);
+      text-decoration: none;
+    }
+    
+    .link-item .arrow {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    
+    .footer a {
+      color: var(--muted);
+    }
+    
+    .footer a:hover {
+      color: var(--accent);
+    }
+    
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    
+    .lightbox-content {
+      max-width: 90%;
+      max-height: 85%;
+      object-fit: contain;
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      opacity: 0.8;
+    }
+    
+    .lightbox-close:hover { opacity: 1; }
+    
+    .lightbox-caption {
+      color: #fff;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      opacity: 0.8;
+    }
+    
+    .theme-dark .lightbox {
+      background: rgba(0, 0, 0, 0.96);
+    }
+    
+    /* Mobile */
+    @media (max-width: 600px) {
+      .header {
+        padding: 0.75rem 1rem;
+      }
       
-      <!-- Monthly Image Display -->
-      <div class="monthly-image-container">
-        <img src="/images/mês/janeiro-2026.webp" alt="Janeiro de 2026" class="monthly-image" loading="lazy" onclick="openLightbox('/images/mês/janeiro-2026.webp', 'Janeiro de 2026')">
-        <div class="image-caption" id="monthly-caption">Janeiro de 2026</div>
+      .nav {
+        padding: 0.5rem 1rem;
+        gap: 1rem;
+      }
+      
+      .main {
+        padding: 1.5rem 1rem;
+      }
+      
+      .links-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="theme-dark">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'theme-light') {
+        document.body.className = 'theme-light';
+      }
+    })();
+  </script>
+  
+  <header class="header">
+    <a href="/" class="site-id">
+      <img src="/images/site-emblem.png" alt="emblem">
+      <span>vincentlarkin.com</span>
+    </a>
+    <div class="header-controls">
+      <button type="button" class="ctrl-btn" id="theme-toggle" title="Toggle Theme">◐</button>
+      <button type="button" class="ctrl-btn" id="lang-toggle" title="Toggle Language">PT</button>
+    </div>
+  </header>
+  
+  <nav class="nav">
+    <a href="/" class="active">Home</a>
+    <a href="/news.html" id="nav-news">News</a>
+    <a href="/paintings.html" id="nav-paintings">Paintings</a>
+    <a href="/gallery.html" id="nav-gallery">Gallery</a>
+    <a href="/about.html" id="nav-about">About</a>
+    <a href="/changelog.html" id="nav-changelog">Changelog</a>
+    <a href="https://caddo911.vincentlarkin.com" class="caddo-link" target="_blank">Caddo911 Monitor</a>
+  </nav>
+  
+  <main class="main">
+    <section class="intro-block">
+      <h1 id="welcome-title">Bem-vindo</h1>
+      <p id="intro-text">Olá. Este é meu site pessoal onde compartilho notícias, escrevo artigos e mostro fotos que gosto. Navegue pelo menu acima para explorar.</p>
+      <div class="status-row">
+        <span class="status-dot"></span>
+        <a href="https://status.vincentlarkin.com" target="_blank" id="status-text" class="status-link">site online</a>
+      </div>
+    </section>
+    
+    <section class="monthly-block">
+      <div class="monthly-label" id="monthly-label">Imagem do Mês</div>
+      <div class="monthly-frame">
+        <img src="/images/mês/janeiro-2026.webp" alt="Janeiro de 2026" onclick="openLightbox(this.src, this.alt)">
+      </div>
+      <div class="monthly-caption" id="monthly-caption">Janeiro de 2026</div>
+    </section>
+    
+    <section class="links-block">
+      <div class="links-label" id="links-label">Links Rápidos</div>
+      <div class="links-grid">
+        <a href="/news.html" class="link-item" id="link-news">
+          <span>Notícias</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/paintings.html" class="link-item" id="link-paintings">
+          <span>Pinturas</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/gallery.html" class="link-item" id="link-gallery">
+          <span>Galeria</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/about.html" class="link-item" id="link-about">
+          <span>Sobre</span>
+          <span class="arrow">→</span>
+        </a>
       </div>
     </section>
   </main>
-  <div id="site-footer"></div>
-  <script>
-    fetch('/footer.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-footer').innerHTML = html;
-        const yearSpan = document.getElementById('copyright-year');
-        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-      });
-  </script>
   
-  <!-- Language System -->
-  <script src="/js/language-system.js"></script>
+  <footer class="footer">
+    <span>© <span id="copyright-year"></span> Vincent Larkin</span>
+    <span> · </span>
+    <a href="https://github.com/vincentlarkin" target="_blank">GitHub</a>
+  </footer>
   
-  <!-- Lightbox Modal for homepage image -->
+  <!-- Lightbox Modal -->
   <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
     <img id="lightbox-img" class="lightbox-content" src="" alt="">
     <div id="lightbox-caption" class="lightbox-caption"></div>
   </div>
   
   <script>
+    // Copyright year
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    
+    // Theme toggle
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn.addEventListener('click', function() {
+      const isDark = document.body.classList.contains('theme-dark');
+      document.body.className = isDark ? 'theme-light' : 'theme-dark';
+      localStorage.setItem('theme', document.body.className);
+      themeBtn.textContent = isDark ? '◑' : '◐';
+    });
+    
+    // Set initial icon
+    themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
+    
+    // Language system
+    const translations = {
+      pt: {
+        'welcome-title': 'Bem-vindo',
+        'intro-text': 'Olá. Este é meu site pessoal onde compartilho notícias, escrevo artigos e mostro fotos que gosto. Navegue pelo menu acima para explorar.',
+        'status-text': 'site online',
+        'monthly-label': 'Imagem do Mês',
+        'links-label': 'Links Rápidos',
+        'link-news': 'Notícias',
+        'link-paintings': 'Pinturas',
+        'link-gallery': 'Galeria',
+        'link-about': 'Sobre',
+        'nav-news': 'Notícias',
+        'nav-paintings': 'Pinturas',
+        'nav-gallery': 'Galeria',
+        'nav-about': 'Sobre',
+        'nav-changelog': 'Changelog'
+      },
+      en: {
+        'welcome-title': 'Welcome',
+        'intro-text': 'Hello. This is my personal website where I share news, write articles and show photos I like. Use the menu above to explore.',
+        'status-text': 'site online',
+        'monthly-label': 'Image of the Month',
+        'links-label': 'Quick Links',
+        'link-news': 'News',
+        'link-paintings': 'Paintings',
+        'link-gallery': 'Gallery',
+        'link-about': 'About',
+        'nav-news': 'News',
+        'nav-paintings': 'Paintings',
+        'nav-gallery': 'Gallery',
+        'nav-about': 'About',
+        'nav-changelog': 'Changelog'
+      }
+    };
+    
+    let currentLang = localStorage.getItem('lang') || 'pt';
+    const langBtn = document.getElementById('lang-toggle');
+    
+    function applyLanguage(lang) {
+      const t = translations[lang];
+      for (const [id, text] of Object.entries(t)) {
+        const el = document.getElementById(id);
+        if (el) {
+          if (el.tagName === 'A' && el.querySelector('span')) {
+            el.querySelector('span').textContent = text;
+          } else {
+            el.textContent = text;
+          }
+        }
+      }
+      langBtn.textContent = lang.toUpperCase();
+      langBtn.className = 'ctrl-btn lang-' + lang;
+    }
+    
+    langBtn.addEventListener('click', function() {
+      currentLang = currentLang === 'pt' ? 'en' : 'pt';
+      localStorage.setItem('lang', currentLang);
+      applyLanguage(currentLang);
+    });
+    
+    applyLanguage(currentLang);
+    
+    // Lightbox
     function openLightbox(src, caption) {
       const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightbox-img');
-      const lightboxCaption = document.getElementById('lightbox-caption');
-      
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-caption').textContent = caption || '';
       lightbox.style.display = 'flex';
-      lightboxImg.src = src;
-      lightboxCaption.textContent = caption || '';
       document.body.style.overflow = 'hidden';
     }
     
     function closeLightbox(event) {
       if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
-        const lightbox = document.getElementById('lightbox');
-        lightbox.style.display = 'none';
+        document.getElementById('lightbox').style.display = 'none';
         document.body.style.overflow = 'auto';
       }
     }
     
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        const lightbox = document.getElementById('lightbox');
-        if (lightbox.style.display === 'flex') {
-          lightbox.style.display = 'none';
-          document.body.style.overflow = 'auto';
-        }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.style.overflow = 'auto';
       }
     });
     

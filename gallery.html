@@ -4,80 +4,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>Gallery - vincentlarkin.com</title>
-  <!-- Favicon for most browsers -->
+  <title>Gallery — vincentlarkin.com</title>
   <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
-  <!-- Standard PNG favicons for various devices -->
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="theme-dark">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'theme-light') {
+        document.body.className = 'theme-light';
+      }
+    })();
+  </script>
+  
   <div id="site-header"></div>
   <script>
-    // Load theme first to prevent flashbang
-    (function() {
-      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
-      document.body.className = savedTheme;
-    })();
-    
-    // Load header
     fetch('/header.html')
       .then(r => r.text())
       .then(html => {
         document.getElementById('site-header').innerHTML = html;
         
-        // Add theme and language buttons
-        const nav = document.querySelector('nav ul');
-        const themeBtn = document.createElement('li');
-        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
-        nav.appendChild(themeBtn);
+        document.querySelectorAll('.nav a').forEach(link => {
+          if (link.id === 'nav-gallery') link.classList.add('active');
+        });
         
-        const langBtnLi = document.createElement('li');
-        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
-        nav.appendChild(langBtnLi);
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', function() {
+          const isDark = document.body.classList.contains('theme-dark');
+          document.body.className = isDark ? 'theme-light' : 'theme-dark';
+          localStorage.setItem('theme', document.body.className);
+          themeBtn.textContent = isDark ? '◑' : '◐';
+        });
+        themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
         
-        // Initialize theme system
-        const themes = ['theme-dark', 'theme-light'];
-        const themeIcons = ['🌙', '☀️'];
-        let currentThemeIndex = themes.indexOf(document.body.className);
-        
-        function switchTheme() {
-          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-          const newTheme = themes[currentThemeIndex];
-          document.body.className = newTheme;
-          localStorage.setItem('theme', newTheme);
-          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        }
-        
-        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
-        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        
-        // Initialize language button
         const langBtn = document.getElementById('lang-toggle');
-        if (langBtn) {
-          langBtn.addEventListener('click', switchLanguage);
+        let currentLang = localStorage.getItem('lang') || 'pt';
+        
+        function applyLang(lang) {
+          langBtn.textContent = lang.toUpperCase();
+          langBtn.className = 'ctrl-btn lang-' + lang;
+          
+          const navTexts = {
+            pt: { 'nav-news': 'Notícias', 'nav-paintings': 'Pinturas', 'nav-gallery': 'Galeria', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
+            en: { 'nav-news': 'News', 'nav-paintings': 'Paintings', 'nav-gallery': 'Gallery', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
+          };
+          Object.entries(navTexts[lang]).forEach(([id, text]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+          });
+          
+          document.getElementById('gallery-title').textContent = lang === 'pt' ? 'Galeria' : 'Gallery';
+          document.getElementById('gallery-description').textContent = lang === 'pt' 
+            ? 'Imagens e vídeos mensais organizados por ano.' 
+            : 'Monthly images and videos organized by year.';
+          document.getElementById('gallery-paintings-link').textContent = lang === 'pt' ? '→ Pinturas' : '→ Paintings';
+          
+          renderGallery();
         }
         
+        langBtn.addEventListener('click', function() {
+          currentLang = currentLang === 'pt' ? 'en' : 'pt';
+          localStorage.setItem('lang', currentLang);
+          applyLang(currentLang);
+        });
+        
+        applyLang(currentLang);
       });
   </script>
   
   <main>
     <section class="gallery-section">
-      <h2 id="gallery-title">Galeria</h2>
-      <p id="gallery-description">Imagens e vídeos mensais organizados por ano.</p>
+      <h2 id="gallery-title">Gallery</h2>
+      <p id="gallery-description">Monthly images and videos organized by year.</p>
       
       <div class="gallery-nav">
-        <a href="/paintings.html" id="gallery-paintings-link" class="gallery-nav-link">→ Pinturas</a>
+        <a href="/paintings.html" id="gallery-paintings-link" class="gallery-nav-link">→ Paintings</a>
       </div>
       
-      <div id="gallery-container" class="gallery-container">
-        <div class="loading">Loading gallery...</div>
-      </div>
+      <div id="gallery-container" class="gallery-container"></div>
     </section>
   </main>
   
@@ -87,20 +95,13 @@
       .then(r => r.text())
       .then(html => {
         document.getElementById('site-footer').innerHTML = html;
-        const yearSpan = document.getElementById('copyright-year');
-        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
       });
   </script>
   
-  <!-- Language System -->
-  <script src="/js/language-system.js"></script>
-  
   <script>
-    // Monthly images data - organized by year
     const monthlyImages = {
-      "2026": [
-        { file: "janeiro-2026.webp", month: "janeiro", year: 2026, type: "image" }
-      ],
+      "2026": [{ file: "janeiro-2026.webp", month: "janeiro", year: 2026, type: "image" }],
       "2025": [
         { file: "novembro-2025.webp", month: "novembro", year: 2025, type: "image" },
         { file: "outubro-2025.webp", month: "outubro", year: 2025, type: "image" },
@@ -109,46 +110,17 @@
       ]
     };
 
-    // Month names in Portuguese and English
     const monthNames = {
-      pt: {
-        janeiro: "Janeiro",
-        fevereiro: "Fevereiro",
-        março: "Março",
-        abril: "Abril",
-        maio: "Maio",
-        junho: "Junho",
-        julho: "Julho",
-        agosto: "Agosto",
-        setembro: "Setembro",
-        outubro: "Outubro",
-        novembro: "Novembro",
-        dezembro: "Dezembro"
-      },
-      en: {
-        janeiro: "January",
-        fevereiro: "February",
-        março: "March",
-        abril: "April",
-        maio: "May",
-        junho: "June",
-        julho: "July",
-        agosto: "August",
-        setembro: "September",
-        outubro: "October",
-        novembro: "November",
-        dezembro: "December"
-      }
+      pt: { janeiro: "Janeiro", fevereiro: "Fevereiro", março: "Março", abril: "Abril", maio: "Maio", junho: "Junho", julho: "Julho", agosto: "Agosto", setembro: "Setembro", outubro: "Outubro", novembro: "Novembro", dezembro: "Dezembro" },
+      en: { janeiro: "January", fevereiro: "February", março: "March", abril: "April", maio: "May", junho: "June", julho: "July", agosto: "August", setembro: "September", outubro: "October", novembro: "November", dezembro: "December" }
     };
 
     function renderGallery() {
       const container = document.getElementById('gallery-container');
-      const currentLang = localStorage.getItem('lang') || 'en';
+      const currentLang = localStorage.getItem('lang') || 'pt';
       const months = monthNames[currentLang];
       
       let html = '';
-      
-      // Sort years in descending order (newest first)
       const years = Object.keys(monthlyImages).sort((a, b) => parseInt(b) - parseInt(a));
       
       years.forEach(year => {
@@ -169,58 +141,33 @@
           const monthName = months[item.month] || item.month;
           const filePath = `/images/mês/${item.file}`;
           
-          if (item.type === 'video') {
-            html += `
-              <div class="gallery-item">
-                <div class="gallery-item-container">
-                  <video class="gallery-media" controls preload="metadata">
-                    <source src="${filePath}" type="video/webm">
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-                <div class="gallery-item-caption">${monthName} ${item.year}</div>
+          html += `
+            <div class="gallery-item">
+              <div class="gallery-item-container">
+                <img src="${filePath}" alt="${monthName} ${item.year}" class="gallery-media" loading="lazy" onclick="openLightbox('${filePath}', '${monthName} ${item.year}')">
               </div>
-            `;
-          } else {
-            html += `
-              <div class="gallery-item">
-                <div class="gallery-item-container">
-                  <img src="${filePath}" alt="${monthName} ${item.year}" class="gallery-media" loading="lazy" onclick="openLightbox('${filePath}', '${monthName} ${item.year}')" style="cursor: pointer;">
-                </div>
-                <div class="gallery-item-caption">${monthName} ${item.year}</div>
-              </div>
-            `;
-          }
+              <div class="gallery-item-caption">${monthName} ${item.year}</div>
+            </div>
+          `;
         });
         
-        html += `
-              </div>
-            </div>
-          </div>
-        `;
+        html += '</div></div></div>';
       });
       
       container.innerHTML = html;
       
-      // Expand first year by default
       if (years.length > 0) {
-        const firstYearId = `year-${years[0]}`;
-        const firstYearContent = document.getElementById(firstYearId);
+        const firstYearContent = document.getElementById(`year-${years[0]}`);
         if (firstYearContent) {
           firstYearContent.style.display = 'block';
-          const toggleBtn = firstYearContent.previousElementSibling;
-          if (toggleBtn) {
-            toggleBtn.querySelector('.toggle-icon').textContent = '▲';
-          }
+          firstYearContent.previousElementSibling.querySelector('.toggle-icon').textContent = '▲';
         }
       }
     }
 
     function toggleYear(yearId) {
       const content = document.getElementById(yearId);
-      const toggleBtn = content.previousElementSibling;
-      const icon = toggleBtn.querySelector('.toggle-icon');
-      
+      const icon = content.previousElementSibling.querySelector('.toggle-icon');
       if (content.style.display === 'none' || !content.style.display) {
         content.style.display = 'block';
         icon.textContent = '▲';
@@ -230,61 +177,40 @@
       }
     }
 
-    // Make toggleYear available globally
     window.toggleYear = toggleYear;
-
-    // Refresh gallery on language change
-    function refreshGallery() {
-      renderGallery();
-    }
-
     document.addEventListener('DOMContentLoaded', renderGallery);
-    document.addEventListener('languageChanged', refreshGallery);
   </script>
   
-  <!-- Lightbox Modal -->
   <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
     <img id="lightbox-img" class="lightbox-content" src="" alt="">
     <div id="lightbox-caption" class="lightbox-caption"></div>
   </div>
   
   <script>
     function openLightbox(src, caption) {
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightbox-img');
-      const lightboxCaption = document.getElementById('lightbox-caption');
-      
-      lightbox.style.display = 'flex';
-      lightboxImg.src = src;
-      lightboxCaption.textContent = caption || '';
+      document.getElementById('lightbox').style.display = 'flex';
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-caption').textContent = caption || '';
       document.body.style.overflow = 'hidden';
     }
     
     function closeLightbox(event) {
-      // Only close if clicking the backdrop or close button, not the image itself
       if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
-        const lightbox = document.getElementById('lightbox');
-        lightbox.style.display = 'none';
+        document.getElementById('lightbox').style.display = 'none';
         document.body.style.overflow = 'auto';
       }
     }
     
-    // Close on ESC key
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        const lightbox = document.getElementById('lightbox');
-        if (lightbox.style.display === 'flex') {
-          lightbox.style.display = 'none';
-          document.body.style.overflow = 'auto';
-        }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.style.overflow = 'auto';
       }
     });
     
-    // Make functions globally available
     window.openLightbox = openLightbox;
     window.closeLightbox = closeLightbox;
   </script>
 </body>
 </html>
-

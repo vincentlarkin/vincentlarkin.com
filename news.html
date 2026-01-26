@@ -4,69 +4,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notícias — vincentlarkin.com</title>
-  <!-- Favicon for most browsers -->
-<link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
-
-<!-- Standard PNG favicons for various devices -->
-<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32"   href="/images/favicons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16"   href="/images/favicons/favicon-16x16.png">
+  <title>News — vincentlarkin.com</title>
+  <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="theme-dark">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'theme-light') {
+        document.body.className = 'theme-light';
+      }
+    })();
+  </script>
+  
   <div id="site-header"></div>
   <script>
-    // Load theme first to prevent flashbang
-    (function() {
-      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
-      document.body.className = savedTheme;
-    })();
-    
-    // Load header
     fetch('/header.html')
       .then(r => r.text())
       .then(html => {
         document.getElementById('site-header').innerHTML = html;
         
-        // Add theme and language buttons
-        const nav = document.querySelector('nav ul');
-        const themeBtn = document.createElement('li');
-        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
-        nav.appendChild(themeBtn);
+        // Mark current page as active
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.nav a').forEach(link => {
+          if (link.getAttribute('href') === currentPath || 
+              (currentPath === '/news.html' && link.id === 'nav-news')) {
+            link.classList.add('active');
+          }
+        });
         
-        const langBtnLi = document.createElement('li');
-        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
-        nav.appendChild(langBtnLi);
+        // Theme toggle
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', function() {
+          const isDark = document.body.classList.contains('theme-dark');
+          document.body.className = isDark ? 'theme-light' : 'theme-dark';
+          localStorage.setItem('theme', document.body.className);
+          themeBtn.textContent = isDark ? '◑' : '◐';
+        });
+        themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
         
-        // Initialize theme system
-        const themes = ['theme-dark', 'theme-light'];
-        const themeIcons = ['🌙', '☀️'];
-        let currentThemeIndex = themes.indexOf(document.body.className);
-        
-        function switchTheme() {
-          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-          const newTheme = themes[currentThemeIndex];
-          document.body.className = newTheme;
-          localStorage.setItem('theme', newTheme);
-          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        }
-        
-        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
-        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        
-        // Initialize language button
+        // Language toggle
         const langBtn = document.getElementById('lang-toggle');
-        if (langBtn) {
-          langBtn.addEventListener('click', switchLanguage);
-          // Initial language button state will be set by applyLanguage() in language-system.js
+        let currentLang = localStorage.getItem('lang') || 'pt';
+        
+        function applyLang(lang) {
+          langBtn.textContent = lang.toUpperCase();
+          langBtn.className = 'ctrl-btn lang-' + lang;
+          
+          // Update nav text
+          const navTexts = {
+            pt: { 'nav-news': 'Notícias', 'nav-paintings': 'Pinturas', 'nav-gallery': 'Galeria', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
+            en: { 'nav-news': 'News', 'nav-paintings': 'Paintings', 'nav-gallery': 'Gallery', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
+          };
+          Object.entries(navTexts[lang]).forEach(([id, text]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+          });
         }
         
+        langBtn.addEventListener('click', function() {
+          currentLang = currentLang === 'pt' ? 'en' : 'pt';
+          localStorage.setItem('lang', currentLang);
+          applyLang(currentLang);
+        });
+        
+        applyLang(currentLang);
       });
   </script>
 
   <main>
-    <h2 id="news-title">Loading...</h2>
+    <h2 id="news-title">News</h2>
     <p class="news-description">Articles found on the internet that I have found interesting.</p>
     
     <!-- Society & Culture -->
@@ -145,15 +156,11 @@
   <div id="site-footer"></div>
   <script>
     fetch('/footer.html')
-      .then(response => response.text())
+      .then(r => r.text())
       .then(html => {
         document.getElementById('site-footer').innerHTML = html;
-        const yearSpan = document.getElementById('copyright-year');
-        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
       });
   </script>
-  
-  <!-- Language System -->
-  <script src="/js/language-system.js"></script>
 </body>
 </html>

@@ -4,80 +4,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>Paintings - vincentlarkin.com</title>
-  <!-- Favicon for most browsers -->
+  <title>Paintings — vincentlarkin.com</title>
   <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
-  <!-- Standard PNG favicons for various devices -->
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="theme-dark">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'theme-light') {
+        document.body.className = 'theme-light';
+      }
+    })();
+  </script>
+  
   <div id="site-header"></div>
   <script>
-    // Load theme first to prevent flashbang
-    (function() {
-      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
-      document.body.className = savedTheme;
-    })();
-    
-    // Load header
     fetch('/header.html')
       .then(r => r.text())
       .then(html => {
         document.getElementById('site-header').innerHTML = html;
         
-        // Add theme and language buttons
-        const nav = document.querySelector('nav ul');
-        const themeBtn = document.createElement('li');
-        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
-        nav.appendChild(themeBtn);
+        document.querySelectorAll('.nav a').forEach(link => {
+          if (link.id === 'nav-paintings') link.classList.add('active');
+        });
         
-        const langBtnLi = document.createElement('li');
-        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
-        nav.appendChild(langBtnLi);
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', function() {
+          const isDark = document.body.classList.contains('theme-dark');
+          document.body.className = isDark ? 'theme-light' : 'theme-dark';
+          localStorage.setItem('theme', document.body.className);
+          themeBtn.textContent = isDark ? '◑' : '◐';
+        });
+        themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
         
-        // Initialize theme system
-        const themes = ['theme-dark', 'theme-light'];
-        const themeIcons = ['🌙', '☀️'];
-        let currentThemeIndex = themes.indexOf(document.body.className);
-        
-        function switchTheme() {
-          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-          const newTheme = themes[currentThemeIndex];
-          document.body.className = newTheme;
-          localStorage.setItem('theme', newTheme);
-          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        }
-        
-        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
-        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        
-        // Initialize language button
         const langBtn = document.getElementById('lang-toggle');
-        if (langBtn) {
-          langBtn.addEventListener('click', switchLanguage);
+        let currentLang = localStorage.getItem('lang') || 'pt';
+        
+        function applyLang(lang) {
+          langBtn.textContent = lang.toUpperCase();
+          langBtn.className = 'ctrl-btn lang-' + lang;
+          
+          const navTexts = {
+            pt: { 'nav-news': 'Notícias', 'nav-paintings': 'Pinturas', 'nav-gallery': 'Galeria', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
+            en: { 'nav-news': 'News', 'nav-paintings': 'Paintings', 'nav-gallery': 'Gallery', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
+          };
+          Object.entries(navTexts[lang]).forEach(([id, text]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+          });
+          
+          document.getElementById('paintings-title').textContent = lang === 'pt' ? 'Pinturas' : 'Paintings';
+          document.getElementById('paintings-description').textContent = lang === 'pt' 
+            ? 'Uma coleção de pinturas e imagens que gosto.' 
+            : 'A collection of paintings and images I like.';
+          document.getElementById('paintings-gallery-link').textContent = lang === 'pt' ? '→ Galeria Mensal' : '→ Monthly Gallery';
         }
         
+        langBtn.addEventListener('click', function() {
+          currentLang = currentLang === 'pt' ? 'en' : 'pt';
+          localStorage.setItem('lang', currentLang);
+          applyLang(currentLang);
+        });
+        
+        applyLang(currentLang);
       });
   </script>
   
   <main>
     <section class="gallery-section">
-      <h2 id="paintings-title">Pinturas</h2>
-      <p id="paintings-description">Uma coleção de pinturas e imagens que gosto.</p>
+      <h2 id="paintings-title">Paintings</h2>
+      <p id="paintings-description">A collection of paintings and images I like.</p>
       
       <div class="gallery-nav">
-        <a href="/gallery.html" id="paintings-gallery-link" class="gallery-nav-link">→ Galeria Mensal</a>
+        <a href="/gallery.html" id="paintings-gallery-link" class="gallery-nav-link">→ Monthly Gallery</a>
       </div>
       
-      <div id="paintings-container" class="gallery-container">
-        <!-- Paintings will be rendered here -->
-      </div>
+      <div id="paintings-container" class="gallery-container"></div>
     </section>
   </main>
   
@@ -87,74 +93,41 @@
       .then(r => r.text())
       .then(html => {
         document.getElementById('site-footer').innerHTML = html;
-        const yearSpan = document.getElementById('copyright-year');
-        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
       });
   </script>
   
-  <!-- Language System -->
-  <script src="/js/language-system.js"></script>
-  
   <script>
-    // Paintings data - add your paintings here
     const paintings = [
-      {
-        file: "the-christian-general.webp",
-        title: "The Christian General",
-        artist: "William L. Maughan"
-      },
-      {
-        file: "red-roses-still-life.webp",
-        title: "Red Roses in Ornate Vase",
-        artist: "Unattributed, circa unknown",
-        credit: "AI assisted frame scan by Vincent L."
-      },
-      {
-        file: "Shepherdess-with-Her-Flock.webp",
-        title: "Shepherdess with Her Flock",
-        artist: "Julien Dupré (1851–1910)",
-        credit: "AI assisted frame scan by Vincent L."
-      }
+      { file: "the-christian-general.webp", title: "The Christian General", artist: "William L. Maughan" },
+      { file: "red-roses-still-life.webp", title: "Red Roses in Ornate Vase", artist: "Unattributed, circa unknown", credit: "AI assisted frame scan by Vincent L." },
+      { file: "Shepherdess-with-Her-Flock.webp", title: "Shepherdess with Her Flock", artist: "Julien Dupré (1851–1910)", credit: "AI assisted frame scan by Vincent L." }
     ];
 
     function renderPaintings() {
       const container = document.getElementById('paintings-container');
-      
-      const currentLang = localStorage.getItem('lang') || 'en';
-      const emptyText = currentLang === 'pt' 
-        ? 'Adicione pinturas e imagens aqui.' 
-        : 'Add paintings and images here.';
-      
       if (paintings.length === 0) {
-        container.innerHTML = `
-          <div class="paintings-empty">
-            <p>${emptyText}</p>
-            <p style="margin-top: 1rem; font-size: 0.9rem;">Edit paintings.html and add items to the paintings array.</p>
-          </div>
-        `;
+        container.innerHTML = '<p style="color: var(--muted);">No paintings yet.</p>';
         return;
       }
       
       let html = '<div class="gallery-grid">';
-      
       paintings.forEach(painting => {
         const filePath = `/images/paintings/${painting.file}`;
-        const caption = `${painting.title || ''}${painting.artist ? ' - ' + painting.artist : ''}${painting.year ? ' (' + painting.year + ')' : ''}${painting.credit ? ' - ' + painting.credit : ''}`;
+        const caption = `${painting.title || ''}${painting.artist ? ' - ' + painting.artist : ''}${painting.credit ? ' - ' + painting.credit : ''}`;
         html += `
           <div class="gallery-item">
             <div class="gallery-item-container">
-              <img src="${filePath}" alt="${painting.title || ''}" class="gallery-media" loading="lazy" onclick="openLightbox('${filePath}', '${caption.replace(/'/g, "\\'")}')" style="cursor: pointer;">
+              <img src="${filePath}" alt="${painting.title || ''}" class="gallery-media" loading="lazy" onclick="openLightbox('${filePath}', '${caption.replace(/'/g, "\\'")}')">
             </div>
             <div class="gallery-item-caption">
               ${painting.title ? `<strong>${painting.title}</strong>` : ''}
               ${painting.artist ? `<br>${painting.artist}` : ''}
-              ${painting.year ? ` (${painting.year})` : ''}
-              ${painting.credit ? `<br><em style="font-size: 0.85em; opacity: 0.8;">${painting.credit}</em>` : ''}
+              ${painting.credit ? `<br><em style="font-size: 0.85em; opacity: 0.7;">${painting.credit}</em>` : ''}
             </div>
           </div>
         `;
       });
-      
       html += '</div>';
       container.innerHTML = html;
     }
@@ -162,49 +135,36 @@
     document.addEventListener('DOMContentLoaded', renderPaintings);
   </script>
   
-  <!-- Lightbox Modal -->
   <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
     <img id="lightbox-img" class="lightbox-content" src="" alt="">
     <div id="lightbox-caption" class="lightbox-caption"></div>
   </div>
   
   <script>
     function openLightbox(src, caption) {
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightbox-img');
-      const lightboxCaption = document.getElementById('lightbox-caption');
-      
-      lightbox.style.display = 'flex';
-      lightboxImg.src = src;
-      lightboxCaption.textContent = caption || '';
+      document.getElementById('lightbox').style.display = 'flex';
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-caption').textContent = caption || '';
       document.body.style.overflow = 'hidden';
     }
     
     function closeLightbox(event) {
-      // Only close if clicking the backdrop or close button, not the image itself
       if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
-        const lightbox = document.getElementById('lightbox');
-        lightbox.style.display = 'none';
+        document.getElementById('lightbox').style.display = 'none';
         document.body.style.overflow = 'auto';
       }
     }
     
-    // Close on ESC key
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        const lightbox = document.getElementById('lightbox');
-        if (lightbox.style.display === 'flex') {
-          lightbox.style.display = 'none';
-          document.body.style.overflow = 'auto';
-        }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.style.overflow = 'auto';
       }
     });
     
-    // Make functions globally available
     window.openLightbox = openLightbox;
     window.closeLightbox = closeLightbox;
   </script>
 </body>
 </html>
-
