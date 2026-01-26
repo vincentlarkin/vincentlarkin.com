@@ -27,7 +27,7 @@
           </div>
           <div class="about-row">
             <div class="about-row-label" id="label-employer">Employer</div>
-            <div class="about-row-value" id="value-employer">Med Mission Supplies</div>
+            <div class="about-row-value">Med Mission Supplies</div>
           </div>
         </div>
       </section>
@@ -50,46 +50,10 @@
 
   <div id="site-footer"></div>
   
+  <script src="/js/language-system.js"></script>
   <script src="/js/site.js"></script>
   <script>
-    // Load header/footer and set active nav
-    siteUtils.loadHeaderFooter('nav-about');
-    
-    // Page-specific translations
-    const pageTranslations = {
-      pt: {
-        'about-title': 'Sobre',
-        'personal-info-title': 'Informações Pessoais',
-        'label-occupation': 'Ocupação',
-        'value-occupation': 'Diretor de Operações',
-        'label-employer': 'Empregador',
-        'contact-title': 'Contato',
-        'label-github': 'Github',
-        'label-linkedin': 'LinkedIn'
-      },
-      en: {
-        'about-title': 'About',
-        'personal-info-title': 'Personal Information',
-        'label-occupation': 'Occupation',
-        'value-occupation': 'Director of Operations',
-        'label-employer': 'Employer',
-        'contact-title': 'Contact',
-        'label-github': 'Github',
-        'label-linkedin': 'LinkedIn'
-      }
-    };
-    
-    function applyPageTranslations(lang) {
-      const texts = pageTranslations[lang];
-      Object.entries(texts).forEach(([id, text]) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = text;
-      });
-    }
-    
-    // Apply on load and language change
-    document.addEventListener('languageChanged', (e) => applyPageTranslations(e.detail.lang));
-    applyPageTranslations(siteUtils.getCurrentLang());
+    siteUtils.loadHeaderFooter('nav-about', 'about');
   </script>
 </body>
 </html>
