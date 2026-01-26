@@ -4,27 +4,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery — vincentlarkin.com</title>
+  <title>Gallery / Paintings — vincentlarkin.com</title>
   <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
   <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    /* Wider layout for this page */
+    main.gallery-page {
+      max-width: 1200px;
+    }
+    
+    /* Paintings grid - larger items */
+    .paintings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .paintings-grid .gallery-item-container {
+      aspect-ratio: 4/3;
+    }
+    
+    @media (max-width: 600px) {
+      .paintings-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body class="theme-dark">
   <div id="site-header"></div>
   
-  <main>
-    <section class="gallery-section">
-      <h2 id="gallery-title">Gallery</h2>
-      <p id="gallery-description">Monthly images and videos organized by year.</p>
-      
-      <div class="gallery-nav">
-        <a href="/paintings.html" id="gallery-paintings-link" class="gallery-nav-link">→ Paintings</a>
-      </div>
-      
+  <main class="gallery-page">
+    <h2 id="gallery-title">Gallery / Paintings</h2>
+    <p id="gallery-description">Monthly images and my painting collection.</p>
+    
+    <!-- Monthly Gallery Section -->
+    <button class="section-toggle" onclick="toggleSection('monthly-section')" id="monthly-toggle">
+      <span id="monthly-label">Monthly Gallery</span>
+      <span class="toggle-icon">▲</span>
+    </button>
+    <div class="section-content" id="monthly-section" style="display: block;">
       <div id="gallery-container" class="gallery-container"></div>
-    </section>
+    </div>
+    
+    <!-- Paintings Section -->
+    <button class="section-toggle" onclick="toggleSection('paintings-section')" id="paintings-toggle">
+      <span id="paintings-label">Paintings</span>
+      <span class="toggle-icon">▲</span>
+    </button>
+    <div class="section-content" id="paintings-section" style="display: block;">
+      <p id="paintings-description" style="margin-bottom: 1rem;">A collection of paintings and images I like.</p>
+      <div id="paintings-container"></div>
+    </div>
   </main>
   
   <div id="site-footer"></div>
@@ -40,7 +74,23 @@
   <script>
     siteUtils.loadHeaderFooter('nav-gallery');
     
-    // Gallery data
+    // Toggle sections
+    function toggleSection(sectionId) {
+      const content = document.getElementById(sectionId);
+      const btn = content.previousElementSibling;
+      const icon = btn.querySelector('.toggle-icon');
+      
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.textContent = '▲';
+      } else {
+        content.style.display = 'none';
+        icon.textContent = '▼';
+      }
+    }
+    window.toggleSection = toggleSection;
+    
+    // Monthly Gallery data
     const monthlyImages = {
       "2026": [{ file: "janeiro-2026.webp", month: "janeiro", year: 2026, type: "image" }],
       "2025": [
@@ -119,6 +169,41 @@
       }
     }
     window.toggleYear = toggleYear;
+    
+    // Paintings data
+    const paintings = [
+      { file: "the-christian-general.webp", title: "The Christian General", artist: "William L. Maughan" },
+      { file: "red-roses-still-life.webp", title: "Red Roses in Ornate Vase", artist: "Unattributed, circa unknown", credit: "AI assisted frame scan by Vincent L." },
+      { file: "Shepherdess-with-Her-Flock.webp", title: "Shepherdess with Her Flock", artist: "Julien Dupré (1851–1910)", credit: "AI assisted frame scan by Vincent L." }
+    ];
+
+    function renderPaintings() {
+      const container = document.getElementById('paintings-container');
+      if (paintings.length === 0) {
+        container.innerHTML = '<p style="color: var(--muted);">No paintings yet.</p>';
+        return;
+      }
+      
+      let html = '<div class="paintings-grid">';
+      paintings.forEach(painting => {
+        const filePath = `/images/paintings/${painting.file}`;
+        const caption = `${painting.title || ''}${painting.artist ? ' - ' + painting.artist : ''}${painting.credit ? ' - ' + painting.credit : ''}`;
+        html += `
+          <div class="gallery-item">
+            <div class="gallery-item-container">
+              <img src="${filePath}" alt="${painting.title || ''}" class="gallery-media" loading="lazy" onclick="openLightbox('${filePath}', '${caption.replace(/'/g, "\\'")}')">
+            </div>
+            <div class="gallery-item-caption">
+              ${painting.title ? `<strong>${painting.title}</strong>` : ''}
+              ${painting.artist ? `<br>${painting.artist}` : ''}
+              ${painting.credit ? `<br><em style="font-size: 0.85em; opacity: 0.7;">${painting.credit}</em>` : ''}
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
 
     // Lightbox functions
     function openLightbox(src, caption) {
@@ -147,17 +232,22 @@
 
     // Page translations
     function applyPageTranslations(lang) {
-      document.getElementById('gallery-title').textContent = lang === 'pt' ? 'Galeria' : 'Gallery';
+      document.getElementById('gallery-title').textContent = lang === 'pt' ? 'Galeria / Pinturas' : 'Gallery / Paintings';
       document.getElementById('gallery-description').textContent = lang === 'pt' 
-        ? 'Imagens e vídeos mensais organizados por ano.' 
-        : 'Monthly images and videos organized by year.';
-      document.getElementById('gallery-paintings-link').textContent = lang === 'pt' ? '→ Pinturas' : '→ Paintings';
+        ? 'Imagens mensais e minha coleção de pinturas.' 
+        : 'Monthly images and my painting collection.';
+      document.getElementById('monthly-label').textContent = lang === 'pt' ? 'Galeria Mensal' : 'Monthly Gallery';
+      document.getElementById('paintings-label').textContent = lang === 'pt' ? 'Pinturas' : 'Paintings';
+      document.getElementById('paintings-description').textContent = lang === 'pt' 
+        ? 'Uma coleção de pinturas e imagens que gosto.' 
+        : 'A collection of paintings and images I like.';
       renderGallery(); // Re-render with new month names
     }
     
     document.addEventListener('languageChanged', (e) => applyPageTranslations(e.detail.lang));
     document.addEventListener('DOMContentLoaded', () => {
       renderGallery();
+      renderPaintings();
       applyPageTranslations(siteUtils.getCurrentLang());
     });
   </script>

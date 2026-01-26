@@ -230,12 +230,14 @@ p {
 }
 
 .news-link {
-  color: var(--fg);
+  color: var(--accent);
   font-size: 0.95rem;
+  text-decoration: underline;
 }
 
 .news-link:hover {
   color: var(--accent);
+  opacity: 0.8;
 }
 
 .news-description {
