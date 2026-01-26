@@ -9,72 +9,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body class="theme-dark">
-  <script>
-    (function() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'theme-light') {
-        document.body.className = 'theme-light';
-      }
-    })();
-  </script>
-  
   <div id="site-header"></div>
-  <script>
-    fetch('/header.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-header').innerHTML = html;
-        
-        document.querySelectorAll('.nav a').forEach(link => {
-          if (link.id === 'nav-gallery') link.classList.add('active');
-        });
-        
-        const themeBtn = document.getElementById('theme-toggle');
-        themeBtn.addEventListener('click', function() {
-          const isDark = document.body.classList.contains('theme-dark');
-          document.body.className = isDark ? 'theme-light' : 'theme-dark';
-          localStorage.setItem('theme', document.body.className);
-          themeBtn.textContent = isDark ? '◑' : '◐';
-        });
-        themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
-        
-        const langBtn = document.getElementById('lang-toggle');
-        let currentLang = localStorage.getItem('lang') || 'pt';
-        
-        function applyLang(lang) {
-          langBtn.textContent = lang.toUpperCase();
-          langBtn.className = 'ctrl-btn lang-' + lang;
-          
-          const navTexts = {
-            pt: { 'nav-news': 'Notícias / Livros', 'nav-gallery': 'Galeria / Pinturas', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
-            en: { 'nav-news': 'News / Books', 'nav-gallery': 'Gallery / Paintings', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
-          };
-          Object.entries(navTexts[lang]).forEach(([id, text]) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = text;
-          });
-          
-          document.getElementById('gallery-title').textContent = lang === 'pt' ? 'Galeria' : 'Gallery';
-          document.getElementById('gallery-description').textContent = lang === 'pt' 
-            ? 'Imagens e vídeos mensais organizados por ano.' 
-            : 'Monthly images and videos organized by year.';
-          document.getElementById('gallery-paintings-link').textContent = lang === 'pt' ? '→ Pinturas' : '→ Paintings';
-          
-          renderGallery();
-        }
-        
-        langBtn.addEventListener('click', function() {
-          currentLang = currentLang === 'pt' ? 'en' : 'pt';
-          localStorage.setItem('lang', currentLang);
-          applyLang(currentLang);
-        });
-        
-        applyLang(currentLang);
-      });
-  </script>
   
   <main>
     <section class="gallery-section">
@@ -90,16 +28,19 @@
   </main>
   
   <div id="site-footer"></div>
-  <script>
-    fetch('/footer.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-footer').innerHTML = html;
-        document.getElementById('copyright-year').textContent = new Date().getFullYear();
-      });
-  </script>
   
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
+    <img id="lightbox-img" class="lightbox-content" src="" alt="">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+  </div>
+  
+  <script src="/js/site.js"></script>
   <script>
+    siteUtils.loadHeaderFooter('nav-gallery');
+    
+    // Gallery data
     const monthlyImages = {
       "2026": [{ file: "janeiro-2026.webp", month: "janeiro", year: 2026, type: "image" }],
       "2025": [
@@ -117,7 +58,7 @@
 
     function renderGallery() {
       const container = document.getElementById('gallery-container');
-      const currentLang = localStorage.getItem('lang') || 'pt';
+      const currentLang = siteUtils.getCurrentLang();
       const months = monthNames[currentLang];
       
       let html = '';
@@ -156,6 +97,7 @@
       
       container.innerHTML = html;
       
+      // Expand first year by default
       if (years.length > 0) {
         const firstYearContent = document.getElementById(`year-${years[0]}`);
         if (firstYearContent) {
@@ -176,18 +118,9 @@
         icon.textContent = '▼';
       }
     }
-
     window.toggleYear = toggleYear;
-    document.addEventListener('DOMContentLoaded', renderGallery);
-  </script>
-  
-  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-    <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
-    <img id="lightbox-img" class="lightbox-content" src="" alt="">
-    <div id="lightbox-caption" class="lightbox-caption"></div>
-  </div>
-  
-  <script>
+
+    // Lightbox functions
     function openLightbox(src, caption) {
       document.getElementById('lightbox').style.display = 'flex';
       document.getElementById('lightbox-img').src = src;
@@ -211,6 +144,22 @@
     
     window.openLightbox = openLightbox;
     window.closeLightbox = closeLightbox;
+
+    // Page translations
+    function applyPageTranslations(lang) {
+      document.getElementById('gallery-title').textContent = lang === 'pt' ? 'Galeria' : 'Gallery';
+      document.getElementById('gallery-description').textContent = lang === 'pt' 
+        ? 'Imagens e vídeos mensais organizados por ano.' 
+        : 'Monthly images and videos organized by year.';
+      document.getElementById('gallery-paintings-link').textContent = lang === 'pt' ? '→ Pinturas' : '→ Paintings';
+      renderGallery(); // Re-render with new month names
+    }
+    
+    document.addEventListener('languageChanged', (e) => applyPageTranslations(e.detail.lang));
+    document.addEventListener('DOMContentLoaded', () => {
+      renderGallery();
+      applyPageTranslations(siteUtils.getCurrentLang());
+    });
   </script>
 </body>
 </html>

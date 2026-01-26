@@ -9,71 +9,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body class="theme-dark">
-  <script>
-    (function() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'theme-light') {
-        document.body.className = 'theme-light';
-      }
-    })();
-  </script>
-  
   <div id="site-header"></div>
-  <script>
-    fetch('/header.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-header').innerHTML = html;
-        
-        document.querySelectorAll('.nav a').forEach(link => {
-          if (link.id === 'nav-changelog') link.classList.add('active');
-        });
-        
-        const themeBtn = document.getElementById('theme-toggle');
-        themeBtn.addEventListener('click', function() {
-          const isDark = document.body.classList.contains('theme-dark');
-          document.body.className = isDark ? 'theme-light' : 'theme-dark';
-          localStorage.setItem('theme', document.body.className);
-          themeBtn.textContent = isDark ? '◑' : '◐';
-        });
-        themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
-        
-        const langBtn = document.getElementById('lang-toggle');
-        let currentLang = localStorage.getItem('lang') || 'pt';
-        
-        function applyLang(lang) {
-          langBtn.textContent = lang.toUpperCase();
-          langBtn.className = 'ctrl-btn lang-' + lang;
-          
-          const navTexts = {
-            pt: { 'nav-news': 'Notícias / Livros', 'nav-gallery': 'Galeria / Pinturas', 'nav-about': 'Sobre', 'nav-changelog': 'Changelog' },
-            en: { 'nav-news': 'News / Books', 'nav-gallery': 'Gallery / Paintings', 'nav-about': 'About', 'nav-changelog': 'Changelog' }
-          };
-          Object.entries(navTexts[lang]).forEach(([id, text]) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = text;
-          });
-          
-          document.getElementById('changelog-title').textContent = 'Changelog';
-          document.getElementById('changelog-subtitle').textContent = lang === 'pt' 
-            ? 'Atualizações recentes do site' 
-            : 'Recent site updates';
-          
-          refreshCommitDates();
-        }
-        
-        langBtn.addEventListener('click', function() {
-          currentLang = currentLang === 'pt' ? 'en' : 'pt';
-          localStorage.setItem('lang', currentLang);
-          applyLang(currentLang);
-        });
-        
-        applyLang(currentLang);
-      });
-  </script>
   
   <main>
     <section class="changelog-section">
@@ -84,23 +23,29 @@
       <div id="commits-container" class="commits-container">
         <div class="loading">Loading commits...</div>
       </div>
+      
+      <button id="see-more-btn" class="see-more-btn" style="display: none;" onclick="showMoreCommits()">
+        See More
+      </button>
     </section>
   </main>
   
   <div id="site-footer"></div>
-  <script>
-    fetch('/footer.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-footer').innerHTML = html;
-        document.getElementById('copyright-year').textContent = new Date().getFullYear();
-      });
-  </script>
   
+  <script src="/js/site.js"></script>
   <script>
+    siteUtils.loadHeaderFooter('nav-changelog');
+    
+    // GitHub config
     const GITHUB_USERNAME = 'vincentlarkin';
     const GITHUB_REPO = 'vincentlarkin.com';
-    const COMMITS_TO_FETCH = 15;
+    const COMMITS_TO_FETCH = 30;
+    const INITIAL_DISPLAY = 5;
+    const LOAD_MORE_COUNT = 10;
+    
+    let allCommits = [];
+    let displayedCount = 0;
+    let userData = null;
     
     function formatDate(date, lang) {
       const locale = lang === 'pt' ? 'pt-PT' : 'en-US';
@@ -115,6 +60,75 @@
       return { avatar_url: `https://github.com/${username}.png` };
     }
     
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    function renderCommit(commit) {
+      const currentLang = siteUtils.getCurrentLang();
+      const commitDate = new Date(commit.commit.author.date);
+      const formattedDate = formatDate(commitDate, currentLang);
+      const shortHash = commit.sha.substring(0, 7);
+      const commitUrl = `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}/commit/${commit.sha}`;
+      const messageLines = commit.commit.message.split('\n');
+      const title = messageLines[0];
+
+      let description = '';
+      for (let i = 1; i < messageLines.length; i++) {
+        if (messageLines[i].trim() === '') {
+          description = messageLines.slice(i + 1).filter(line => line.trim()).join('\n');
+          break;
+        }
+      }
+
+      return `
+        <div class="commit-item">
+          <div class="commit-avatar">
+            <img src="${userData.avatar_url}" alt="Profile" class="profile-pic">
+          </div>
+          <div class="commit-content">
+            <div class="commit-header">
+              <a href="${commitUrl}" target="_blank"><span class="commit-hash">${shortHash}</span></a>
+              <span class="commit-date" data-original-date="${commit.commit.author.date}">${formattedDate}</span>
+            </div>
+            <div class="commit-message">${escapeHtml(title)}</div>
+            ${description ? `<div class="commit-description">${escapeHtml(description)}</div>` : ''}
+            <div class="commit-author">${escapeHtml(commit.commit.author.name)}</div>
+          </div>
+        </div>
+      `;
+    }
+    
+    function updateSeeMoreButton() {
+      const btn = document.getElementById('see-more-btn');
+      const currentLang = siteUtils.getCurrentLang();
+      
+      if (displayedCount < allCommits.length) {
+        const remaining = allCommits.length - displayedCount;
+        btn.textContent = currentLang === 'pt' 
+          ? `Ver Mais (${remaining} restantes)` 
+          : `See More (${remaining} remaining)`;
+        btn.style.display = 'block';
+      } else {
+        btn.style.display = 'none';
+      }
+    }
+    
+    function showMoreCommits() {
+      const container = document.getElementById('commits-container');
+      const nextBatch = allCommits.slice(displayedCount, displayedCount + LOAD_MORE_COUNT);
+      
+      nextBatch.forEach(commit => {
+        container.innerHTML += renderCommit(commit);
+      });
+      
+      displayedCount += nextBatch.length;
+      updateSeeMoreButton();
+    }
+    window.showMoreCommits = showMoreCommits;
+    
     async function fetchCommits() {
       const container = document.getElementById('commits-container');
       
@@ -122,71 +136,49 @@
         const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/commits?per_page=${COMMITS_TO_FETCH}`);
         if (!response.ok) throw new Error('API error');
         
-        const commits = await response.json();
-        if (commits.length === 0) {
+        allCommits = await response.json();
+        if (allCommits.length === 0) {
           container.innerHTML = '<div class="no-commits">No commits found</div>';
           return;
         }
 
-        const userData = await fetchUserAvatar(GITHUB_USERNAME);
-        const currentLang = localStorage.getItem('lang') || 'pt';
-
-        const commitsHTML = commits.map(commit => {
-          const commitDate = new Date(commit.commit.author.date);
-          const formattedDate = formatDate(commitDate, currentLang);
-          const shortHash = commit.sha.substring(0, 7);
-          const commitUrl = `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}/commit/${commit.sha}`;
-          const messageLines = commit.commit.message.split('\n');
-          const title = messageLines[0];
-
-          let description = '';
-          for (let i = 1; i < messageLines.length; i++) {
-            if (messageLines[i].trim() === '') {
-              description = messageLines.slice(i + 1).filter(line => line.trim()).join('\n');
-              break;
-            }
-          }
-
-          return `
-            <div class="commit-item">
-              <div class="commit-avatar">
-                <img src="${userData.avatar_url}" alt="Profile" class="profile-pic">
-              </div>
-              <div class="commit-content">
-                <div class="commit-header">
-                  <a href="${commitUrl}" target="_blank"><span class="commit-hash">${shortHash}</span></a>
-                  <span class="commit-date" data-original-date="${commit.commit.author.date}">${formattedDate}</span>
-                </div>
-                <div class="commit-message">${escapeHtml(title)}</div>
-                ${description ? `<div class="commit-description">${escapeHtml(description)}</div>` : ''}
-                <div class="commit-author">${escapeHtml(commit.commit.author.name)}</div>
-              </div>
-            </div>
-          `;
-        }).join('');
-
-        container.innerHTML = commitsHTML;
+        userData = await fetchUserAvatar(GITHUB_USERNAME);
+        
+        // Show initial commits
+        const initialCommits = allCommits.slice(0, INITIAL_DISPLAY);
+        container.innerHTML = initialCommits.map(renderCommit).join('');
+        displayedCount = initialCommits.length;
+        
+        updateSeeMoreButton();
         
       } catch (error) {
         container.innerHTML = '<div class="error-message">Could not load commits from GitHub.</div>';
       }
     }
-    
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
 
     function refreshCommitDates() {
-      const currentLang = localStorage.getItem('lang') || 'pt';
+      const currentLang = siteUtils.getCurrentLang();
       document.querySelectorAll('.commit-date[data-original-date]').forEach(el => {
         const date = new Date(el.dataset.originalDate);
         el.textContent = formatDate(date, currentLang);
       });
+      updateSeeMoreButton();
     }
-  
-    document.addEventListener('DOMContentLoaded', fetchCommits);
+    
+    // Page translations
+    function applyPageTranslations(lang) {
+      document.getElementById('changelog-title').textContent = 'Changelog';
+      document.getElementById('changelog-subtitle').textContent = lang === 'pt' 
+        ? 'Atualizações recentes do site' 
+        : 'Recent site updates';
+      refreshCommitDates();
+    }
+    
+    document.addEventListener('languageChanged', (e) => applyPageTranslations(e.detail.lang));
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchCommits();
+      applyPageTranslations(siteUtils.getCurrentLang());
+    });
   </script>
 </body>
 </html>
