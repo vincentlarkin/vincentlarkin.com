@@ -31,7 +31,7 @@
     </a>
     <div class="header-controls">
       <button type="button" class="ctrl-btn" id="theme-toggle" title="Toggle Theme">◐</button>
-      <button type="button" class="ctrl-btn" id="lang-toggle" title="Toggle Language">PT</button>
+      <button type="button" class="ctrl-btn lang-pt" id="lang-toggle" title="Toggle Language">PT</button>
     </div>
   </header>
   
@@ -104,6 +104,16 @@
       themeBtn.textContent = isDark ? '◑' : '◐';
     });
     themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
+    
+    // Set initial language button state immediately
+    (function() {
+      const lang = localStorage.getItem('lang') || 'pt';
+      const langBtn = document.getElementById('lang-toggle');
+      if (langBtn) {
+        langBtn.textContent = lang.toUpperCase();
+        langBtn.className = 'ctrl-btn lang-' + lang;
+      }
+    })();
     
     // Initialize language system
     langSystem.init('index');
