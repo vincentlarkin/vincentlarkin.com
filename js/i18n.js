@@ -7,6 +7,7 @@ function normalizeLang(value) {
 let currentLang = normalizeLang(localStorage.getItem('lang'));
 let translations = {};
 let translationsLoaded = false;
+let currentPage = null;
 
 // Fallback month names in case translations fail to load
 const fallbackMonths = {
@@ -120,6 +121,9 @@ function switchLanguage() {
   updateLangButton();
   applyNavTranslations();
   applyGlobalTranslations();
+  if (currentPage) {
+    applyPageTranslations(currentPage);
+  }
   
   // Dispatch event for page-specific handling
   document.dispatchEvent(new CustomEvent('languageChanged', { 
@@ -129,13 +133,14 @@ function switchLanguage() {
 
 // Initialize language system
 async function initLanguageSystem(page, callback) {
+  currentPage = page || document.body.dataset.page || null;
   await loadTranslations();
   
   // Apply translations
   applyNavTranslations();
   applyGlobalTranslations();
-  if (page) {
-    applyPageTranslations(page);
+  if (currentPage) {
+    applyPageTranslations(currentPage);
   }
   document.documentElement.lang = currentLang;
   updateLangButton();
@@ -145,8 +150,8 @@ async function initLanguageSystem(page, callback) {
   if (langBtn) {
     langBtn.addEventListener('click', () => {
       switchLanguage();
-      if (page) {
-        applyPageTranslations(page);
+      if (currentPage) {
+        applyPageTranslations(currentPage);
       }
       if (callback) {
         callback(currentLang);

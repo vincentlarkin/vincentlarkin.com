@@ -50,6 +50,10 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
     document.getElementById('site-header').innerHTML = headerHtml;
     document.getElementById('site-footer').innerHTML = footerHtml;
     
+    if (page) {
+      document.body.dataset.page = page;
+    }
+    
     // Immediately set language button class
     const storedLang = localStorage.getItem('lang');
     const lang = storedLang === 'pt' || storedLang === 'en' ? storedLang : 'en';
