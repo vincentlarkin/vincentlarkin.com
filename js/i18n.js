@@ -25,18 +25,33 @@ const fallbackMonths = {
   dezembro: { pt: 'Dezembro', en: 'December' }
 };
 
-// Load translations from JSON
+// Load translations from JS or JSON
 async function loadTranslations() {
+  if (window.__translations && typeof window.__translations === 'object') {
+    translations = window.__translations;
+    translationsLoaded = true;
+    return true;
+  }
+
   try {
-    const response = await fetch('/js/translations.json');
+    const response = await fetch('/js/translations.json', { cache: 'no-store' });
     if (!response.ok) throw new Error('Failed to fetch');
     translations = await response.json();
     translationsLoaded = true;
     return true;
   } catch (error) {
-    console.warn('Failed to load translations, using fallbacks:', error);
-    translations = { months: fallbackMonths };
-    return false;
+    // Retry once with cache-bust in case of stale CDN/proxy
+    try {
+      const response = await fetch(`/js/translations.json?v=${Date.now()}`, { cache: 'no-store' });
+      if (!response.ok) throw new Error('Failed to fetch');
+      translations = await response.json();
+      translationsLoaded = true;
+      return true;
+    } catch (retryError) {
+      console.warn('Failed to load translations, using fallbacks:', retryError);
+      translations = { months: fallbackMonths };
+      return false;
+    }
   }
 }
 
