@@ -1,15 +1,35 @@
 // Language System - Centralized translations
 let currentLang = localStorage.getItem('lang') || 'pt';
 let translations = {};
+let translationsLoaded = false;
+
+// Fallback month names in case translations fail to load
+const fallbackMonths = {
+  janeiro: { pt: 'Janeiro', en: 'January' },
+  fevereiro: { pt: 'Fevereiro', en: 'February' },
+  março: { pt: 'Março', en: 'March' },
+  abril: { pt: 'Abril', en: 'April' },
+  maio: { pt: 'Maio', en: 'May' },
+  junho: { pt: 'Junho', en: 'June' },
+  julho: { pt: 'Julho', en: 'July' },
+  agosto: { pt: 'Agosto', en: 'August' },
+  setembro: { pt: 'Setembro', en: 'September' },
+  outubro: { pt: 'Outubro', en: 'October' },
+  novembro: { pt: 'Novembro', en: 'November' },
+  dezembro: { pt: 'Dezembro', en: 'December' }
+};
 
 // Load translations from JSON
 async function loadTranslations() {
   try {
     const response = await fetch('/js/translations.json');
+    if (!response.ok) throw new Error('Failed to fetch');
     translations = await response.json();
+    translationsLoaded = true;
     return true;
   } catch (error) {
-    console.error('Failed to load translations:', error);
+    console.warn('Failed to load translations, using fallbacks:', error);
+    translations = { months: fallbackMonths };
     return false;
   }
 }
@@ -27,10 +47,14 @@ function t(page, key) {
   return '';
 }
 
-// Get month name
+// Get month name (with fallback support)
 function getMonthName(monthKey) {
+  // Try translations first, then fallback
   if (translations.months && translations.months[monthKey]) {
     return translations.months[monthKey][currentLang] || monthKey;
+  }
+  if (fallbackMonths[monthKey]) {
+    return fallbackMonths[monthKey][currentLang] || monthKey;
   }
   return monthKey;
 }
