@@ -1,6 +1,6 @@
 <!-- changelog.html -->
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,10 +18,10 @@
     <section class="changelog-section">
       <h2 id="changelog-title">Changelog</h2>
       <p id="changelog-subtitle">Recent site updates</p>
-      <p class="changelog-source">Source: <a href="https://github.com/vincentlarkin/vincentlarkin.com" target="_blank">GitHub Repository</a></p>
+      <p class="changelog-source"><span id="changelog-source-label">Source:</span> <a href="https://github.com/vincentlarkin/vincentlarkin.com" target="_blank" id="changelog-source-link">GitHub Repository</a></p>
       
       <div id="commits-container" class="commits-container">
-        <div class="loading">Loading commits...</div>
+        <div class="loading" id="changelog-loading">Loading commits...</div>
       </div>
       
       <button id="see-more-btn" class="see-more-btn" style="display: none;" onclick="showMoreCommits()">
@@ -45,6 +45,18 @@
     let allCommits = [];
     let displayedCount = 0;
     let userData = null;
+
+    function getStoredLang() {
+      const storedLang = localStorage.getItem('lang');
+      return storedLang === 'pt' || storedLang === 'en' ? storedLang : 'en';
+    }
+
+    function getChangelogText(key, fallback) {
+      if (window.langSystem) {
+        return langSystem.t('changelog', key) || fallback;
+      }
+      return fallback;
+    }
     
     function formatDate(date, lang) {
       const locale = lang === 'pt' ? 'pt-PT' : 'en-US';
@@ -66,7 +78,7 @@
     }
     
     function renderCommit(commit) {
-      const currentLang = (typeof langSystem !== 'undefined') ? langSystem.getCurrentLang() : (localStorage.getItem('lang') || 'pt');
+      const currentLang = window.langSystem ? langSystem.getCurrentLang() : getStoredLang();
       const commitDate = new Date(commit.commit.author.date);
       const formattedDate = formatDate(commitDate, currentLang);
       const shortHash = commit.sha.substring(0, 7);
@@ -102,11 +114,11 @@
     
     function updateSeeMoreButton() {
       const btn = document.getElementById('see-more-btn');
-      const currentLang = (typeof langSystem !== 'undefined') ? langSystem.getCurrentLang() : (localStorage.getItem('lang') || 'pt');
+      const currentLang = window.langSystem ? langSystem.getCurrentLang() : getStoredLang();
       
       if (displayedCount < allCommits.length) {
         const remaining = allCommits.length - displayedCount;
-        const seeMoreText = currentLang === 'pt' ? 'Ver Mais' : 'See More';
+        const seeMoreText = window.langSystem ? (langSystem.t('changelog', 'see-more-btn') || 'See More') : 'See More';
         const remainingText = currentLang === 'pt' ? 'restantes' : 'remaining';
         btn.textContent = `${seeMoreText} (${remaining} ${remainingText})`;
         btn.style.display = 'block';
@@ -137,7 +149,7 @@
         
         allCommits = await response.json();
         if (allCommits.length === 0) {
-          container.innerHTML = '<div class="no-commits">No commits found</div>';
+          container.innerHTML = `<div class="no-commits">${getChangelogText('changelog-no-commits', 'No commits found')}</div>`;
           return;
         }
 
@@ -151,12 +163,12 @@
         updateSeeMoreButton();
         
       } catch (error) {
-        container.innerHTML = '<div class="error-message">Could not load commits from GitHub.</div>';
+        container.innerHTML = `<div class="error-message">${getChangelogText('changelog-error', 'Could not load commits from GitHub.')}</div>`;
       }
     }
 
     function refreshCommitDates() {
-      const currentLang = (typeof langSystem !== 'undefined') ? langSystem.getCurrentLang() : (localStorage.getItem('lang') || 'pt');
+      const currentLang = window.langSystem ? langSystem.getCurrentLang() : getStoredLang();
       document.querySelectorAll('.commit-date[data-original-date]').forEach(el => {
         const date = new Date(el.dataset.originalDate);
         el.textContent = formatDate(date, currentLang);
@@ -167,6 +179,18 @@
     // Language change callback
     function onLanguageChange(lang) {
       refreshCommitDates();
+      const loadingEl = document.getElementById('changelog-loading');
+      if (loadingEl) {
+        loadingEl.textContent = getChangelogText('changelog-loading', 'Loading commits...');
+      }
+      const noCommitsEl = document.querySelector('.no-commits');
+      if (noCommitsEl) {
+        noCommitsEl.textContent = getChangelogText('changelog-no-commits', 'No commits found');
+      }
+      const errorEl = document.querySelector('.error-message');
+      if (errorEl) {
+        errorEl.textContent = getChangelogText('changelog-error', 'Could not load commits from GitHub.');
+      }
     }
     
     // Initialize

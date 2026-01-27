@@ -1,9 +1,14 @@
 {
   "nav": {
+    "nav-home": { "pt": "Início", "en": "Home" },
     "nav-about": { "pt": "Sobre", "en": "About" },
     "nav-news": { "pt": "Notícias / Livros", "en": "News / Books" },
     "nav-gallery": { "pt": "Galeria / Pinturas", "en": "Gallery / Paintings" },
-    "nav-changelog": { "pt": "Changelog", "en": "Changelog" }
+    "nav-changelog": { "pt": "Changelog", "en": "Changelog" },
+    "nav-caddo": { "pt": "Caddo911 Monitor", "en": "Caddo911 Monitor" }
+  },
+  "global": {
+    "footer-github": { "pt": "GitHub", "en": "GitHub" }
   },
   "index": {
     "welcome-title": { "pt": "Bem-vindo", "en": "Welcome" },
@@ -34,12 +39,17 @@
       "pt": "Artigos interessantes da internet e minha estante de livros.", 
       "en": "Interesting articles from the internet and my bookshelf." 
     },
+    "news-section-society": { "pt": "Sociedade e Cultura", "en": "Society & Culture" },
+    "news-section-health": { "pt": "Saúde e Medicina", "en": "Health & Medicine" },
+    "news-section-politics": { "pt": "Política e Relações Internacionais", "en": "Politics & International Relations" },
+    "news-section-business": { "pt": "Negócios e Tecnologia", "en": "Business & Technology" },
     "bookshelf-title": { "pt": "Estante de Livros", "en": "Bookshelf" },
     "bookshelf-subtitle": { 
       "pt": "Livros que encontro interessantes ou bons para ter em mãos.", 
       "en": "Books I find insightful or good to have on hand." 
     },
-    "bookshelf-empty-text": { "pt": "Nenhum livro adicionado ainda.", "en": "No books added yet." }
+    "bookshelf-empty-text": { "pt": "Nenhum livro adicionado ainda.", "en": "No books added yet." },
+    "wip-badge": { "pt": "Em Progresso", "en": "Work in Progress" }
   },
   "gallery": {
     "gallery-title": { "pt": "Galeria / Pinturas", "en": "Gallery / Paintings" },
@@ -52,7 +62,8 @@
     "paintings-description": { 
       "pt": "Uma coleção de pinturas e imagens que gosto.", 
       "en": "A collection of paintings and images I like." 
-    }
+    },
+    "paintings-empty": { "pt": "Nenhuma pintura ainda.", "en": "No paintings yet." }
   },
   "changelog": {
     "changelog-title": { "pt": "Changelog", "en": "Changelog" },
@@ -60,6 +71,11 @@
       "pt": "Atualizações recentes do site", 
       "en": "Recent site updates" 
     },
+    "changelog-source-label": { "pt": "Fonte:", "en": "Source:" },
+    "changelog-source-link": { "pt": "Repositório GitHub", "en": "GitHub Repository" },
+    "changelog-loading": { "pt": "Carregando commits...", "en": "Loading commits..." },
+    "changelog-no-commits": { "pt": "Nenhum commit encontrado", "en": "No commits found" },
+    "changelog-error": { "pt": "Não foi possível carregar commits do GitHub.", "en": "Could not load commits from GitHub." },
     "see-more-btn": { "pt": "Ver Mais", "en": "See More" }
   },
   "months": {

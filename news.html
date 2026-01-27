@@ -1,6 +1,6 @@
 <!-- news.html -->
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +20,8 @@
     
     <div class="news-sections">
       <!-- Society & Culture -->
-      <button class="section-toggle" onclick="toggleSection('section-society')">
-        <span>Society & Culture</span>
+    <button class="section-toggle" onclick="toggleSection('section-society')">
+      <span id="news-section-society">Society & Culture</span>
         <span class="toggle-icon">▼</span>
       </button>
       <div class="section-content" id="section-society">
@@ -44,8 +44,8 @@
       </div>
 
       <!-- Health & Medicine -->
-      <button class="section-toggle" onclick="toggleSection('section-health')">
-        <span>Health & Medicine</span>
+    <button class="section-toggle" onclick="toggleSection('section-health')">
+      <span id="news-section-health">Health & Medicine</span>
         <span class="toggle-icon">▼</span>
       </button>
       <div class="section-content" id="section-health">
@@ -68,8 +68,8 @@
       </div>
 
       <!-- Politics & International Relations -->
-      <button class="section-toggle" onclick="toggleSection('section-politics')">
-        <span>Politics & International Relations</span>
+    <button class="section-toggle" onclick="toggleSection('section-politics')">
+      <span id="news-section-politics">Politics & International Relations</span>
         <span class="toggle-icon">▼</span>
       </button>
       <div class="section-content" id="section-politics">
@@ -84,8 +84,8 @@
       </div>
 
       <!-- Business & Technology -->
-      <button class="section-toggle" onclick="toggleSection('section-business')">
-        <span>Business & Technology</span>
+    <button class="section-toggle" onclick="toggleSection('section-business')">
+      <span id="news-section-business">Business & Technology</span>
         <span class="toggle-icon">▼</span>
       </button>
       <div class="section-content" id="section-business">
@@ -129,13 +129,8 @@
     }
     window.toggleSection = toggleSection;
     
-    // Custom language callback for WIP badge
-    function onLanguageChange(lang) {
-      document.getElementById('wip-badge').textContent = lang === 'pt' ? 'Em Progresso' : 'Work in Progress';
-    }
-    
     // Load header/footer and init language
-    siteUtils.loadHeaderFooter('nav-news', 'news', onLanguageChange);
+    siteUtils.loadHeaderFooter('nav-news', 'news');
     
     // Expand first section by default
     document.addEventListener('DOMContentLoaded', function() {

@@ -51,7 +51,8 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
     document.getElementById('site-footer').innerHTML = footerHtml;
     
     // Immediately set language button class
-    const lang = localStorage.getItem('lang') || 'pt';
+    const storedLang = localStorage.getItem('lang');
+    const lang = storedLang === 'pt' || storedLang === 'en' ? storedLang : 'en';
     const langBtn = document.getElementById('lang-toggle');
     if (langBtn) {
       langBtn.textContent = lang.toUpperCase();
@@ -73,5 +74,9 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
 window.siteUtils = {
   loadHeaderFooter,
   setActiveNav,
-  getCurrentLang: () => window.langSystem ? window.langSystem.getCurrentLang() : (localStorage.getItem('lang') || 'pt')
+  getCurrentLang: () => {
+    if (window.langSystem) return window.langSystem.getCurrentLang();
+    const storedLang = localStorage.getItem('lang');
+    return storedLang === 'pt' || storedLang === 'en' ? storedLang : 'en';
+  }
 };
