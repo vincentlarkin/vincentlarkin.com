@@ -32,7 +32,7 @@
   
   <div id="site-footer"></div>
   
-  <script src="/js/language-system.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/site.js"></script>
   <script>
     // GitHub config
@@ -66,7 +66,7 @@
     }
     
     function renderCommit(commit) {
-      const currentLang = langSystem.getCurrentLang();
+      const currentLang = (typeof langSystem !== 'undefined') ? langSystem.getCurrentLang() : (localStorage.getItem('lang') || 'pt');
       const commitDate = new Date(commit.commit.author.date);
       const formattedDate = formatDate(commitDate, currentLang);
       const shortHash = commit.sha.substring(0, 7);
@@ -102,7 +102,7 @@
     
     function updateSeeMoreButton() {
       const btn = document.getElementById('see-more-btn');
-      const currentLang = langSystem.getCurrentLang();
+      const currentLang = (typeof langSystem !== 'undefined') ? langSystem.getCurrentLang() : (localStorage.getItem('lang') || 'pt');
       
       if (displayedCount < allCommits.length) {
         const remaining = allCommits.length - displayedCount;
@@ -156,7 +156,7 @@
     }
 
     function refreshCommitDates() {
-      const currentLang = langSystem.getCurrentLang();
+      const currentLang = (typeof langSystem !== 'undefined') ? langSystem.getCurrentLang() : (localStorage.getItem('lang') || 'pt');
       document.querySelectorAll('.commit-date[data-original-date]').forEach(el => {
         const date = new Date(el.dataset.originalDate);
         el.textContent = formatDate(date, currentLang);

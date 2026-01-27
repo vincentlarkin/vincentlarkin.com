@@ -1,8 +1,7 @@
 /* css/styles.css - Plan9 Dev Aesthetic */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --font-mono: 'IBM Plex Mono', 'Consolas', 'Monaco', monospace;
+  --font-mono: 'Consolas', 'Monaco', 'Lucida Console', monospace;
   --bg: #fffff8;
   --fg: #111;
   --accent: #0055aa;

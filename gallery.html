@@ -70,7 +70,7 @@
     <div id="lightbox-caption" class="lightbox-caption"></div>
   </div>
   
-  <script src="/js/language-system.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/site.js"></script>
   <script>
     // Toggle sections
@@ -124,7 +124,7 @@
         `;
         
         yearItems.forEach(item => {
-          const monthName = langSystem.getMonthName(item.month);
+          const monthName = (typeof langSystem !== 'undefined') ? langSystem.getMonthName(item.month) : item.month;
           const filePath = `/images/mês/${item.file}`;
           
           html += `
