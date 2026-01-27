@@ -1,5 +1,10 @@
 // Language System - Centralized translations
-let currentLang = localStorage.getItem('lang') || 'pt';
+const supportedLangs = ['en', 'pt'];
+function normalizeLang(value) {
+  return supportedLangs.includes(value) ? value : 'en';
+}
+
+let currentLang = normalizeLang(localStorage.getItem('lang'));
 let translations = {};
 let translationsLoaded = false;
 
@@ -70,6 +75,17 @@ function applyNavTranslations() {
   }
 }
 
+// Apply global translations (shared UI outside nav/page)
+function applyGlobalTranslations() {
+  const globalTexts = translations.global || {};
+  for (const [id, text] of Object.entries(globalTexts)) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = text[currentLang] || '';
+    }
+  }
+}
+
 // Apply page translations
 function applyPageTranslations(page) {
   const pageTexts = translations[page] || {};
@@ -98,10 +114,12 @@ function updateLangButton() {
 
 // Switch language
 function switchLanguage() {
-  currentLang = currentLang === 'pt' ? 'en' : 'pt';
+  currentLang = currentLang === 'en' ? 'pt' : 'en';
   localStorage.setItem('lang', currentLang);
+  document.documentElement.lang = currentLang;
   updateLangButton();
   applyNavTranslations();
+  applyGlobalTranslations();
   
   // Dispatch event for page-specific handling
   document.dispatchEvent(new CustomEvent('languageChanged', { 
@@ -115,9 +133,11 @@ async function initLanguageSystem(page, callback) {
   
   // Apply translations
   applyNavTranslations();
+  applyGlobalTranslations();
   if (page) {
     applyPageTranslations(page);
   }
+  document.documentElement.lang = currentLang;
   updateLangButton();
   
   // Set up language button click handler

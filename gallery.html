@@ -1,6 +1,6 @@
 <!-- gallery.html -->
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -175,7 +175,8 @@
     function renderPaintings() {
       const container = document.getElementById('paintings-container');
       if (paintings.length === 0) {
-        container.innerHTML = '<p style="color: var(--muted);">No paintings yet.</p>';
+        const emptyText = (window.langSystem ? langSystem.t('gallery', 'paintings-empty') : '') || 'No paintings yet.';
+        container.innerHTML = `<p style="color: var(--muted);">${emptyText}</p>`;
         return;
       }
       
@@ -228,14 +229,13 @@
     // Language change callback - re-render gallery with new month names
     function onLanguageChange(lang) {
       renderGallery();
+      renderPaintings();
     }
     
     // Initialize
     siteUtils.loadHeaderFooter('nav-gallery', 'gallery', onLanguageChange);
     
-    document.addEventListener('DOMContentLoaded', () => {
-      renderPaintings();
-    });
+    // Paintings are rendered in onLanguageChange to pick up translations.
   </script>
 </body>
 </html>
