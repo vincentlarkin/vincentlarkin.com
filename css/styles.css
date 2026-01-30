@@ -35,6 +35,24 @@ body {
   flex-direction: column;
 }
 
+#page-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#page-content.is-loading {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page-content {
+    transition: none;
+  }
+}
+
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -265,6 +283,20 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
+}
+
+main.gallery-page {
+  max-width: 1200px;
+}
+
+.paintings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.paintings-grid .gallery-item-container {
+  aspect-ratio: 4/3;
 }
 
 .gallery-item {
@@ -771,6 +803,10 @@ p {
   }
   
   .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .paintings-grid {
     grid-template-columns: 1fr;
   }
   

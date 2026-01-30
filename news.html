@@ -11,135 +11,111 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body class="theme-dark">
+<body class="theme-dark" data-page="news">
   <div id="site-header"></div>
 
-  <main>
-    <h2 id="news-title">News / Books</h2>
-    <p id="news-description">Interesting articles from the internet and my bookshelf.</p>
-    
-    <div class="news-sections">
-      <!-- Society & Culture -->
-    <button class="section-toggle" onclick="toggleSection('section-society')">
-      <span id="news-section-society">Society & Culture</span>
-        <span class="toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="section-society">
-        <div class="news-item">
-          <span class="news-meta">Dec 2, 2018</span>
-          <a class="news-link" href="articles/bush-aging-family.html">George H.W. Bush reflects on aging and the importance of family in letter to his children</a>
-        </div>
-        <div class="news-item">
-          <span class="news-meta">Oct 7, 2018</span>
-          <a class="news-link" href="articles/bourdain-love-addiction.html">What Killed Anthony Bourdain?</a>
-        </div>
-        <div class="news-item">
-          <span class="news-meta">Aug 29, 2018</span>
-          <a class="news-link" href="articles/pence-fiancee.html">Mike Pence dumped his college fiancee for being a 'sinner' and narced on his beer‑drinking frat bros</a>
-        </div>
-        <div class="news-item">
-          <span class="news-meta">Jun 15, 2018</span>
-          <a class="news-link" href="articles/youre-not-alone-loss.html">You're not alone in the uncomfortable silence of loss</a>
-        </div>
-      </div>
-
-      <!-- Health & Medicine -->
-    <button class="section-toggle" onclick="toggleSection('section-health')">
-      <span id="news-section-health">Health & Medicine</span>
-        <span class="toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="section-health">
-        <div class="news-item">
-          <span class="news-meta">Jun 25, 2025</span>
-          <a class="news-link" href="articles/medical-equipment-end-of-life.html">Rethinking 'end of life' for aging medical equipment</a>
-        </div>
-        <div class="news-item">
-          <span class="news-meta">Dec 6, 2017</span>
-          <a class="news-link" href="articles/farmers-suicides.html">Why are America's farmers killing themselves in record numbers?</a>
-        </div>
-        <div class="news-item">
-          <span class="news-meta">Jun 16, 2017</span>
-          <a class="news-link" href="articles/icu-worse-off.html">Why a stay in the ICU can leave patients worse off</a>
-        </div>
-        <div class="news-item">
-          <span class="news-meta">Feb 29, 2012</span>
-          <a class="news-link" href="articles/abortion-babies.html">Killing babies no different from abortion, experts say</a>
-        </div>
-      </div>
-
-      <!-- Politics & International Relations -->
-    <button class="section-toggle" onclick="toggleSection('section-politics')">
-      <span id="news-section-politics">Politics & International Relations</span>
-        <span class="toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="section-politics">
-        <div class="news-item">
-          <span class="news-meta">Apr 4, 2019</span>
-          <a class="news-link" href="articles/weak-to-stop-israel.html">We Are Too Weak to Stop Israel</a>
-        </div>
-        <div class="news-item">
-          <span class="news-meta">Oct 10, 2018</span>
-          <a class="news-link" href="articles/trade-war-breakthrough.html">Chinese finance ministry official says 'optimistic' on trade war breakthrough</a>
-        </div>
-      </div>
-
-      <!-- Business & Technology -->
-    <button class="section-toggle" onclick="toggleSection('section-business')">
-      <span id="news-section-business">Business & Technology</span>
-        <span class="toggle-icon">▼</span>
-      </button>
-      <div class="section-content" id="section-business">
-        <div class="news-item">
-          <span class="news-meta">Nov 6, 1996</span>
-          <a class="news-link" href="articles/learson-dies.html">T. Vincent Learson, 84, I.B.M. Chief, Dies</a>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Bookshelf Section -->
-    <div class="bookshelf">
-      <h3 class="bookshelf-title"><span id="bookshelf-title">Bookshelf</span> <span class="wip-badge" id="wip-badge">Work in Progress</span></h3>
-      <p class="bookshelf-subtitle" id="bookshelf-subtitle">Books I am reading or have recently read.</p>
+  <div id="page-content">
+    <main>
+      <h2 id="news-title">News / Books</h2>
+      <p id="news-description">Interesting articles from the internet and my bookshelf.</p>
       
-      <div class="bookshelf-empty">
-        <div class="bookshelf-empty-icon">📚</div>
-        <p id="bookshelf-empty-text">No books added yet.</p>
+      <div class="news-sections">
+        <!-- Society & Culture -->
+      <button class="section-toggle" onclick="toggleSection('section-society')">
+        <span id="news-section-society">Society & Culture</span>
+          <span class="toggle-icon">▼</span>
+        </button>
+        <div class="section-content" id="section-society">
+          <div class="news-item">
+            <span class="news-meta">Dec 2, 2018</span>
+            <a class="news-link" href="articles/bush-aging-family.html">George H.W. Bush reflects on aging and the importance of family in letter to his children</a>
+          </div>
+          <div class="news-item">
+            <span class="news-meta">Oct 7, 2018</span>
+            <a class="news-link" href="articles/bourdain-love-addiction.html">What Killed Anthony Bourdain?</a>
+          </div>
+          <div class="news-item">
+            <span class="news-meta">Aug 29, 2018</span>
+            <a class="news-link" href="articles/pence-fiancee.html">Mike Pence dumped his college fiancee for being a 'sinner' and narced on his beer‑drinking frat bros</a>
+          </div>
+          <div class="news-item">
+            <span class="news-meta">Jun 15, 2018</span>
+            <a class="news-link" href="articles/youre-not-alone-loss.html">You're not alone in the uncomfortable silence of loss</a>
+          </div>
+        </div>
+
+        <!-- Health & Medicine -->
+      <button class="section-toggle" onclick="toggleSection('section-health')">
+        <span id="news-section-health">Health & Medicine</span>
+          <span class="toggle-icon">▼</span>
+        </button>
+        <div class="section-content" id="section-health">
+          <div class="news-item">
+            <span class="news-meta">Jun 25, 2025</span>
+            <a class="news-link" href="articles/medical-equipment-end-of-life.html">Rethinking 'end of life' for aging medical equipment</a>
+          </div>
+          <div class="news-item">
+            <span class="news-meta">Dec 6, 2017</span>
+            <a class="news-link" href="articles/farmers-suicides.html">Why are America's farmers killing themselves in record numbers?</a>
+          </div>
+          <div class="news-item">
+            <span class="news-meta">Jun 16, 2017</span>
+            <a class="news-link" href="articles/icu-worse-off.html">Why a stay in the ICU can leave patients worse off</a>
+          </div>
+          <div class="news-item">
+            <span class="news-meta">Feb 29, 2012</span>
+            <a class="news-link" href="articles/abortion-babies.html">Killing babies no different from abortion, experts say</a>
+          </div>
+        </div>
+
+        <!-- Politics & International Relations -->
+      <button class="section-toggle" onclick="toggleSection('section-politics')">
+        <span id="news-section-politics">Politics & International Relations</span>
+          <span class="toggle-icon">▼</span>
+        </button>
+        <div class="section-content" id="section-politics">
+          <div class="news-item">
+            <span class="news-meta">Apr 4, 2019</span>
+            <a class="news-link" href="articles/weak-to-stop-israel.html">We Are Too Weak to Stop Israel</a>
+          </div>
+          <div class="news-item">
+            <span class="news-meta">Oct 10, 2018</span>
+            <a class="news-link" href="articles/trade-war-breakthrough.html">Chinese finance ministry official says 'optimistic' on trade war breakthrough</a>
+          </div>
+        </div>
+
+        <!-- Business & Technology -->
+      <button class="section-toggle" onclick="toggleSection('section-business')">
+        <span id="news-section-business">Business & Technology</span>
+          <span class="toggle-icon">▼</span>
+        </button>
+        <div class="section-content" id="section-business">
+          <div class="news-item">
+            <span class="news-meta">Nov 6, 1996</span>
+            <a class="news-link" href="articles/learson-dies.html">T. Vincent Learson, 84, I.B.M. Chief, Dies</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </main>
+      
+      <!-- Bookshelf Section -->
+      <div class="bookshelf">
+        <h3 class="bookshelf-title"><span id="bookshelf-title">Bookshelf</span> <span class="wip-badge" id="wip-badge">Work in Progress</span></h3>
+        <p class="bookshelf-subtitle" id="bookshelf-subtitle">Books I am reading or have recently read.</p>
+        
+        <div class="bookshelf-empty">
+          <div class="bookshelf-empty-icon">📚</div>
+          <p id="bookshelf-empty-text">No books added yet.</p>
+        </div>
+      </div>
+    </main>
+  </div>
 
   <div id="site-footer"></div>
   
   <script src="/js/i18n.js"></script>
   <script src="/js/site.js"></script>
   <script>
-    // Section toggle function
-    function toggleSection(sectionId) {
-      const content = document.getElementById(sectionId);
-      const btn = content.previousElementSibling;
-      const icon = btn.querySelector('.toggle-icon');
-      
-      if (content.style.display === 'none' || !content.style.display) {
-        content.style.display = 'block';
-        icon.textContent = '▲';
-      } else {
-        content.style.display = 'none';
-        icon.textContent = '▼';
-      }
-    }
-    window.toggleSection = toggleSection;
-    
-    // Load header/footer and init language
-    siteUtils.loadHeaderFooter('nav-news', 'news');
-    
-    // Expand first section by default
-    document.addEventListener('DOMContentLoaded', function() {
-      const firstSection = document.getElementById('section-society');
-      if (firstSection) {
-        firstSection.style.display = 'block';
-        firstSection.previousElementSibling.querySelector('.toggle-icon').textContent = '▲';
-      }
-    });
+    siteUtils.initPage('news', 'nav-news');
   </script>
 </body>
 </html>

@@ -14,7 +14,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body class="theme-dark">
+<body class="theme-dark" data-page="index">
   <script>
     (function() {
       const savedTheme = localStorage.getItem('theme');
@@ -25,86 +25,55 @@
   </script>
   
   <div id="site-header"></div>
-  
-  <main class="home-main">
-    <section class="intro-block">
-      <h1 id="welcome-title">Loading...</h1>
-      <p id="intro-text">Loading...</p>
-      <div class="status-row">
-        <span class="status-dot"></span>
-        <a href="https://status.vincentlarkin.com" target="_blank" id="status-text" class="status-link">site online</a>
-      </div>
-    </section>
+
+  <div id="page-content">
+    <main class="home-main">
+      <section class="intro-block">
+        <h1 id="welcome-title">Loading...</h1>
+        <p id="intro-text">Loading...</p>
+        <div class="status-row">
+          <span class="status-dot"></span>
+          <a href="https://status.vincentlarkin.com" target="_blank" id="status-text" class="status-link">site online</a>
+        </div>
+      </section>
+      
+      <section class="monthly-block">
+        <div class="monthly-label" id="monthly-label">Image of the Month</div>
+        <div class="monthly-frame">
+          <img src="/images/mês/fevereiro-2026.jpg" alt="February 2026" id="monthly-image" onclick="openLightbox(this.src, document.getElementById('monthly-caption').textContent)">
+        </div>
+        <div class="monthly-caption" id="monthly-caption">February 2026</div>
+      </section>
+      
+      <section class="links-block">
+        <div class="links-label" id="links-label">Quick Links</div>
+        <div class="links-grid">
+          <a href="/about.html" class="link-item" id="link-about">
+            <span>About</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="/gallery.html" class="link-item" id="link-gallery">
+            <span>Gallery</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </section>
+    </main>
     
-    <section class="monthly-block">
-      <div class="monthly-label" id="monthly-label">Image of the Month</div>
-      <div class="monthly-frame">
-        <img src="/images/mês/fevereiro-2026.jpg" alt="February 2026" id="monthly-image" onclick="openLightbox(this.src, document.getElementById('monthly-caption').textContent)">
-      </div>
-      <div class="monthly-caption" id="monthly-caption">February 2026</div>
-    </section>
-    
-    <section class="links-block">
-      <div class="links-label" id="links-label">Quick Links</div>
-      <div class="links-grid">
-        <a href="/about.html" class="link-item" id="link-about">
-          <span>About</span>
-          <span class="arrow">→</span>
-        </a>
-        <a href="/gallery.html" class="link-item" id="link-gallery">
-          <span>Gallery</span>
-          <span class="arrow">→</span>
-        </a>
-      </div>
-    </section>
-  </main>
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+      <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
+      <img id="lightbox-img" class="lightbox-content" src="" alt="">
+      <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+  </div>
   
   <div id="site-footer"></div>
-  
-  <!-- Lightbox Modal -->
-  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-    <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
-    <img id="lightbox-img" class="lightbox-content" src="" alt="">
-    <div id="lightbox-caption" class="lightbox-caption"></div>
-  </div>
   
   <script src="/js/i18n.js"></script>
   <script src="/js/site.js"></script>
   <script>
-    function syncMonthlyAlt() {
-      const caption = document.getElementById('monthly-caption');
-      const image = document.getElementById('monthly-image');
-      if (caption && image) {
-        image.alt = caption.textContent || image.alt;
-      }
-    }
-
-    siteUtils.loadHeaderFooter('nav-home', 'index', syncMonthlyAlt);
-    
-    // Lightbox
-    function openLightbox(src, caption) {
-      document.getElementById('lightbox').style.display = 'flex';
-      document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-caption').textContent = caption || '';
-      document.body.style.overflow = 'hidden';
-    }
-    
-    function closeLightbox(event) {
-      if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
-        document.getElementById('lightbox').style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    }
-    
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        document.getElementById('lightbox').style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    });
-    
-    window.openLightbox = openLightbox;
-    window.closeLightbox = closeLightbox;
+    siteUtils.initPage('index', 'nav-home');
   </script>
 </body>
 </html>

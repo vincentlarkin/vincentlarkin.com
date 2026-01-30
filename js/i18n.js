@@ -8,6 +8,7 @@ let currentLang = normalizeLang(localStorage.getItem('lang'));
 let translations = {};
 let translationsLoaded = false;
 let currentPage = null;
+let langCallback = null;
 
 // Fallback month names in case translations fail to load
 const fallbackMonths = {
@@ -209,6 +210,7 @@ function switchLanguage() {
 // Initialize language system
 async function initLanguageSystem(page, callback) {
   currentPage = page || document.body.dataset.page || null;
+  langCallback = typeof callback === 'function' ? callback : null;
   await loadTranslations();
   
   // Apply translations
@@ -222,21 +224,19 @@ async function initLanguageSystem(page, callback) {
   
   // Set up language button click handler
   const langBtn = document.getElementById('lang-toggle');
-  if (langBtn) {
+  if (langBtn && !langBtn.dataset.bound) {
     langBtn.addEventListener('click', () => {
       switchLanguage();
-      if (currentPage) {
-        applyPageTranslations(currentPage);
-      }
-      if (callback) {
-        callback(currentLang);
+      if (langCallback) {
+        langCallback(currentLang);
       }
     });
+    langBtn.dataset.bound = 'true';
   }
   
   // Run callback with initial language
-  if (callback) {
-    callback(currentLang);
+  if (langCallback) {
+    langCallback(currentLang);
   }
 }
 
