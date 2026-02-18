@@ -35,29 +35,7 @@ Disallow: /
 # Allow legitimate search engines and social media
 User-agent: *
 Allow: /
-
-# Allow crawling of main pages
-Allow: /index.html
-Allow: /about.html
-Allow: /contact.html
-Allow: /news.html
-Allow: /changelog.html
-
-# Allow crawling of articles
-Allow: /articles/
-
-# Allow crawling of CSS and JS for proper rendering
-Allow: /css/
-Allow: /js/
-
-# Allow crawling of images (for SEO and rich snippets)
-Allow: /images/
-
-# Disallow crawling of error pages
 Disallow: /error/
-
-# Rate limiting for all bots
-Crawl-delay: 1
 
 # Sitemap location
 Sitemap: https://vincentlarkin.com/sitemap.xml

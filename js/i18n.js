@@ -59,6 +59,7 @@ const embeddedTranslations = {
     'label-employer': { pt: 'Empregador', en: 'Employer' },
     'contact-title': { pt: 'Contato', en: 'Contact' },
     'label-github': { pt: 'Github', en: 'Github' },
+    'label-email': { pt: 'Email', en: 'Email' },
     'label-linkedin': { pt: 'LinkedIn', en: 'LinkedIn' }
   },
   news: {
