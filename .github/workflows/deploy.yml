@@ -31,6 +31,7 @@ jobs:
             LIVE_DIR="${WEBROOT}/vincentlarkin"
             REPO_URL="https://github.com/vincentlarkin/vincentlarkin.com.git"
             TMP_BASE="${WEBROOT}/.deploy_tmp"
+            NGINX_CONTAINER="ix-my-website-my-website-1"
             TS="$(date +%Y%m%d_%H%M%S)"
             WORK_DIR="${TMP_BASE}/vincentlarkin_${TS}"
             NEW_DIR="${TMP_BASE}/vincentlarkin_live_${TS}"
@@ -71,16 +72,18 @@ jobs:
 
             echo "Repository deployed (clean, no .git)."
 
-            if docker ps | grep -q "ix-my-website-my-website-1"; then
-              if docker exec ix-my-website-my-website-1 nginx -t; then
-                docker exec ix-my-website-my-website-1 nginx -s reload
+            if ! command -v docker >/dev/null 2>&1; then
+              echo "⚠️  Warning: docker command not found, skipping reload"
+            elif [ "$(docker inspect -f '{{.State.Running}}' "$NGINX_CONTAINER" 2>/dev/null || true)" = "true" ]; then
+              if docker exec "$NGINX_CONTAINER" nginx -t; then
+                docker exec "$NGINX_CONTAINER" nginx -s reload
                 echo "✅ Nginx reloaded successfully"
               else
                 echo "⚠️  Nginx config test failed; not reloading"
                 exit 1
               fi
             else
-              echo "⚠️  Warning: nginx container not running, skipping reload"
+              echo "⚠️  Warning: nginx container '$NGINX_CONTAINER' not running or not found, skipping reload"
             fi
 
             test ! -d "$LIVE_DIR/.git" && echo "✅ .git not present in live dir"
