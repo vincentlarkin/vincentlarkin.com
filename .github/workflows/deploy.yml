@@ -23,52 +23,68 @@ jobs:
           username: root
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e  # Exit on any error
-            
+            set -euo pipefail
+
             echo "Starting deployment..."
-            
-            # Verify the web directory exists
-            if [ ! -d "/mnt/Pool3x2/web" ]; then
-              echo "❌ Error: /mnt/Pool3x2/web directory does not exist!"
-              echo "Please check your TrueNAS volume mount configuration."
+
+            WEBROOT="/mnt/Pool3x2/web"
+            LIVE_DIR="${WEBROOT}/vincentlarkin"
+            REPO_URL="https://github.com/vincentlarkin/vincentlarkin.com.git"
+            TMP_BASE="${WEBROOT}/.deploy_tmp"
+            TS="$(date +%Y%m%d_%H%M%S)"
+            WORK_DIR="${TMP_BASE}/vincentlarkin_${TS}"
+            NEW_DIR="${TMP_BASE}/vincentlarkin_live_${TS}"
+            OLD_DIR="${TMP_BASE}/vincentlarkin_old_${TS}"
+
+            if [ ! -d "$WEBROOT" ]; then
+              echo "❌ Error: $WEBROOT directory does not exist!"
               exit 1
             fi
-            
-            # Clone or update the repository
-            if [ -d "/mnt/Pool3x2/web/vincentlarkin/.git" ]; then
-              echo "Repository exists, pulling latest changes..."
-              cd /mnt/Pool3x2/web/vincentlarkin || { echo "❌ Failed to cd into vincentlarkin"; exit 1; }
-              
-              if ! git pull origin main; then
-                echo "❌ Git pull failed, attempting to reset..."
-                git fetch origin
-                git reset --hard origin/main || { echo "❌ Git reset failed"; exit 1; }
-              fi
-            else
-              echo "Repository doesn't exist, cloning..."
-              cd /mnt/Pool3x2/web || { echo "❌ Failed to cd into web directory"; exit 1; }
-              
-              if ! git clone https://github.com/vincentlarkin/vincentlarkin.com.git vincentlarkin; then
-                echo "❌ Git clone failed"
-                exit 1
-              fi
+
+            mkdir -p "$TMP_BASE"
+
+            echo "Cloning repo into temp workspace: $WORK_DIR"
+            rm -rf "$WORK_DIR" "$NEW_DIR"
+            git clone --depth 1 "$REPO_URL" "$WORK_DIR"
+
+            echo "Preparing clean deploy directory (no .git)..."
+            rsync -a --delete \
+              --exclude '.git' \
+              --exclude '.github' \
+              "$WORK_DIR"/ "$NEW_DIR"/
+
+            if [ -d "$NEW_DIR/.git" ]; then
+              echo "❌ Safety check failed: .git exists in new deploy dir"
+              exit 1
             fi
-            
-            echo "Repository updated successfully"
-            
-            # Check if nginx container is running
-            if ! docker ps | grep -q "ix-my-website-my-website-1"; then
-              echo "⚠️  Warning: nginx container not running, skipping reload"
-            else
-              # Reload nginx
-              if docker exec ix-my-website-my-website-1 nginx -s reload; then
+
+            if [ -d "$LIVE_DIR" ]; then
+              echo "Swapping current live dir..."
+              mv "$LIVE_DIR" "$OLD_DIR"
+            fi
+
+            echo "Activating new release -> $LIVE_DIR"
+            mv "$NEW_DIR" "$LIVE_DIR"
+
+            echo "Cleaning temporary deploy folders..."
+            rm -rf "$WORK_DIR" "$OLD_DIR"
+
+            echo "Repository deployed (clean, no .git)."
+
+            if docker ps | grep -q "ix-my-website-my-website-1"; then
+              if docker exec ix-my-website-my-website-1 nginx -t; then
+                docker exec ix-my-website-my-website-1 nginx -s reload
                 echo "✅ Nginx reloaded successfully"
               else
-                echo "⚠️  Warning: Nginx reload failed, but files were updated"
+                echo "⚠️  Nginx config test failed; not reloading"
+                exit 1
               fi
+            else
+              echo "⚠️  Warning: nginx container not running, skipping reload"
             fi
-            
-            echo "✅ Deployed vincentlarkin.com at $(date)"
+
+            test ! -d "$LIVE_DIR/.git" && echo "✅ .git not present in live dir"
+            echo "✅ Deployed vincentlarkin.com at $(date -Is)"
       
       - name: Notify on failure
         if: failure()
