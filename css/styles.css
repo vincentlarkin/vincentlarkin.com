@@ -364,6 +364,11 @@ main.gallery-page {
   margin-top: 1.5rem;
 }
 
+.about-grid-contact-only {
+  grid-template-columns: minmax(280px, 560px);
+  justify-content: center;
+}
+
 .about-section {
   border: 1px solid var(--border);
 }
@@ -393,6 +398,19 @@ main.gallery-page {
 
 .about-row-value {
   text-align: right;
+}
+
+.about-grid-contact-only .about-section {
+  text-align: center;
+}
+
+.about-grid-contact-only .about-row {
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.about-grid-contact-only .about-row-value {
+  text-align: left;
 }
 
 /* Changelog styles */
