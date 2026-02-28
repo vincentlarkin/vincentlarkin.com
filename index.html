@@ -4,9 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>vincentlarkin.com</title>
   <link rel="canonical" href="https://vincentlarkin.com/">
   <link rel="icon" href="/images/favicons/favicon.ico" type="image/x-icon">
@@ -28,7 +25,7 @@
   
   <div id="site-header"></div>
 
-  <div id="page-content">
+  <div id="page-content" class="is-loading">
     <main class="home-main">
       <section class="intro-block">
         <h1 id="welcome-title">Loading...</h1>
@@ -42,9 +39,9 @@
       <section class="monthly-block">
         <div class="monthly-label" id="monthly-label">Image of the Month</div>
         <div class="monthly-frame">
-          <img src="/images/mês/fevereiro-2026.jpg" alt="February 2026" id="monthly-image" onclick="openLightbox(this.src, document.getElementById('monthly-caption').textContent)">
+          <img src="/images/mês/marco-2026.webp" alt="March 2026" id="monthly-image" onclick="openLightbox(this.src, document.getElementById('monthly-caption').textContent)">
         </div>
-        <div class="monthly-caption" id="monthly-caption">February 2026</div>
+        <div class="monthly-caption" id="monthly-caption">March 2026</div>
       </section>
       
       <section class="links-block">
@@ -72,64 +69,17 @@
   
   <div id="site-footer"></div>
   
+  <script src="/js/i18n.js"></script>
+  <script src="/js/site.js"></script>
   <script>
     (function() {
       const page = 'index';
       const navId = 'nav-home';
-
-      function cleanVersion(value) {
-        if (!value) return null;
-        return value.replace(/"/g, '').trim();
+      if (window.siteUtils && siteUtils.initPage) {
+        siteUtils.initPage(page, navId);
+      } else if (window.siteUtils && siteUtils.loadHeaderFooter) {
+        siteUtils.loadHeaderFooter(navId, page);
       }
-
-      function getAssetVersion(path) {
-        return fetch(path, { method: 'HEAD', cache: 'no-store' })
-          .then(response => {
-            if (!response.ok) throw new Error('head failed');
-            return cleanVersion(response.headers.get('etag') || response.headers.get('last-modified'));
-          })
-          .catch(() => null)
-          .then(version => {
-            if (version) return encodeURIComponent(version);
-            const lastMod = document.lastModified && document.lastModified !== '0'
-              ? document.lastModified
-              : null;
-            return encodeURIComponent(lastMod || String(Date.now()));
-          });
-      }
-
-      function loadScript(src) {
-        return new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = src;
-          script.async = false;
-          script.onload = () => resolve();
-          script.onerror = () => reject(new Error('load failed'));
-          document.head.appendChild(script);
-        });
-      }
-
-      function loadScriptWithVersion(path) {
-        return getAssetVersion(path).then(version => loadScript(path + '?v=' + version));
-      }
-
-      function boot() {
-        if (window.siteUtils && siteUtils.initPage) {
-          siteUtils.initPage(page, navId);
-        } else if (window.siteUtils && siteUtils.loadHeaderFooter) {
-          siteUtils.loadHeaderFooter(navId, page);
-        }
-      }
-
-      loadScriptWithVersion('/js/i18n.js')
-        .then(() => loadScriptWithVersion('/js/site.js'))
-        .then(boot)
-        .catch(() => {
-          const fallback = encodeURIComponent(String(Date.now()));
-          loadScript('/js/i18n.js?v=' + fallback)
-            .then(() => loadScript('/js/site.js?v=' + fallback))
-            .then(boot);
-        });
     })();
   </script>
 </body>

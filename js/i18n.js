@@ -46,7 +46,7 @@ const embeddedTranslations = {
     },
     'status-text': { pt: 'site online', en: 'site online' },
     'monthly-label': { pt: 'Imagem do Mês', en: 'Image of the Month' },
-    'monthly-caption': { pt: 'Fevereiro de 2026', en: 'February 2026' },
+    'monthly-caption': { pt: 'Março de 2026', en: 'March 2026' },
     'links-label': { pt: 'Links Rápidos', en: 'Quick Links' },
     'link-about': { pt: 'Sobre', en: 'About' },
     'link-gallery': { pt: 'Galeria', en: 'Gallery' }

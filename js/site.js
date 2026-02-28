@@ -35,6 +35,7 @@ const navByPage = {
 // Monthly Gallery data
 const monthlyImages = {
   "2026": [
+    { file: "marco-2026.webp", month: "março", year: 2026, type: "image" },
     { file: "fevereiro-2026.jpg", month: "fevereiro", year: 2026, type: "image" },
     { file: "janeiro-2026.webp", month: "janeiro", year: 2026, type: "image" }
   ],
@@ -186,10 +187,14 @@ function bindLanguageHandler() {
 
 function initPage(page, activeNavId) {
   const contentEl = document.getElementById('page-content');
-  if (contentEl) contentEl.classList.remove('is-loading');
   return loadHeaderFooter(activeNavId, page).then(() => {
     runPageInit(page);
     handleLanguageChange();
+    if (contentEl) {
+      requestAnimationFrame(() => {
+        contentEl.classList.remove('is-loading');
+      });
+    }
   });
 }
 
