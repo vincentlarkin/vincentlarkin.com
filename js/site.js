@@ -274,19 +274,26 @@ function renderHolidayParticles(holiday, container) {
   if (!container) return;
 
   const particleCount = 11;
+  const timeSeed = Date.now() / 1000;
   container.innerHTML = '';
 
   for (let index = 0; index < particleCount; index += 1) {
     const particle = document.createElement('span');
-    particle.className = 'holiday-particle';
+    const isTop = index % 2 === 0;
+    const duration = 5.1 + ((index % 5) * 0.55);
+    const offset = (timeSeed + (index * 0.73)) % duration;
+
+    particle.className = `holiday-particle ${isTop ? 'is-top' : 'is-bottom'}`;
     particle.textContent = holiday.particles[index % holiday.particles.length];
     particle.style.left = `${-6 + ((index * 11) % 108)}%`;
-    particle.style.bottom = `${-8 + ((index % 4) * 8)}%`;
+    particle.style.top = isTop ? `${-8 + ((index % 4) * 7)}%` : 'auto';
+    particle.style.bottom = isTop ? 'auto' : `${-8 + ((index % 4) * 7)}%`;
     particle.style.fontSize = `${0.82 + ((index % 4) * 0.12)}rem`;
     particle.style.opacity = `${0.2 + ((index % 3) * 0.08)}`;
-    particle.style.animationDelay = `${index * 0.32}s`;
-    particle.style.animationDuration = `${5.1 + ((index % 5) * 0.55)}s`;
+    particle.style.animationDelay = `-${offset}s`;
+    particle.style.animationDuration = `${duration}s`;
     particle.style.setProperty('--drift', `${(index % 2 === 0 ? 1 : -1) * (12 + (index * 2))}px`);
+    particle.style.setProperty('--travel-y', isTop ? '150%' : '-150%');
     container.appendChild(particle);
   }
 }
@@ -304,6 +311,7 @@ function renderHolidayMonitor() {
 
   if (!holiday) {
     bubble.hidden = true;
+    bubble.removeAttribute('data-holiday-id');
     bubble.removeAttribute('data-theme');
     bubble.removeAttribute('title');
     bubble.removeAttribute('aria-label');
@@ -315,11 +323,15 @@ function renderHolidayMonitor() {
 
   bubble.hidden = false;
   bubble.dataset.theme = holiday.theme;
+  const shouldRefreshParticles = bubble.dataset.holidayId !== holiday.id || particles.childElementCount === 0;
+  bubble.dataset.holidayId = holiday.id;
   bubble.title = buildHolidayTitle(holiday);
   bubble.setAttribute('aria-label', bubble.title);
   icon.textContent = holiday.icon;
   text.textContent = getHolidayCopy(`message-${holiday.id}`, getHolidayCopy(`name-${holiday.id}`, holiday.id));
-  renderHolidayParticles(holiday, particles);
+  if (shouldRefreshParticles) {
+    renderHolidayParticles(holiday, particles);
+  }
 }
 
 // Initialize theme toggle
