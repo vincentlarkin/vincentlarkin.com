@@ -66,11 +66,10 @@ a:hover { text-decoration: underline; }
 .header {
   border-bottom: 1px solid var(--border);
   padding: 1.25rem 2rem;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .site-id {
@@ -79,6 +78,8 @@ a:hover { text-decoration: underline; }
   gap: 1rem;
   text-decoration: none;
   color: var(--fg);
+  justify-self: start;
+  min-width: 0;
 }
 
 .site-id:hover {
@@ -96,12 +97,22 @@ a:hover { text-decoration: underline; }
   letter-spacing: -0.5px;
 }
 
+.header-holiday-slot {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  min-width: 0;
+}
+
 .header-controls {
   display: flex;
   gap: 0.75rem;
   align-items: center;
   flex-wrap: wrap;
   justify-content: flex-end;
+  justify-self: end;
 }
 
 .ctrl-btn {
@@ -167,17 +178,17 @@ a:hover { text-decoration: underline; }
   --holiday-fg: var(--fg);
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.7rem;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
-  min-height: 2.3rem;
-  padding: 0.45rem 0.85rem;
+  min-height: 2.95rem;
+  padding: 0.68rem 1.25rem;
   border: 1px solid var(--holiday-border);
   border-radius: 999px;
   background: var(--holiday-bg);
   color: var(--holiday-fg);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
 }
 
 .holiday-monitor[hidden] {
@@ -191,30 +202,31 @@ a:hover { text-decoration: underline; }
 }
 
 .holiday-monitor-icon {
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 1;
 }
 
 .holiday-monitor-text {
-  font-size: 0.85rem;
+  font-size: 0.96rem;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .holiday-monitor-particles {
   position: absolute;
-  inset: 0;
+  inset: -1.15rem -1.55rem -1.2rem -1.55rem;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
 .holiday-particle {
   position: absolute;
-  bottom: -45%;
-  opacity: 0.24;
+  bottom: -18%;
+  opacity: 0.3;
   line-height: 1;
   animation: holiday-float 5.6s linear infinite;
   transform: translate3d(0, 0, 0);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
 }
 
 .holiday-monitor[data-theme="easter"] {
@@ -972,12 +984,26 @@ main.gallery-page {
 /* Mobile */
 @media (max-width: 600px) {
   .header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "brand controls"
+      "holiday holiday";
     padding: 0.75rem 1rem;
   }
 
-  .header-controls {
+  .site-id {
+    grid-area: brand;
+  }
+
+  .header-holiday-slot {
+    grid-area: holiday;
     width: 100%;
-    justify-content: flex-start;
+  }
+
+  .header-controls {
+    grid-area: controls;
+    width: 100%;
+    justify-content: flex-end;
   }
 
   .holiday-monitor {
