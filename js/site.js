@@ -273,18 +273,20 @@ function scheduleHolidayRefresh() {
 function renderHolidayParticles(holiday, container) {
   if (!container) return;
 
-  const particleCount = 7;
+  const particleCount = 11;
   container.innerHTML = '';
 
   for (let index = 0; index < particleCount; index += 1) {
     const particle = document.createElement('span');
     particle.className = 'holiday-particle';
     particle.textContent = holiday.particles[index % holiday.particles.length];
-    particle.style.left = `${8 + ((index * 13) % 74)}%`;
-    particle.style.fontSize = `${0.72 + ((index % 3) * 0.12)}rem`;
-    particle.style.animationDelay = `${index * 0.45}s`;
-    particle.style.animationDuration = `${4.8 + ((index % 4) * 0.6)}s`;
-    particle.style.setProperty('--drift', `${(index % 2 === 0 ? 1 : -1) * (8 + (index * 2))}px`);
+    particle.style.left = `${-6 + ((index * 11) % 108)}%`;
+    particle.style.bottom = `${-8 + ((index % 4) * 8)}%`;
+    particle.style.fontSize = `${0.82 + ((index % 4) * 0.12)}rem`;
+    particle.style.opacity = `${0.2 + ((index % 3) * 0.08)}`;
+    particle.style.animationDelay = `${index * 0.32}s`;
+    particle.style.animationDuration = `${5.1 + ((index % 5) * 0.55)}s`;
+    particle.style.setProperty('--drift', `${(index % 2 === 0 ? 1 : -1) * (12 + (index * 2))}px`);
     container.appendChild(particle);
   }
 }
