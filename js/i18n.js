@@ -107,6 +107,35 @@ const embeddedTranslations = {
     'changelog-error': { pt: 'Não foi possível carregar commits do GitHub.', en: 'Could not load commits from GitHub.' },
     'see-more-btn': { pt: 'Ver Mais', en: 'See More' }
   },
+  holiday: {
+    'title': { pt: 'Feriado de hoje', en: "Today's holiday" },
+    'label-us': { pt: 'Estados Unidos', en: 'United States' },
+    'label-pt': { pt: 'Portugal', en: 'Portugal' },
+    'name-new-years-day': { pt: 'Ano Novo', en: "New Year's Day" },
+    'message-new-years-day': { pt: 'Feliz Ano Novo', en: 'Happy New Year' },
+    'name-presidents-day': { pt: 'Dia dos Presidentes', en: "Presidents' Day" },
+    'message-presidents-day': { pt: 'Dia dos Presidentes', en: "Presidents' Day" },
+    'name-easter': { pt: 'P\u00E1scoa', en: 'Easter' },
+    'message-easter': { pt: 'Feliz P\u00E1scoa', en: 'Happy Easter' },
+    'name-memorial-day': { pt: 'Dia da Mem\u00F3ria', en: 'Memorial Day' },
+    'message-memorial-day': { pt: 'Dia da Mem\u00F3ria', en: 'Memorial Day' },
+    'name-independence-day': { pt: 'Dia da Independ\u00EAncia', en: 'Independence Day' },
+    'message-independence-day': { pt: 'Feliz Dia da Independ\u00EAncia', en: 'Happy Independence Day' },
+    'name-labor-day': { pt: 'Dia do Trabalho', en: 'Labor Day' },
+    'message-labor-day': { pt: 'Dia do Trabalho', en: 'Labor Day' },
+    'name-columbus-day': { pt: 'Dia de Colombo', en: 'Columbus Day' },
+    'message-columbus-day': { pt: 'Dia de Colombo', en: 'Columbus Day' },
+    'name-veterans-day': { pt: 'Dia dos Veteranos', en: 'Veterans Day' },
+    'message-veterans-day': { pt: 'Dia dos Veteranos', en: 'Veterans Day' },
+    'name-thanksgiving': { pt: 'A\u00E7\u00E3o de Gra\u00E7as', en: 'Thanksgiving' },
+    'message-thanksgiving': { pt: 'Feliz Dia de A\u00E7\u00E3o de Gra\u00E7as', en: 'Happy Thanksgiving' },
+    'name-christmas': { pt: 'Natal', en: 'Christmas' },
+    'message-christmas': { pt: 'Feliz Natal', en: 'Merry Christmas' },
+    'name-portugal-day': { pt: 'Dia de Portugal', en: 'Portugal Day' },
+    'message-portugal-day': { pt: 'Dia de Portugal', en: 'Portugal Day' },
+    'name-restoration-day': { pt: 'Restaura\u00E7\u00E3o da Independ\u00EAncia', en: 'Restoration of Independence' },
+    'message-restoration-day': { pt: 'Restaura\u00E7\u00E3o da Independ\u00EAncia', en: 'Restoration of Independence' }
+  },
   months: fallbackMonths
 };
 

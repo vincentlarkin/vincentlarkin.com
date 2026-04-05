@@ -67,6 +67,259 @@ const changelogState = {
   userData: null
 };
 
+let holidayRefreshTimer = null;
+
+const holidayCatalog = [
+  {
+    id: 'new-years-day',
+    countries: ['us', 'pt'],
+    theme: 'new-year',
+    icon: '\uD83C\uDF86',
+    particles: ['\uD83C\uDF86', '\u2728', '\uD83C\uDF89'],
+    matches(date) {
+      return isSameMonthDay(date, 1, 1);
+    }
+  },
+  {
+    id: 'presidents-day',
+    countries: ['us'],
+    theme: 'patriot',
+    icon: '\uD83C\uDDFA\uD83C\uDDF8',
+    particles: ['\uD83C\uDDFA\uD83C\uDDF8', '\u2B50', '\u2728'],
+    matches(date) {
+      return isSameLocalDate(date, getNthWeekdayOfMonth(date.getFullYear(), 2, 1, 3));
+    }
+  },
+  {
+    id: 'easter',
+    countries: ['us', 'pt'],
+    theme: 'easter',
+    icon: '\u271D\uFE0F',
+    particles: ['\u271D\uFE0F', '\u2728', '\uD83D\uDD14'],
+    matches(date) {
+      return isSameLocalDate(date, getEasterSunday(date.getFullYear()));
+    }
+  },
+  {
+    id: 'memorial-day',
+    countries: ['us'],
+    theme: 'patriot',
+    icon: '\uD83C\uDDFA\uD83C\uDDF8',
+    particles: ['\uD83C\uDDFA\uD83C\uDDF8', '\u2B50', '\u2728'],
+    matches(date) {
+      return isSameLocalDate(date, getLastWeekdayOfMonth(date.getFullYear(), 5, 1));
+    }
+  },
+  {
+    id: 'portugal-day',
+    countries: ['pt'],
+    theme: 'portugal',
+    icon: '\uD83C\uDDF5\uD83C\uDDF9',
+    particles: ['\uD83C\uDDF5\uD83C\uDDF9', '\u2B50', '\u2728'],
+    matches(date) {
+      return isSameMonthDay(date, 6, 10);
+    }
+  },
+  {
+    id: 'independence-day',
+    countries: ['us'],
+    theme: 'independence',
+    icon: '\uD83C\uDF86',
+    particles: ['\uD83C\uDF86', '\uD83C\uDDFA\uD83C\uDDF8', '\u2728'],
+    matches(date) {
+      return isSameMonthDay(date, 7, 4);
+    }
+  },
+  {
+    id: 'labor-day',
+    countries: ['us'],
+    theme: 'patriot',
+    icon: '\uD83C\uDDFA\uD83C\uDDF8',
+    particles: ['\uD83C\uDDFA\uD83C\uDDF8', '\u2B50', '\u2728'],
+    matches(date) {
+      return isSameLocalDate(date, getNthWeekdayOfMonth(date.getFullYear(), 9, 1, 1));
+    }
+  },
+  {
+    id: 'columbus-day',
+    countries: ['us'],
+    theme: 'patriot',
+    icon: '\uD83C\uDDFA\uD83C\uDDF8',
+    particles: ['\uD83C\uDDFA\uD83C\uDDF8', '\u2B50', '\u2728'],
+    matches(date) {
+      return isSameLocalDate(date, getNthWeekdayOfMonth(date.getFullYear(), 10, 1, 2));
+    }
+  },
+  {
+    id: 'veterans-day',
+    countries: ['us'],
+    theme: 'patriot',
+    icon: '\uD83C\uDDFA\uD83C\uDDF8',
+    particles: ['\uD83C\uDDFA\uD83C\uDDF8', '\u2B50', '\u2728'],
+    matches(date) {
+      return isSameMonthDay(date, 11, 11);
+    }
+  },
+  {
+    id: 'thanksgiving',
+    countries: ['us'],
+    theme: 'thanksgiving',
+    icon: '\uD83E\uDD83',
+    particles: ['\uD83E\uDD83', '\uD83C\uDF41', '\u2728'],
+    matches(date) {
+      return isSameLocalDate(date, getNthWeekdayOfMonth(date.getFullYear(), 11, 4, 4));
+    }
+  },
+  {
+    id: 'restoration-day',
+    countries: ['pt'],
+    theme: 'portugal',
+    icon: '\uD83C\uDDF5\uD83C\uDDF9',
+    particles: ['\uD83C\uDDF5\uD83C\uDDF9', '\u2B50', '\u2728'],
+    matches(date) {
+      return isSameMonthDay(date, 12, 1);
+    }
+  },
+  {
+    id: 'christmas',
+    countries: ['us', 'pt'],
+    theme: 'christmas',
+    icon: '\uD83C\uDF84',
+    particles: ['\uD83C\uDF84', '\u2728', '\u2744\uFE0F'],
+    matches(date) {
+      return isSameMonthDay(date, 12, 25);
+    }
+  }
+];
+
+function createLocalDate(year, month, day) {
+  return new Date(year, month - 1, day);
+}
+
+function isSameLocalDate(a, b) {
+  return a.getFullYear() === b.getFullYear()
+    && a.getMonth() === b.getMonth()
+    && a.getDate() === b.getDate();
+}
+
+function isSameMonthDay(date, month, day) {
+  return date.getMonth() === month - 1 && date.getDate() === day;
+}
+
+function getNthWeekdayOfMonth(year, month, weekday, nth) {
+  const first = createLocalDate(year, month, 1);
+  const offset = (weekday - first.getDay() + 7) % 7;
+  return createLocalDate(year, month, 1 + offset + ((nth - 1) * 7));
+}
+
+function getLastWeekdayOfMonth(year, month, weekday) {
+  const lastDay = new Date(year, month, 0);
+  const offset = (lastDay.getDay() - weekday + 7) % 7;
+  return createLocalDate(year, month, lastDay.getDate() - offset);
+}
+
+function getEasterSunday(year) {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = ((19 * a) + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + (2 * e) + (2 * i) - h - k) % 7;
+  const m = Math.floor((a + (11 * h) + (22 * l)) / 451);
+  const month = Math.floor((h + l - (7 * m) + 114) / 31);
+  const day = ((h + l - (7 * m) + 114) % 31) + 1;
+  return createLocalDate(year, month, day);
+}
+
+function getHolidayCopy(key, fallback) {
+  if (window.langSystem) {
+    return langSystem.t('holiday', key) || fallback;
+  }
+  return fallback;
+}
+
+function getCurrentHoliday(date = new Date()) {
+  return holidayCatalog.find(holiday => holiday.matches(date)) || null;
+}
+
+function buildHolidayTitle(holiday) {
+  const regions = holiday.countries
+    .map(country => getHolidayCopy(`label-${country}`, country.toUpperCase()))
+    .join(' / ');
+  const title = getHolidayCopy('title', "Today's holiday");
+  const name = getHolidayCopy(`name-${holiday.id}`, holiday.id);
+  return `${title}: ${name} - ${regions}`;
+}
+
+function scheduleHolidayRefresh() {
+  if (holidayRefreshTimer) {
+    clearTimeout(holidayRefreshTimer);
+  }
+
+  const nextMidnight = new Date();
+  nextMidnight.setHours(24, 0, 1, 0);
+  const delay = Math.max(1000, nextMidnight.getTime() - Date.now());
+
+  holidayRefreshTimer = window.setTimeout(() => {
+    renderHolidayMonitor();
+  }, delay);
+}
+
+function renderHolidayParticles(holiday, container) {
+  if (!container) return;
+
+  const particleCount = 7;
+  container.innerHTML = '';
+
+  for (let index = 0; index < particleCount; index += 1) {
+    const particle = document.createElement('span');
+    particle.className = 'holiday-particle';
+    particle.textContent = holiday.particles[index % holiday.particles.length];
+    particle.style.left = `${8 + ((index * 13) % 74)}%`;
+    particle.style.fontSize = `${0.72 + ((index % 3) * 0.12)}rem`;
+    particle.style.animationDelay = `${index * 0.45}s`;
+    particle.style.animationDuration = `${4.8 + ((index % 4) * 0.6)}s`;
+    particle.style.setProperty('--drift', `${(index % 2 === 0 ? 1 : -1) * (8 + (index * 2))}px`);
+    container.appendChild(particle);
+  }
+}
+
+function renderHolidayMonitor() {
+  const holiday = getCurrentHoliday();
+  const bubble = document.getElementById('holiday-monitor');
+  const icon = document.getElementById('holiday-icon');
+  const text = document.getElementById('holiday-text');
+  const particles = document.getElementById('holiday-particles');
+
+  scheduleHolidayRefresh();
+
+  if (!bubble || !icon || !text || !particles) return;
+
+  if (!holiday) {
+    bubble.hidden = true;
+    bubble.removeAttribute('data-theme');
+    bubble.removeAttribute('title');
+    bubble.removeAttribute('aria-label');
+    particles.innerHTML = '';
+    text.textContent = '';
+    icon.textContent = '';
+    return;
+  }
+
+  bubble.hidden = false;
+  bubble.dataset.theme = holiday.theme;
+  bubble.title = buildHolidayTitle(holiday);
+  bubble.setAttribute('aria-label', bubble.title);
+  icon.textContent = holiday.icon;
+  text.textContent = getHolidayCopy(`message-${holiday.id}`, getHolidayCopy(`name-${holiday.id}`, holiday.id));
+  renderHolidayParticles(holiday, particles);
+}
+
 // Initialize theme toggle
 function initThemeToggle() {
   const themeBtn = document.getElementById('theme-toggle');
@@ -76,11 +329,11 @@ function initThemeToggle() {
       const isDark = document.body.classList.contains('theme-dark');
       document.body.className = isDark ? 'theme-light' : 'theme-dark';
       localStorage.setItem('theme', document.body.className);
-      themeBtn.textContent = isDark ? '◑' : '◐';
+      themeBtn.textContent = isDark ? '\u25D1' : '\u25D0';
     });
     themeBtn.dataset.bound = 'true';
   }
-  themeBtn.textContent = document.body.classList.contains('theme-dark') ? '◐' : '◑';
+  themeBtn.textContent = document.body.classList.contains('theme-dark') ? '\u25D0' : '\u25D1';
 }
 
 // Initialize footer
@@ -90,7 +343,6 @@ function initFooter() {
     yearSpan.textContent = new Date().getFullYear();
   }
 }
-
 // Mark active nav link
 function setActiveNav(navId) {
   const resolvedNavId = navId === 'home' ? 'nav-home' : navId;
@@ -172,6 +424,7 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
     return Promise.resolve(langInit).then(() => {
       bindLanguageHandler();
       initSpaNavigation();
+      renderHolidayMonitor();
       return true;
     });
   });
@@ -354,6 +607,8 @@ function handleLanguageChange() {
   } else if (page === 'index') {
     syncMonthlyAlt();
   }
+
+  renderHolidayMonitor();
 }
 
 function syncMonthlyAlt() {
@@ -709,3 +964,4 @@ window.siteUtils = {
     return storedLang === 'pt' || storedLang === 'en' ? storedLang : 'en';
   }
 };
+

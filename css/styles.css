@@ -51,6 +51,12 @@ body {
   #page-content {
     transition: none;
   }
+
+  .holiday-particle {
+    animation: none;
+    opacity: 0.12;
+    transform: translate3d(0, -20%, 0);
+  }
 }
 
 a { color: var(--accent); text-decoration: none; }
@@ -94,6 +100,8 @@ a:hover { text-decoration: underline; }
   display: flex;
   gap: 0.75rem;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .ctrl-btn {
@@ -151,6 +159,163 @@ a:hover { text-decoration: underline; }
 
 #lang-toggle.lang-en:hover {
   border-color: #bf0a30;
+}
+
+.holiday-monitor {
+  --holiday-bg: var(--highlight);
+  --holiday-border: var(--border);
+  --holiday-fg: var(--fg);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 2.3rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--holiday-border);
+  border-radius: 999px;
+  background: var(--holiday-bg);
+  color: var(--holiday-fg);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.holiday-monitor[hidden] {
+  display: none;
+}
+
+.holiday-monitor-icon,
+.holiday-monitor-text {
+  position: relative;
+  z-index: 2;
+}
+
+.holiday-monitor-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.holiday-monitor-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.holiday-monitor-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.holiday-particle {
+  position: absolute;
+  bottom: -45%;
+  opacity: 0.24;
+  line-height: 1;
+  animation: holiday-float 5.6s linear infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+.holiday-monitor[data-theme="easter"] {
+  --holiday-bg: rgba(232, 219, 173, 0.2);
+  --holiday-border: rgba(150, 118, 31, 0.45);
+  --holiday-fg: #8a6812;
+}
+
+.theme-dark .holiday-monitor[data-theme="easter"] {
+  --holiday-bg: rgba(113, 88, 23, 0.34);
+  --holiday-border: rgba(233, 209, 124, 0.4);
+  --holiday-fg: #f2ddb5;
+}
+
+.holiday-monitor[data-theme="new-year"] {
+  --holiday-bg: rgba(28, 47, 92, 0.12);
+  --holiday-border: rgba(45, 88, 173, 0.35);
+  --holiday-fg: #20408c;
+}
+
+.theme-dark .holiday-monitor[data-theme="new-year"] {
+  --holiday-bg: rgba(34, 57, 112, 0.34);
+  --holiday-border: rgba(111, 153, 255, 0.4);
+  --holiday-fg: #dbe6ff;
+}
+
+.holiday-monitor[data-theme="patriot"] {
+  --holiday-bg: rgba(180, 26, 48, 0.1);
+  --holiday-border: rgba(27, 66, 133, 0.35);
+  --holiday-fg: #8d1830;
+}
+
+.theme-dark .holiday-monitor[data-theme="patriot"] {
+  --holiday-bg: rgba(95, 21, 38, 0.38);
+  --holiday-border: rgba(102, 147, 236, 0.4);
+  --holiday-fg: #f5dbe2;
+}
+
+.holiday-monitor[data-theme="independence"] {
+  --holiday-bg: rgba(20, 49, 116, 0.12);
+  --holiday-border: rgba(177, 24, 50, 0.35);
+  --holiday-fg: #1d4398;
+}
+
+.theme-dark .holiday-monitor[data-theme="independence"] {
+  --holiday-bg: rgba(20, 49, 116, 0.32);
+  --holiday-border: rgba(233, 85, 110, 0.4);
+  --holiday-fg: #dce8ff;
+}
+
+.holiday-monitor[data-theme="thanksgiving"] {
+  --holiday-bg: rgba(151, 87, 27, 0.14);
+  --holiday-border: rgba(125, 67, 15, 0.34);
+  --holiday-fg: #8c4d13;
+}
+
+.theme-dark .holiday-monitor[data-theme="thanksgiving"] {
+  --holiday-bg: rgba(120, 73, 24, 0.36);
+  --holiday-border: rgba(214, 159, 96, 0.4);
+  --holiday-fg: #f6ddbc;
+}
+
+.holiday-monitor[data-theme="christmas"] {
+  --holiday-bg: rgba(26, 109, 61, 0.12);
+  --holiday-border: rgba(166, 35, 40, 0.36);
+  --holiday-fg: #14603c;
+}
+
+.theme-dark .holiday-monitor[data-theme="christmas"] {
+  --holiday-bg: rgba(17, 95, 53, 0.35);
+  --holiday-border: rgba(217, 88, 92, 0.42);
+  --holiday-fg: #d7f1df;
+}
+
+.holiday-monitor[data-theme="portugal"] {
+  --holiday-bg: rgba(8, 108, 61, 0.12);
+  --holiday-border: rgba(175, 29, 41, 0.35);
+  --holiday-fg: #0c6a3f;
+}
+
+.theme-dark .holiday-monitor[data-theme="portugal"] {
+  --holiday-bg: rgba(14, 93, 54, 0.35);
+  --holiday-border: rgba(215, 84, 95, 0.42);
+  --holiday-fg: #d7f0e3;
+}
+
+@keyframes holiday-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.92);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.24;
+  }
+  72% {
+    opacity: 0.22;
+  }
+  100% {
+    transform: translate3d(var(--drift, 8px), -165%, 0) scale(1.08);
+    opacity: 0;
+  }
 }
 
 /* Navigation */
@@ -808,6 +973,16 @@ main.gallery-page {
 @media (max-width: 600px) {
   .header {
     padding: 0.75rem 1rem;
+  }
+
+  .header-controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .holiday-monitor {
+    width: 100%;
+    justify-content: center;
   }
   
   .nav {
