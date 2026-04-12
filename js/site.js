@@ -35,6 +35,7 @@ const navByPage = {
 // Monthly Gallery data
 const monthlyImages = {
   "2026": [
+    { file: "abril-2026.webp", month: "abril", year: 2026, type: "image" },
     { file: "marco-2026.webp", month: "março", year: 2026, type: "image" },
     { file: "fevereiro-2026.jpg", month: "fevereiro", year: 2026, type: "image" },
     { file: "janeiro-2026.webp", month: "janeiro", year: 2026, type: "image" }
