@@ -615,7 +615,6 @@ function handleLanguageChange() {
   const page = document.body.dataset.page;
   if (page === 'gallery') {
     renderGallery();
-    renderPaintings();
   } else if (page === 'changelog') {
     refreshCommitDates();
     refreshChangelogText();
@@ -656,7 +655,6 @@ function initNewsPage() {
 
 function initGalleryPage() {
   renderGallery();
-  renderPaintings();
   initLightboxBindings();
 }
 
