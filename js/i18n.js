@@ -33,7 +33,8 @@ const embeddedTranslations = {
     'nav-news': { pt: 'Notícias / Livros', en: 'News / Books' },
     'nav-gallery': { pt: 'Galeria / Pinturas', en: 'Gallery / Paintings' },
     'nav-changelog': { pt: 'Changelog', en: 'Changelog' },
-    'nav-caddo': { pt: 'Caddo911 Monitor', en: 'Caddo911 Monitor' }
+    'nav-caddo': { pt: 'Caddo911 Monitor', en: 'Caddo911 Monitor' },
+    'nav-archive': { pt: 'archive.vincentlarkin.com', en: 'archive.vincentlarkin.com' }
   },
   global: {
     'footer-github': { pt: 'GitHub', en: 'GitHub' }
