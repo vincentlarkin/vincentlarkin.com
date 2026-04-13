@@ -65,6 +65,10 @@
       "pt": "Uma coleção de pinturas e imagens que gosto.", 
       "en": "A collection of paintings and images I like." 
     },
+    "paintings-archive-prefix": {
+      "pt": "Movido para",
+      "en": "Moved to"
+    },
     "paintings-empty": { "pt": "Nenhuma pintura ainda.", "en": "No paintings yet." }
   },
   "changelog": {

@@ -492,6 +492,25 @@ main.gallery-page {
   aspect-ratio: 4/3;
 }
 
+.archive-notice {
+  display: inline-block;
+  margin: 0 0 1rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid #c96f1a;
+  border-radius: 999px;
+  background: rgba(201, 111, 26, 0.12);
+  color: #d8842d;
+  font-size: 0.9rem;
+}
+
+.archive-notice a {
+  color: inherit;
+}
+
+.archive-notice a:hover {
+  color: #eea14f;
+}
+
 .gallery-item {
   border: 1px solid var(--border);
   overflow: hidden;
