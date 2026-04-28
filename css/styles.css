@@ -132,6 +132,26 @@ a:hover { text-decoration: underline; }
   border-color: var(--accent);
 }
 
+#theme-toggle {
+  min-width: 4.8rem;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 3px var(--accent);
+}
+
+#theme-toggle:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
 /* Language button with flag colors */
 #lang-toggle.lang-pt {
   background: linear-gradient(135deg, #006600 0%, #006600 50%, #cc0000 50%, #cc0000 100%);
@@ -1079,5 +1099,536 @@ main.gallery-page {
   
   .links-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   Retro IBM / Bell Labs / early-web theme
+   Additive theme: body.theme-retro
+   ========================================================= */
+
+.theme-retro {
+  --bg: #f7f4e8;
+  --fg: #111318;
+  --accent: #0000aa;
+  --muted: #4f4f4f;
+  --border: #1f2f8f;
+  --highlight: #ece7d3;
+
+  --retro-blue: #000080;
+  --retro-red: #8f1f2f;
+  --retro-amber: #9a5a17;
+  --retro-paper: #fbf8ed;
+  --retro-chrome: #c7c7c7;
+  --retro-shadow: #737373;
+}
+
+body.theme-retro {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(0,0,0,0.018) 1px, transparent 1px),
+    var(--retro-chrome);
+  background-size: 4px 4px, 4px 4px, auto;
+  color: var(--fg);
+  font-family: "Courier New", "Lucida Console", monospace;
+}
+
+.retro-browser-chrome {
+  display: none;
+}
+
+/* Fake early-browser chrome on desktop only */
+@media (min-width: 760px) {
+  body.theme-retro {
+    padding-top: 178px;
+  }
+
+  body.theme-retro .retro-browser-chrome {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9998;
+    display: block;
+    height: 178px;
+    overflow: hidden;
+    background: #d6d6d6;
+    border: 2px solid #05053d;
+    box-shadow:
+      inset 1px 1px #fff,
+      inset -2px -2px var(--retro-shadow);
+    color: #111;
+    font-family: "Courier New", "Lucida Console", monospace;
+  }
+
+  .retro-titlebar {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    align-items: center;
+    height: 28px;
+    padding: 3px 5px;
+    background: linear-gradient(90deg, #000080, #07149a);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    border-bottom: 2px solid #05053d;
+    box-shadow: inset 1px 1px #8aa0ff;
+  }
+
+  .retro-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .retro-window-icon {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #000;
+    background:
+      radial-gradient(circle at 55% 35%, #ffd83d 0 3px, transparent 4px),
+      linear-gradient(90deg, #315ccc 0 45%, #fbf8ed 45% 55%, #315ccc 55%);
+    box-shadow: inset 1px 1px #fff;
+  }
+
+  .retro-window-buttons {
+    display: flex;
+    gap: 3px;
+  }
+
+  .retro-window-buttons span {
+    width: 22px;
+    height: 20px;
+    background: #d6d6d6;
+    border: 1px solid #000;
+    box-shadow:
+      inset 1px 1px #fff,
+      inset -1px -1px #777;
+  }
+
+  .retro-window-buttons span:nth-child(1)::before {
+    content: "";
+    display: block;
+    width: 10px;
+    margin: 14px auto 0;
+    border-top: 2px solid #111;
+  }
+
+  .retro-window-buttons span:nth-child(2)::before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 8px;
+    margin: 5px auto 0;
+    border: 2px solid #111;
+  }
+
+  .retro-window-buttons span:nth-child(3)::before {
+    content: "X";
+    display: block;
+    color: #111;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+  }
+
+  .retro-menubar {
+    height: 32px;
+    padding: 4px 16px;
+    font-size: 18px;
+    line-height: 1.35;
+    border-bottom: 1px solid #777;
+    box-shadow: inset 0 1px #fff;
+    text-decoration-thickness: 1px;
+  }
+
+  .retro-toolbar {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    height: 76px;
+    padding: 6px 8px;
+    border-bottom: 1px solid #777;
+    box-shadow: inset 0 1px #fff;
+  }
+
+  .retro-toolbar button {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    min-width: 74px;
+    padding: 4px 10px;
+    background: #d6d6d6;
+    color: #111;
+    border: 1px solid #777;
+    box-shadow:
+      inset 2px 2px #fff,
+      inset -2px -2px #777;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .retro-toolbar button:hover,
+  .retro-toolbar button.is-clicked {
+    background: #ece7d3;
+    border-color: var(--retro-blue);
+  }
+
+  .retro-toolbar button:active,
+  .retro-toolbar button.is-clicked {
+    box-shadow:
+      inset 2px 2px #777,
+      inset -2px -2px #fff;
+    transform: translate(1px, 1px);
+  }
+
+  .retro-icon {
+    display: block;
+    color: var(--retro-blue);
+    font-size: 31px;
+    line-height: 1;
+  }
+
+  .retro-globe {
+    width: 104px;
+    margin-left: auto;
+    border-left: 1px solid #777;
+    background:
+      radial-gradient(circle at 58% 42%, #f8f8ff 0 3px, transparent 4px),
+      radial-gradient(circle at 50% 52%, #3644b8 0 18px, #111d85 19px 27px, transparent 28px),
+      radial-gradient(ellipse at 50% 50%, transparent 0 30px, #2832a7 31px 34px, transparent 35px),
+      radial-gradient(circle at 76% 22%, #2832a7 0 7px, transparent 8px),
+      radial-gradient(circle at 22% 76%, #2832a7 0 7px, transparent 8px);
+  }
+
+  .retro-location-row {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.1fr);
+    gap: 20px;
+    height: 42px;
+    padding: 7px 16px 6px;
+    font-size: 16px;
+    line-height: 28px;
+    border-bottom: 2px solid #6e6e6e;
+    box-shadow:
+      inset 0 1px #fff,
+      inset 0 -1px var(--retro-shadow);
+  }
+
+  .retro-location-row label {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .retro-location-row input {
+    width: 100%;
+    height: 28px;
+    padding: 2px 7px;
+    background: #f7f7f7;
+    color: #111;
+    border: 1px solid #777;
+    box-shadow:
+      inset 2px 2px #9a9a9a,
+      inset -1px -1px #fff;
+    font: inherit;
+    line-height: 1.2;
+  }
+}
+
+/* Shell */
+.theme-retro #site-header,
+.theme-retro #page-content,
+.theme-retro #site-footer {
+  max-width: 1160px;
+  width: calc(100% - 2rem);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.theme-retro .header {
+  margin-top: 1rem;
+  padding: 1.15rem 1.5rem 0.85rem;
+  background: var(--retro-paper);
+  border: 2px solid var(--retro-blue);
+  border-bottom: 0;
+  box-shadow: inset 1px 1px #fff;
+}
+
+.theme-retro .site-id img {
+  width: 46px;
+  height: 46px;
+  image-rendering: pixelated;
+}
+
+.theme-retro .site-id span {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #111;
+}
+
+.theme-retro .nav {
+  padding: 0.85rem 1.5rem;
+  background: var(--retro-paper);
+  border: 2px solid var(--retro-blue);
+  border-top: 1px solid var(--retro-blue);
+  gap: 1.55rem;
+}
+
+.theme-retro .nav a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.theme-retro .nav a::before {
+  content: "[ ";
+  color: #111;
+}
+
+.theme-retro .nav a::after {
+  content: " ]";
+  color: #111;
+}
+
+.theme-retro .nav a.active {
+  color: #fff;
+  background: var(--retro-blue);
+  padding: 0.1rem 0.25rem;
+}
+
+.theme-retro .archive-link {
+  color: var(--retro-amber) !important;
+}
+
+.theme-retro .caddo-link {
+  color: var(--retro-red) !important;
+}
+
+/* Main page panel */
+.theme-retro #page-content {
+  background: var(--retro-paper);
+  border-left: 2px solid var(--retro-blue);
+  border-right: 2px solid var(--retro-blue);
+}
+
+.theme-retro main {
+  max-width: 1060px;
+  padding: 2rem 1.75rem;
+}
+
+/* Homepage layout */
+.theme-retro .home-main {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.9fr) minmax(420px, 1.55fr);
+  gap: 1.25rem 1.6rem;
+  max-width: 1060px;
+}
+
+.theme-retro .intro-block {
+  grid-column: 1;
+  margin-bottom: 0;
+}
+
+.theme-retro .monthly-block {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin-bottom: 0;
+}
+
+.theme-retro .links-block {
+  grid-column: 1 / -1;
+  border-top: 2px solid var(--retro-blue);
+  padding-top: 1rem;
+}
+
+/* Typography */
+.theme-retro h1,
+.theme-retro h2,
+.theme-retro h3,
+.theme-retro .monthly-label,
+.theme-retro .links-label {
+  color: var(--retro-blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.theme-retro .intro-block h1 {
+  color: #111;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 1.35rem;
+}
+
+.theme-retro p {
+  color: #222;
+}
+
+/* Status */
+.theme-retro .status-row {
+  border-top: 1px solid #111;
+  padding-top: 1rem;
+}
+
+.theme-retro .status-dot {
+  background: #008040;
+  box-shadow: none;
+  animation: none;
+}
+
+.theme-retro .status-link {
+  color: #008040;
+  font-weight: 700;
+}
+
+/* Monthly image */
+.theme-retro .monthly-frame {
+  position: relative;
+  padding: 0.55rem;
+  background: #fff;
+  border: 3px double #111;
+  overflow: hidden;
+}
+
+.theme-retro .monthly-frame img {
+  filter: saturate(0.72) contrast(1.18) brightness(1.04) sepia(0.12);
+}
+
+.theme-retro .monthly-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0.55rem;
+  pointer-events: none;
+  background:
+    radial-gradient(rgba(0,0,0,0.28) 0.55px, transparent 0.68px),
+    repeating-linear-gradient(90deg, rgba(0,0,128,0.08) 0 1px, rgba(143,31,47,0.06) 1px 2px, rgba(154,90,23,0.05) 2px 3px);
+  background-size: 3px 3px, 6px 100%;
+  mix-blend-mode: multiply;
+  opacity: 0.42;
+}
+
+.theme-retro .monthly-caption {
+  color: #111;
+  font-size: 0.9rem;
+}
+
+/* Quick links as old form controls */
+.theme-retro .links-grid {
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+}
+
+.theme-retro .link-item {
+  background: #f6f6f6;
+  color: #111;
+  border: 1px solid #777;
+  box-shadow:
+    inset 2px 2px #fff,
+    inset -2px -2px #8d8d8d;
+}
+
+.theme-retro .link-item:hover {
+  background: var(--highlight);
+  border-color: var(--retro-blue);
+}
+
+/* Buttons */
+.theme-retro .ctrl-btn {
+  background: #d7d7d7;
+  color: #111;
+  border: 1px solid #777;
+  box-shadow:
+    inset 2px 2px #fff,
+    inset -2px -2px #8d8d8d;
+}
+
+.theme-retro .ctrl-btn:hover {
+  border-color: var(--retro-blue);
+}
+
+.theme-retro #theme-toggle {
+  background: var(--retro-blue);
+  color: #fff;
+  border: 2px solid #05053d;
+  box-shadow:
+    inset 2px 2px #8aa0ff,
+    inset -2px -2px #05053d,
+    0 0 0 2px var(--retro-paper),
+    0 0 0 3px var(--retro-blue);
+}
+
+.theme-retro #theme-toggle:hover {
+  background: var(--retro-red);
+  border-color: #4f1019;
+}
+
+/* Footer */
+.theme-retro .footer {
+  margin-bottom: 1rem;
+  background: var(--retro-paper);
+  border: 2px solid var(--retro-blue);
+  border-top: 1px solid var(--retro-blue);
+  color: #111;
+}
+
+.theme-retro .footer::after {
+  content: "   IBM";
+  float: right;
+  color: var(--retro-blue);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+/* Other pages */
+.theme-retro .about-section,
+.theme-retro .gallery-year-section,
+.theme-retro .commit-item,
+.theme-retro .gallery-item,
+.theme-retro .section-toggle,
+.theme-retro .section-content {
+  background: var(--retro-paper);
+  border-color: #111;
+}
+
+.theme-retro .about-section-header,
+.theme-retro .gallery-year-toggle,
+.theme-retro .section-toggle,
+.theme-retro .commit-hash {
+  background: var(--highlight);
+  color: var(--retro-blue);
+}
+
+/* Mobile: no fake browser chrome, keep the theme practical */
+@media (max-width: 760px) {
+  .retro-browser-chrome {
+    display: none;
+  }
+
+  .theme-retro #site-header,
+  .theme-retro #page-content,
+  .theme-retro #site-footer {
+    width: 100%;
+  }
+
+  .theme-retro .home-main {
+    display: block;
+  }
+
+  .theme-retro .monthly-block,
+  .theme-retro .intro-block,
+  .theme-retro .links-block {
+    margin-bottom: 2rem;
+  }
+
+  .theme-retro .links-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-retro .nav a::before,
+  .theme-retro .nav a::after {
+    content: "";
   }
 }

@@ -1,13 +1,136 @@
 // js/site.js - Shared site functionality
 
-// Theme initialization (run immediately)
-(function() {
+// Theme initialization
+const SITE_THEMES = ['theme-dark', 'theme-retro'];
+
+function getStoredTheme() {
   const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'theme-light') {
-    document.body.className = 'theme-light';
-  } else {
-    document.body.className = 'theme-dark';
+  return SITE_THEMES.includes(savedTheme) ? savedTheme : 'theme-dark';
+}
+
+function applySiteTheme(theme, persist = false) {
+  const safeTheme = SITE_THEMES.includes(theme) ? theme : 'theme-dark';
+  document.body.classList.remove(...SITE_THEMES);
+  document.body.classList.add(safeTheme);
+
+  if (safeTheme === 'theme-retro') {
+    ensureRetroChrome();
+    updateRetroAddress();
   }
+
+  if (persist) {
+    localStorage.setItem('theme', safeTheme);
+  }
+
+  return safeTheme;
+}
+
+function getNextTheme(theme) {
+  const index = SITE_THEMES.indexOf(theme);
+  return SITE_THEMES[(index + 1) % SITE_THEMES.length];
+}
+
+function getThemeButtonLabel(theme) {
+  return theme === 'theme-retro' ? 'DARK' : 'RETRO';
+}
+
+function getThemeButtonTitle(theme) {
+  return theme === 'theme-retro' ? 'Switch to Dark Theme' : 'Switch to Retro Theme';
+}
+
+function getRetroDisplayUrl(url = window.location.href) {
+  const nextUrl = new URL(url, window.location.origin);
+  const path = normalizePath(nextUrl.pathname);
+  return 'http://vincentlarkin.com' + path + nextUrl.search + nextUrl.hash;
+}
+
+function updateRetroAddress(url) {
+  const displayUrl = getRetroDisplayUrl(url);
+  document.body.dataset.retroUrl = displayUrl;
+
+  const addressBox = document.getElementById('retro-address-box');
+  if (addressBox) {
+    addressBox.value = displayUrl;
+  }
+}
+
+function ensureRetroChrome() {
+  if (document.getElementById('retro-browser-chrome')) return;
+
+  const chrome = document.createElement('div');
+  chrome.id = 'retro-browser-chrome';
+  chrome.className = 'retro-browser-chrome';
+  chrome.setAttribute('aria-label', 'Retro browser toolbar');
+  chrome.innerHTML = [
+    '<div class="retro-titlebar">',
+    '  <span class="retro-window-icon"></span>',
+    '  <span class="retro-title">NCSA Mosaic for MS Windows - [vincentlarkin.com]</span>',
+    '  <span class="retro-window-buttons"><span></span><span></span><span></span></span>',
+    '</div>',
+    '<div class="retro-menubar">File&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;Options&nbsp;&nbsp;&nbsp;Navigate&nbsp;&nbsp;&nbsp;Hotlist&nbsp;&nbsp;&nbsp;Annotate&nbsp;&nbsp;&nbsp;Help</div>',
+    '<div class="retro-toolbar">',
+    '  <button type="button" data-retro-action="back"><span class="retro-icon">\u2190</span><span>Back</span></button>',
+    '  <button type="button" data-retro-action="forward"><span class="retro-icon">\u2192</span><span>Forward</span></button>',
+    '  <button type="button" data-retro-action="home"><span class="retro-icon">\u2302</span><span>Home</span></button>',
+    '  <button type="button" data-retro-action="reload"><span class="retro-icon">\u21BB</span><span>Reload</span></button>',
+    '  <button type="button" data-retro-action="open"><span class="retro-icon">\u25A4</span><span>Open</span></button>',
+    '  <button type="button" data-retro-action="find"><span class="retro-icon">\u2315</span><span>Find</span></button>',
+    '  <button type="button" data-retro-action="stop"><span class="retro-icon">\u2297</span><span>Stop</span></button>',
+    '  <span class="retro-globe" aria-hidden="true"></span>',
+    '</div>',
+    '<div class="retro-location-row">',
+    '  <label>Document Title:<input type="text" value="vincentlarkin.com" readonly tabindex="-1"></label>',
+    '  <label>Document URL:<input id="retro-address-box" type="text" readonly tabindex="-1"></label>',
+    '</div>'
+  ].join('');
+
+  document.body.prepend(chrome);
+  bindRetroChromeActions(chrome);
+}
+
+function flashRetroButton(button) {
+  button.classList.add('is-clicked');
+  window.setTimeout(() => button.classList.remove('is-clicked'), 160);
+}
+
+function bindRetroChromeActions(chrome) {
+  chrome.addEventListener('click', event => {
+    const button = event.target.closest('[data-retro-action]');
+    if (!button) return;
+
+    flashRetroButton(button);
+
+    switch (button.dataset.retroAction) {
+      case 'back':
+        history.back();
+        break;
+      case 'forward':
+        history.forward();
+        break;
+      case 'home':
+        navigate('/', { push: true });
+        break;
+      case 'reload':
+        window.location.reload();
+        break;
+      case 'open':
+      case 'find': {
+        const addressBox = document.getElementById('retro-address-box');
+        if (addressBox) {
+          addressBox.focus();
+          addressBox.select();
+        }
+        break;
+      }
+      default:
+        updateRetroAddress();
+        break;
+    }
+  });
+}
+
+(function() {
+  applySiteTheme(getStoredTheme(), false);
 })();
 
 let spaInitialized = false;
@@ -339,16 +462,26 @@ function renderHolidayMonitor() {
 function initThemeToggle() {
   const themeBtn = document.getElementById('theme-toggle');
   if (!themeBtn) return;
+
+  const currentTheme = getStoredTheme();
+  applySiteTheme(currentTheme, false);
+  themeBtn.textContent = getThemeButtonLabel(currentTheme);
+  themeBtn.title = getThemeButtonTitle(currentTheme);
+
   if (!themeBtn.dataset.bound) {
     themeBtn.addEventListener('click', function() {
-      const isDark = document.body.classList.contains('theme-dark');
-      document.body.className = isDark ? 'theme-light' : 'theme-dark';
-      localStorage.setItem('theme', document.body.className);
-      themeBtn.textContent = isDark ? '\u25D1' : '\u25D0';
+      const activeTheme = SITE_THEMES.find(theme =>
+        document.body.classList.contains(theme)
+      ) || 'theme-dark';
+
+      const nextTheme = getNextTheme(activeTheme);
+      applySiteTheme(nextTheme, true);
+      themeBtn.textContent = getThemeButtonLabel(nextTheme);
+      themeBtn.title = getThemeButtonTitle(nextTheme);
     });
+
     themeBtn.dataset.bound = 'true';
   }
-  themeBtn.textContent = document.body.classList.contains('theme-dark') ? '\u25D0' : '\u25D1';
 }
 
 // Initialize footer
@@ -429,6 +562,7 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
 
     if (activeNavId) setActiveNav(activeNavId);
     initThemeToggle();
+    updateRetroAddress();
     initFooter();
 
     // Initialize language system after header is loaded
@@ -568,6 +702,7 @@ function navigate(url, options = {}) {
         if (options.push !== false) {
           history.pushState({}, '', targetUrl.pathname + targetUrl.search + targetUrl.hash);
         }
+        updateRetroAddress(targetUrl.href);
         if (targetUrl.hash) {
           const target = document.querySelector(targetUrl.hash);
           if (target) {
