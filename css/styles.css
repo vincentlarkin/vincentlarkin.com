@@ -1,4 +1,4 @@
-/* css/styles.css - Plan9 Dev Aesthetic */
+/* css/styles.css - vincentlarkin.com */
 
 :root {
   --font-mono: 'Consolas', 'Monaco', 'Lucida Console', monospace;
@@ -1754,7 +1754,7 @@ body.theme-vin::before {
   z-index: 0;
   background:
     linear-gradient(180deg, rgba(5, 5, 5, 0.9), rgba(5, 5, 5, 0.16) 42%, rgba(5, 5, 5, 0.86)),
-    url("/images/themes/life-of-a-vin/background-crimson-shadows.svg") center top / cover no-repeat,
+    url("/images/themes/life-of-a-vin/background.png") center top / cover no-repeat,
     radial-gradient(ellipse at 72% 42%, rgba(164, 18, 18, 0.56), transparent 48%),
     radial-gradient(ellipse at 18% 78%, rgba(127, 13, 13, 0.62), transparent 44%),
     linear-gradient(180deg, rgba(5, 5, 5, 0.98) 0%, rgba(5, 5, 5, 0.9) 18%, rgba(62, 5, 5, 0.58) 52%, rgba(5, 5, 5, 0.98) 100%),
