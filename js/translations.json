@@ -3,7 +3,7 @@
     "nav-home": { "pt": "Início", "en": "Home" },
     "nav-about": { "pt": "Sobre", "en": "About" },
     "nav-news": { "pt": "Notícias / Livros", "en": "News / Books" },
-    "nav-gallery": { "pt": "Galeria / Pinturas", "en": "Gallery / Paintings" },
+    "nav-gallery": { "pt": "Galeria", "en": "Gallery" },
     "nav-changelog": { "pt": "Changelog", "en": "Changelog" },
     "nav-caddo": { "pt": "Caddo911 Monitor", "en": "Caddo911 Monitor" },
     "nav-archive": { "pt": "archive.vincentlarkin.com", "en": "archive.vincentlarkin.com" }
@@ -54,7 +54,7 @@
     "wip-badge": { "pt": "Em Progresso", "en": "Work in Progress" }
   },
   "gallery": {
-    "gallery-title": { "pt": "Galeria / Pinturas", "en": "Gallery / Paintings" },
+    "gallery-title": { "pt": "Galeria", "en": "Gallery" },
     "gallery-description": { 
       "pt": "Imagens mensais e minha coleção de pinturas.", 
       "en": "Monthly images and my painting collection." 
