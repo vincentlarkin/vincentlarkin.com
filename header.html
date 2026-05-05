@@ -11,8 +11,23 @@
     </div>
   </div>
   <div class="header-controls">
-    <button type="button" class="ctrl-btn" id="theme-toggle" title="Toggle Theme">&#9680;</button>
-    <button type="button" class="ctrl-btn lang-en" id="lang-toggle" title="Toggle Language">EN</button>
+    <label class="visually-hidden" for="theme-toggle">Theme</label>
+    <span class="theme-selector">
+      <span class="theme-selector-icon" aria-hidden="true"></span>
+      <select class="ctrl-btn" id="theme-toggle" title="Select Theme" aria-label="Select theme">
+        <option value="theme-vin">Life of a VIN</option>
+        <option value="theme-dark">Dark</option>
+        <option value="theme-retro">Retro</option>
+      </select>
+    </span>
+    <label class="visually-hidden" for="lang-toggle">Language</label>
+    <span class="lang-selector">
+      <span class="lang-selector-flag" id="lang-flag" aria-hidden="true"></span>
+      <select class="ctrl-btn lang-en" id="lang-toggle" title="Select Language" aria-label="Select language">
+        <option value="en">EN</option>
+        <option value="pt">PT</option>
+      </select>
+    </span>
   </div>
 </header>
 
@@ -20,8 +35,8 @@
   <a href="/" id="nav-home">Home</a>
   <a href="/about.html" id="nav-about">About</a>
   <a href="/news.html" id="nav-news">News / Books</a>
-  <a href="/gallery.html" id="nav-gallery">Gallery / Paintings</a>
+  <a href="/gallery.html" id="nav-gallery">Gallery</a>
   <a href="/changelog.html" id="nav-changelog">Changelog</a>
-  <a href="https://caddo911.vincentlarkin.com" class="caddo-link" target="_blank" id="nav-caddo">Caddo911 Monitor</a>
-  <a href="https://archive.vincentlarkin.com" class="archive-link" target="_blank" id="nav-archive">archive.vincentlarkin.com</a>
+  <a href="https://caddo911.vincentlarkin.com" class="caddo-link" target="_blank" rel="noopener" id="nav-caddo">Caddo911 Monitor</a>
+  <a href="https://archive.vincentlarkin.com" class="archive-link" target="_blank" rel="noopener" id="nav-archive">archive.vincentlarkin.com</a>
 </nav>

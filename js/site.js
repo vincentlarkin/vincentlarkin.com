@@ -1,15 +1,23 @@
 // js/site.js - Shared site functionality
 
 // Theme initialization
-const SITE_THEMES = ['theme-dark', 'theme-retro'];
+const SITE_THEMES = ['theme-vin', 'theme-dark', 'theme-retro'];
+const THEME_LABELS = {
+  'theme-vin': 'Life of a VIN',
+  'theme-dark': 'Dark',
+  'theme-retro': 'Retro'
+};
+const CLASSIC_THEMES = ['theme-dark', 'theme-retro'];
 
 function getStoredTheme() {
   const savedTheme = localStorage.getItem('theme');
-  return SITE_THEMES.includes(savedTheme) ? savedTheme : 'theme-dark';
+  return SITE_THEMES.includes(savedTheme) ? savedTheme : 'theme-vin';
 }
 
 function applySiteTheme(theme, persist = false) {
-  const safeTheme = SITE_THEMES.includes(theme) ? theme : 'theme-dark';
+  const safeTheme = SITE_THEMES.includes(theme) ? theme : 'theme-vin';
+  document.documentElement.classList.remove(...SITE_THEMES);
+  document.documentElement.classList.add(safeTheme);
   document.body.classList.remove(...SITE_THEMES);
   document.body.classList.add(safeTheme);
 
@@ -30,12 +38,20 @@ function getNextTheme(theme) {
   return SITE_THEMES[(index + 1) % SITE_THEMES.length];
 }
 
-function getThemeButtonLabel(theme) {
+function getThemeSelectLabel(theme) {
+  return THEME_LABELS[theme] || THEME_LABELS['theme-vin'];
+}
+
+function getClassicThemeButtonLabel(theme) {
   return theme === 'theme-retro' ? 'DARK' : 'RETRO';
 }
 
-function getThemeButtonTitle(theme) {
+function getClassicThemeButtonTitle(theme) {
   return theme === 'theme-retro' ? 'Switch to Dark Theme' : 'Switch to Retro Theme';
+}
+
+function getThemeSelectTitle(theme) {
+  return `Current theme: ${getThemeSelectLabel(theme)}`;
 }
 
 function getRetroDisplayUrl(url = window.location.href) {
@@ -460,27 +476,32 @@ function renderHolidayMonitor() {
 
 // Initialize theme toggle
 function initThemeToggle() {
-  const themeBtn = document.getElementById('theme-toggle');
-  if (!themeBtn) return;
+  const themeSelect = document.getElementById('theme-toggle');
+  if (!themeSelect) return;
 
   const currentTheme = getStoredTheme();
   applySiteTheme(currentTheme, false);
-  themeBtn.textContent = getThemeButtonLabel(currentTheme);
-  themeBtn.title = getThemeButtonTitle(currentTheme);
 
-  if (!themeBtn.dataset.bound) {
-    themeBtn.addEventListener('click', function() {
-      const activeTheme = SITE_THEMES.find(theme =>
-        document.body.classList.contains(theme)
-      ) || 'theme-dark';
+  function syncThemeControls(theme) {
+    themeSelect.value = theme;
+    themeSelect.title = getThemeSelectTitle(theme);
+    const themeIcon = document.querySelector('.theme-selector-icon');
+    if (themeIcon) {
+      themeIcon.textContent = theme === 'theme-retro' ? '' : theme === 'theme-dark' ? '☾' : '✦';
+      themeIcon.classList.toggle('has-icon', theme !== 'theme-retro');
+    }
+  }
 
-      const nextTheme = getNextTheme(activeTheme);
+  syncThemeControls(currentTheme);
+
+  if (!themeSelect.dataset.bound) {
+    themeSelect.addEventListener('change', function() {
+      const nextTheme = SITE_THEMES.includes(themeSelect.value) ? themeSelect.value : 'theme-vin';
       applySiteTheme(nextTheme, true);
-      themeBtn.textContent = getThemeButtonLabel(nextTheme);
-      themeBtn.title = getThemeButtonTitle(nextTheme);
+      syncThemeControls(nextTheme);
     });
 
-    themeBtn.dataset.bound = 'true';
+    themeSelect.dataset.bound = 'true';
   }
 }
 
@@ -556,8 +577,21 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
     const lang = storedLang === 'pt' || storedLang === 'en' ? storedLang : 'en';
     const langBtn = document.getElementById('lang-toggle');
     if (langBtn) {
-      langBtn.textContent = lang.toUpperCase();
+      if (langBtn.tagName === 'SELECT') {
+        langBtn.value = lang;
+      } else {
+        langBtn.textContent = lang.toUpperCase();
+      }
       langBtn.className = 'ctrl-btn lang-' + lang;
+    }
+    const langFlag = document.getElementById('lang-flag');
+    if (langFlag) {
+      langFlag.textContent = '';
+    }
+    const langSelector = document.querySelector('.lang-selector');
+    if (langSelector) {
+      langSelector.classList.toggle('is-pt', lang === 'pt');
+      langSelector.classList.toggle('is-en', lang !== 'pt');
     }
 
     if (activeNavId) setActiveNav(activeNavId);
@@ -755,6 +789,7 @@ function handleLanguageChange() {
     refreshChangelogText();
   } else if (page === 'index') {
     syncMonthlyAlt();
+    renderVinMonthlyImage();
   }
 
   renderHolidayMonitor();
@@ -768,8 +803,98 @@ function syncMonthlyAlt() {
   }
 }
 
+function getLatestMonthlyImage() {
+  const latestYear = Object.keys(monthlyImages)
+    .sort((a, b) => parseInt(b, 10) - parseInt(a, 10))[0];
+  return latestYear && monthlyImages[latestYear] ? monthlyImages[latestYear][0] : null;
+}
+
+function renderVinMonthlyImage() {
+  const item = getLatestMonthlyImage();
+  const image = document.getElementById('vin-monthly-image');
+  const caption = document.getElementById('vin-monthly-caption');
+  const date = document.getElementById('vin-monthly-date');
+
+  if (!item || !image || !caption || !date) return;
+
+  const monthName = window.langSystem ? langSystem.getMonthName(item.month) : item.month;
+  const label = `${monthName} ${item.year}`;
+  const filePath = `/images/mês/${item.file}`;
+
+  image.src = filePath;
+  image.alt = label;
+  caption.textContent = label;
+  date.textContent = 'Current image of the month';
+}
+
+function formatVinCommitDate(date) {
+  const month = date.toLocaleDateString('en-US', { month: 'short' });
+  return {
+    month,
+    day: String(date.getDate()).padStart(2, '0')
+  };
+}
+
+function getCommitSummary(commit) {
+  const message = commit.commit && commit.commit.message ? commit.commit.message : '';
+  const lines = message.split('\n');
+  const title = lines[0] || 'Site update';
+  const description = lines
+    .slice(1)
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join(' ');
+
+  return {
+    title,
+    description: description || commit.sha.substring(0, 7)
+  };
+}
+
+function renderVinRecentNotes(commits) {
+  const container = document.getElementById('vin-recent-notes');
+  if (!container) return;
+
+  if (!Array.isArray(commits) || commits.length === 0) {
+    container.innerHTML = '<div class="vin-loading">No recent commits found.</div>';
+    return;
+  }
+
+  container.innerHTML = commits.slice(0, 4).map(commit => {
+    const commitDate = new Date(commit.commit.author.date);
+    const dateParts = formatVinCommitDate(commitDate);
+    const summary = getCommitSummary(commit);
+    const commitUrl = `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}/commit/${commit.sha}`;
+
+    return `
+      <a class="note-item" href="${commitUrl}" target="_blank" rel="noopener">
+        <time datetime="${commitDate.toISOString()}"><span>${escapeHtml(dateParts.month)}</span><strong>${escapeHtml(dateParts.day)}</strong></time>
+        <span><strong>${escapeHtml(summary.title)}</strong><small>${escapeHtml(summary.description)}</small></span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    `;
+  }).join('');
+}
+
+async function fetchVinRecentNotes() {
+  const container = document.getElementById('vin-recent-notes');
+  if (!container || container.dataset.loaded === 'true') return;
+
+  try {
+    const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/commits?per_page=4`);
+    if (!response.ok) throw new Error('API error');
+    const commits = await response.json();
+    renderVinRecentNotes(commits);
+    container.dataset.loaded = 'true';
+  } catch (error) {
+    container.innerHTML = '<div class="vin-loading">Could not load recent commits.</div>';
+  }
+}
+
 function initIndexPage() {
   syncMonthlyAlt();
+  renderVinMonthlyImage();
+  fetchVinRecentNotes();
   initLightboxBindings();
 }
 
@@ -778,14 +903,13 @@ function initAboutPage() {
 }
 
 function initNewsPage() {
-  const firstSection = document.getElementById('section-society');
-  if (firstSection) {
-    firstSection.style.display = 'block';
-    const icon = firstSection.previousElementSibling
-      ? firstSection.previousElementSibling.querySelector('.toggle-icon')
-      : null;
+  document.querySelectorAll('.news-sections .section-content').forEach(section => {
+    section.style.display = 'block';
+    const btn = section.previousElementSibling;
+    const icon = btn ? btn.querySelector('.toggle-icon') : null;
+    if (btn) btn.setAttribute('aria-expanded', 'true');
     if (icon) icon.textContent = '▲';
-  }
+  });
 }
 
 function initGalleryPage() {
@@ -807,6 +931,7 @@ function toggleSection(sectionId) {
   const icon = btn ? btn.querySelector('.toggle-icon') : null;
   const isHidden = content.style.display === 'none' || !content.style.display;
   content.style.display = isHidden ? 'block' : 'none';
+  if (btn) btn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
   if (icon) icon.textContent = isHidden ? '▲' : '▼';
 }
 

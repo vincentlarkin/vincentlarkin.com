@@ -31,7 +31,7 @@ const embeddedTranslations = {
     'nav-home': { pt: 'Início', en: 'Home' },
     'nav-about': { pt: 'Sobre', en: 'About' },
     'nav-news': { pt: 'Notícias / Livros', en: 'News / Books' },
-    'nav-gallery': { pt: 'Galeria / Pinturas', en: 'Gallery / Paintings' },
+  'nav-gallery': { pt: 'Galeria', en: 'Gallery' },
     'nav-changelog': { pt: 'Changelog', en: 'Changelog' },
     'nav-caddo': { pt: 'Caddo911 Monitor', en: 'Caddo911 Monitor' },
     'nav-archive': { pt: 'archive.vincentlarkin.com', en: 'archive.vincentlarkin.com' }
@@ -82,7 +82,7 @@ const embeddedTranslations = {
     'wip-badge': { pt: 'Em Progresso', en: 'Work in Progress' }
   },
   gallery: {
-    'gallery-title': { pt: 'Galeria / Pinturas', en: 'Gallery / Paintings' },
+    'gallery-title': { pt: 'Galeria', en: 'Gallery' },
     'gallery-description': {
       pt: 'Imagens mensais e minha coleção de pinturas.',
       en: 'Monthly images and my painting collection.'
@@ -219,14 +219,28 @@ function applyPageTranslations(page) {
 function updateLangButton() {
   const langBtn = document.getElementById('lang-toggle');
   if (langBtn) {
-    langBtn.textContent = currentLang.toUpperCase();
+    if (langBtn.tagName === 'SELECT') {
+      langBtn.value = currentLang;
+    } else {
+      langBtn.textContent = currentLang.toUpperCase();
+    }
     langBtn.className = 'ctrl-btn lang-' + currentLang;
+  }
+
+  const langFlag = document.getElementById('lang-flag');
+  if (langFlag) {
+    langFlag.textContent = '';
+  }
+
+  const langSelector = document.querySelector('.lang-selector');
+  if (langSelector) {
+    langSelector.classList.toggle('is-pt', currentLang === 'pt');
+    langSelector.classList.toggle('is-en', currentLang !== 'pt');
   }
 }
 
-// Switch language
-function switchLanguage() {
-  currentLang = currentLang === 'en' ? 'pt' : 'en';
+function setLanguage(lang) {
+  currentLang = normalizeLang(lang);
   localStorage.setItem('lang', currentLang);
   document.documentElement.lang = currentLang;
   updateLangButton();
@@ -240,6 +254,11 @@ function switchLanguage() {
   document.dispatchEvent(new CustomEvent('languageChanged', { 
     detail: { lang: currentLang } 
   }));
+}
+
+// Switch language
+function switchLanguage() {
+  setLanguage(currentLang === 'en' ? 'pt' : 'en');
 }
 
 // Initialize language system
@@ -260,8 +279,12 @@ async function initLanguageSystem(page, callback) {
   // Set up language button click handler
   const langBtn = document.getElementById('lang-toggle');
   if (langBtn && !langBtn.dataset.bound) {
-    langBtn.addEventListener('click', () => {
-      switchLanguage();
+    langBtn.addEventListener(langBtn.tagName === 'SELECT' ? 'change' : 'click', () => {
+      if (langBtn.tagName === 'SELECT') {
+        setLanguage(langBtn.value);
+      } else {
+        switchLanguage();
+      }
       if (langCallback) {
         langCallback(currentLang);
       }
