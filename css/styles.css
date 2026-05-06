@@ -216,6 +216,7 @@ a:hover { text-decoration: underline; }
 }
 
 .theme-selector #theme-toggle {
+  min-width: 11.5rem;
   padding-left: 2rem;
 }
 
@@ -1745,7 +1746,7 @@ body.theme-vin {
 body.theme-vin::before,
 body.theme-vin::after {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
 }
@@ -1753,12 +1754,10 @@ body.theme-vin::after {
 body.theme-vin::before {
   z-index: 0;
   background:
-    linear-gradient(180deg, rgba(5, 5, 5, 0.9), rgba(5, 5, 5, 0.16) 42%, rgba(5, 5, 5, 0.86)),
+    linear-gradient(180deg, rgba(5, 5, 5, 0.86), rgba(5, 5, 5, 0.08) 42%, rgba(5, 5, 5, 0.84)),
     url("/images/themes/life-of-a-vin/background.png") center top / cover no-repeat,
-    radial-gradient(ellipse at 72% 42%, rgba(164, 18, 18, 0.56), transparent 48%),
-    radial-gradient(ellipse at 18% 78%, rgba(127, 13, 13, 0.62), transparent 44%),
-    linear-gradient(180deg, rgba(5, 5, 5, 0.98) 0%, rgba(5, 5, 5, 0.9) 18%, rgba(62, 5, 5, 0.58) 52%, rgba(5, 5, 5, 0.98) 100%),
     var(--vin-black);
+  background-attachment: scroll;
 }
 
 body.theme-vin::after {
@@ -1799,8 +1798,15 @@ body.theme-vin::after {
   display: none;
 }
 
+.theme-vin #site-header > * {
+  position: relative;
+  z-index: 2;
+}
+
 .theme-vin .header {
-  grid-template-columns: minmax(260px, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "brand controls";
+  align-items: center;
   gap: 1.5rem;
   margin-top: 1.6rem;
   padding: 1.55rem 2.35rem 1.35rem;
@@ -1817,8 +1823,10 @@ body.theme-vin::after {
 }
 
 .theme-vin .site-id {
+  grid-area: brand;
   gap: 1.25rem;
   color: var(--vin-cream);
+  min-width: 0;
 }
 
 .theme-vin .site-id img {
@@ -1838,7 +1846,12 @@ body.theme-vin::after {
 }
 
 .theme-vin .header-controls {
+  grid-area: controls;
+  align-self: center;
   gap: 0.85rem;
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .theme-vin .classic-home {
@@ -1890,7 +1903,7 @@ body.theme-vin::after {
 }
 
 .theme-vin #theme-toggle {
-  width: 13.3rem;
+  width: clamp(12rem, 19vw, 14.25rem);
   min-width: 0;
   padding: 0.55rem 2.1rem 0.55rem 2.35rem;
   appearance: none;
@@ -2061,10 +2074,6 @@ body.theme-vin::after {
   display: none;
 }
 
-.theme-vin .info-card::after {
-  display: none;
-}
-
 .theme-vin .monthly-block {
   width: 100%;
   min-width: 0;
@@ -2146,7 +2155,7 @@ body.theme-vin::after {
 .theme-vin .intro-panel {
   display: grid;
   justify-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   min-width: 0;
   max-width: 570px;
   margin-inline: auto;
@@ -2222,7 +2231,7 @@ body.theme-vin::after {
 
 .theme-vin .info-card {
   min-height: 352px;
-  padding: 1.35rem 1.45rem 1.15rem;
+  padding: 1.42rem 1.45rem 1.15rem;
 }
 
 .theme-vin .note-list,
@@ -2430,6 +2439,17 @@ body.theme-vin::after {
     width: min(100% - 2rem, 900px);
   }
 
+  .theme-vin .header {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "brand"
+      "controls";
+  }
+
+  .theme-vin .header-controls {
+    justify-content: flex-start;
+  }
+
   .theme-vin .vin-home-top-row {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -2458,8 +2478,11 @@ body.theme-vin::after {
     width: 100%;
   }
 
+  .theme-vin #site-header {
+  }
+
   .theme-vin #site-header::after {
-    display: none;
+    display: block;
   }
 
   .theme-vin .header {
@@ -2468,12 +2491,13 @@ body.theme-vin::after {
       "brand"
       "controls";
     margin-top: 0;
-    padding: 1.15rem 1rem;
+    padding: 1.15rem 1rem 1rem;
   }
 
   .theme-vin .site-id {
     grid-area: brand;
     max-width: 100%;
+    min-width: 0;
   }
 
   .theme-vin .site-id img {
@@ -2484,20 +2508,37 @@ body.theme-vin::after {
   .theme-vin .site-id span {
     font-size: 1.2rem;
     letter-spacing: 0.09em;
+    overflow-wrap: anywhere;
   }
 
   .theme-vin .header-controls {
     grid-area: controls;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-content: stretch;
     width: 100%;
+    gap: 0.65rem;
   }
 
   .theme-vin .theme-selector {
-    max-width: calc(100vw - 2rem);
+    width: 100%;
+    max-width: 100%;
   }
 
   .theme-vin #theme-toggle {
-    width: min(13.3rem, calc(100vw - 2rem));
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.88rem;
+  }
+
+  .theme-vin .lang-selector {
+    width: 100%;
+  }
+
+  .theme-vin #lang-toggle {
+    width: 100%;
+    min-width: 0;
   }
 
   .theme-vin .nav {
@@ -2541,5 +2582,21 @@ body.theme-vin::after {
   .theme-vin .quick-link-item,
   .theme-vin .contact-list a {
     grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .theme-vin .header-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-vin .theme-selector,
+  .theme-vin .lang-selector {
+    width: 100%;
+  }
+
+  .theme-vin #theme-toggle,
+  .theme-vin #lang-toggle {
+    width: 100%;
   }
 }
