@@ -201,18 +201,31 @@ function applyGlobalTranslations() {
 // Apply page translations
 function applyPageTranslations(page) {
   const pageTexts = translations[page] || {};
+
+  function applyTranslatedContent(el, content) {
+    if (el.tagName === 'A' && el.querySelector('span')) {
+      el.querySelector('span').textContent = content;
+    } else {
+      el.textContent = content;
+    }
+  }
+
   for (const [id, text] of Object.entries(pageTexts)) {
     const el = document.getElementById(id);
     if (el) {
       const content = text[currentLang] || '';
-      // Handle link items with nested spans
-      if (el.tagName === 'A' && el.querySelector('span')) {
-        el.querySelector('span').textContent = content;
-      } else {
-        el.textContent = content;
-      }
+      applyTranslatedContent(el, content);
     }
   }
+
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.dataset.i18n;
+    const text = pageTexts[key];
+    if (text) {
+      const content = text[currentLang] || '';
+      applyTranslatedContent(el, content);
+    }
+  });
 }
 
 // Update language button appearance

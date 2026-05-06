@@ -2,10 +2,11 @@
 
 // Theme initialization
 const SITE_THEMES = ['theme-vin', 'theme-dark', 'theme-retro'];
+const PARTIAL_VERSION = '20260505';
 const THEME_LABELS = {
   'theme-vin': 'Life of a VIN',
-  'theme-dark': 'Dark',
-  'theme-retro': 'Retro'
+  'theme-dark': 'Dark Theme',
+  'theme-retro': 'Retro Theme'
 };
 const CLASSIC_THEMES = ['theme-dark', 'theme-retro'];
 
@@ -487,7 +488,7 @@ function initThemeToggle() {
     themeSelect.title = getThemeSelectTitle(theme);
     const themeIcon = document.querySelector('.theme-selector-icon');
     if (themeIcon) {
-      themeIcon.textContent = theme === 'theme-retro' ? '' : theme === 'theme-dark' ? '☾' : '✦';
+      themeIcon.textContent = theme === 'theme-retro' ? '' : theme === 'theme-dark' ? '🌙' : '⚜️';
       themeIcon.classList.toggle('has-icon', theme !== 'theme-retro');
     }
   }
@@ -552,10 +553,10 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
   const footerLoaded = footerEl && footerEl.dataset.loaded === 'true';
 
   const headerPromise = headerEl && !headerLoaded
-    ? fetch('/header.html').then(r => r.text())
+    ? fetch(`/header.html?v=${PARTIAL_VERSION}`).then(r => r.text())
     : Promise.resolve(null);
   const footerPromise = footerEl && !footerLoaded
-    ? fetch('/footer.html').then(r => r.text())
+    ? fetch(`/footer.html?v=${PARTIAL_VERSION}`).then(r => r.text())
     : Promise.resolve(null);
 
   return Promise.all([headerPromise, footerPromise]).then(([headerHtml, footerHtml]) => {
@@ -813,9 +814,8 @@ function renderVinMonthlyImage() {
   const item = getLatestMonthlyImage();
   const image = document.getElementById('vin-monthly-image');
   const caption = document.getElementById('vin-monthly-caption');
-  const date = document.getElementById('vin-monthly-date');
 
-  if (!item || !image || !caption || !date) return;
+  if (!item || !image || !caption) return;
 
   const monthName = window.langSystem ? langSystem.getMonthName(item.month) : item.month;
   const label = `${monthName} ${item.year}`;
@@ -824,7 +824,6 @@ function renderVinMonthlyImage() {
   image.src = filePath;
   image.alt = label;
   caption.textContent = label;
-  date.textContent = 'Current image of the month';
 }
 
 function formatVinCommitDate(date) {
