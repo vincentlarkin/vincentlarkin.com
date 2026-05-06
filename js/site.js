@@ -2,7 +2,7 @@
 
 // Theme initialization
 const SITE_THEMES = ['theme-vin', 'theme-dark', 'theme-retro'];
-const PARTIAL_VERSION = '20260505';
+const PARTIAL_VERSION = '20260516';
 const THEME_LABELS = {
   'theme-vin': 'Life of a VIN',
   'theme-dark': 'Dark Theme',
@@ -154,6 +154,7 @@ let spaInitialized = false;
 let navInFlight = false;
 let lightboxBound = false;
 let languageHandlerBound = false;
+let vinRecentCommits = [];
 
 const spaRoutes = new Set([
   '/',
@@ -482,27 +483,28 @@ function initThemeToggle() {
 
   const currentTheme = getStoredTheme();
   applySiteTheme(currentTheme, false);
-
-  function syncThemeControls(theme) {
-    themeSelect.value = theme;
-    themeSelect.title = getThemeSelectTitle(theme);
-    const themeIcon = document.querySelector('.theme-selector-icon');
-    if (themeIcon) {
-      themeIcon.textContent = theme === 'theme-retro' ? '' : theme === 'theme-dark' ? '🌙' : '⚜️';
-      themeIcon.classList.toggle('has-icon', theme !== 'theme-retro');
-    }
-  }
-
-  syncThemeControls(currentTheme);
+  syncThemeNativeControl(themeSelect, currentTheme);
 
   if (!themeSelect.dataset.bound) {
     themeSelect.addEventListener('change', function() {
       const nextTheme = SITE_THEMES.includes(themeSelect.value) ? themeSelect.value : 'theme-vin';
       applySiteTheme(nextTheme, true);
-      syncThemeControls(nextTheme);
+      syncThemeNativeControl(themeSelect, nextTheme);
     });
 
     themeSelect.dataset.bound = 'true';
+  }
+}
+
+function syncThemeNativeControl(themeSelect, theme) {
+  if (!themeSelect) return;
+
+  themeSelect.value = theme;
+  themeSelect.title = getThemeSelectTitle(theme);
+  const themeIcon = document.querySelector('.theme-selector-icon');
+  if (themeIcon) {
+    themeIcon.textContent = theme === 'theme-retro' ? '' : theme === 'theme-dark' ? '\u25D0' : '\u269C';
+    themeIcon.classList.toggle('has-icon', theme !== 'theme-retro');
   }
 }
 
@@ -583,7 +585,9 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
       } else {
         langBtn.textContent = lang.toUpperCase();
       }
-      langBtn.className = 'ctrl-btn lang-' + lang;
+      langBtn.classList.add('ctrl-btn');
+      langBtn.classList.remove('lang-en', 'lang-pt');
+      langBtn.classList.add('lang-' + lang);
     }
     const langFlag = document.getElementById('lang-flag');
     if (langFlag) {
@@ -791,6 +795,9 @@ function handleLanguageChange() {
   } else if (page === 'index') {
     syncMonthlyAlt();
     renderVinMonthlyImage();
+    if (vinRecentCommits.length > 0) {
+      renderVinRecentNotes(vinRecentCommits);
+    }
   }
 
   renderHolidayMonitor();
@@ -826,8 +833,17 @@ function renderVinMonthlyImage() {
   caption.textContent = label;
 }
 
+function getIndexText(key, fallback) {
+  if (window.langSystem) {
+    return langSystem.t('index', key) || fallback;
+  }
+  return fallback;
+}
+
 function formatVinCommitDate(date) {
-  const month = date.toLocaleDateString('en-US', { month: 'short' });
+  const currentLang = window.langSystem ? langSystem.getCurrentLang() : getStoredLang();
+  const locale = currentLang === 'pt' ? 'pt-PT' : 'en-US';
+  const month = date.toLocaleDateString(locale, { month: 'short' });
   return {
     month,
     day: String(date.getDate()).padStart(2, '0')
@@ -855,7 +871,7 @@ function renderVinRecentNotes(commits) {
   if (!container) return;
 
   if (!Array.isArray(commits) || commits.length === 0) {
-    container.innerHTML = '<div class="vin-loading">No recent commits found.</div>';
+    container.innerHTML = `<div class="vin-loading">${getIndexText('recent-notes-empty', 'No recent commits found.')}</div>`;
     return;
   }
 
@@ -883,10 +899,11 @@ async function fetchVinRecentNotes() {
     const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/commits?per_page=4`);
     if (!response.ok) throw new Error('API error');
     const commits = await response.json();
+    vinRecentCommits = Array.isArray(commits) ? commits : [];
     renderVinRecentNotes(commits);
     container.dataset.loaded = 'true';
   } catch (error) {
-    container.innerHTML = '<div class="vin-loading">Could not load recent commits.</div>';
+    container.innerHTML = `<div class="vin-loading">${getIndexText('recent-notes-error', 'Could not load recent commits.')}</div>`;
   }
 }
 

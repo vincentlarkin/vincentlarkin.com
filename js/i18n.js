@@ -50,7 +50,21 @@ const embeddedTranslations = {
     'monthly-caption': { pt: 'Abril de 2026', en: 'April 2026' },
     'links-label': { pt: 'Links Rápidos', en: 'Quick Links' },
     'link-about': { pt: 'Sobre', en: 'About' },
-    'link-gallery': { pt: 'Galeria', en: 'Gallery' }
+    'link-gallery': { pt: 'Galeria', en: 'Gallery' },
+    'recent-notes-label': { pt: 'Notas Recentes', en: 'Recent Notes' },
+    'recent-notes-loading': { pt: 'Carregando commits recentes...', en: 'Loading recent commits...' },
+    'recent-notes-empty': { pt: 'Nenhum commit recente encontrado.', en: 'No recent commits found.' },
+    'recent-notes-error': { pt: 'Não foi possível carregar commits recentes.', en: 'Could not load recent commits.' },
+    'view-changelog': { pt: 'Ver Changelog', en: 'View Changelog' },
+    'quick-about-description': { pt: 'Saiba mais sobre mim', en: 'Learn more about me' },
+    'quick-news-description': { pt: 'Leituras', en: 'Reading' },
+    'quick-gallery-description': { pt: 'Fotos mensais em destaque do arquivo', en: 'Historical monthly featured photos' },
+    'quick-changelog-description': { pt: 'Atualizações e histórico do site', en: 'Site updates and history' },
+    'quick-caddo-description': { pt: 'Monitor de incidentes 911. Agora inclui 1 paróquia e 2 cidades.', en: '911 Incident Tracker. Now includes 1 parish and 2 cities.' },
+    'quick-archive-description': { pt: 'The Royal Archive Project', en: 'The Royal Archive Project' },
+    'contact-status-label': { pt: 'Contato e Status', en: 'Contact & Status' },
+    'view-profile': { pt: 'Ver Perfil Completo', en: 'View Full Profile' },
+    'status-operational': { pt: 'Todos os sistemas operacionais.', en: 'All systems operational.' }
   },
   about: {
     'about-title': { pt: 'Sobre', en: 'About' },
@@ -156,12 +170,17 @@ function getCurrentLang() {
   return currentLang;
 }
 
+function getTranslationEntry(page, key) {
+  if (translations[page] && translations[page][key]) {
+    return translations[page][key];
+  }
+  return null;
+}
+
 // Get translation for a key
 function t(page, key) {
-  if (translations[page] && translations[page][key]) {
-    return translations[page][key][currentLang] || '';
-  }
-  return '';
+  const text = getTranslationEntry(page, key);
+  return text ? (text[currentLang] || '') : '';
 }
 
 // Get month name (with fallback support)
@@ -220,7 +239,8 @@ function applyPageTranslations(page) {
 
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     const key = el.dataset.i18n;
-    const text = pageTexts[key];
+    const sourcePage = el.dataset.i18nPage || page;
+    const text = sourcePage === page ? pageTexts[key] : getTranslationEntry(sourcePage, key);
     if (text) {
       const content = text[currentLang] || '';
       applyTranslatedContent(el, content);
@@ -237,7 +257,9 @@ function updateLangButton() {
     } else {
       langBtn.textContent = currentLang.toUpperCase();
     }
-    langBtn.className = 'ctrl-btn lang-' + currentLang;
+    langBtn.classList.add('ctrl-btn');
+    langBtn.classList.remove('lang-en', 'lang-pt');
+    langBtn.classList.add('lang-' + currentLang);
   }
 
   const langFlag = document.getElementById('lang-flag');
@@ -317,6 +339,7 @@ window.langSystem = {
   getCurrentLang,
   t,
   getMonthName,
+  setLanguage,
   switchLanguage,
   applyPageTranslations,
   applyNavTranslations
