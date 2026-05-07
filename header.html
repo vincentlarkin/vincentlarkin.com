@@ -11,22 +11,29 @@
     </div>
   </div>
   <div class="header-controls">
-    <label class="visually-hidden" for="theme-toggle">Theme</label>
-    <div class="theme-selector">
-      <span class="theme-selector-icon" aria-hidden="true"></span>
-      <select class="ctrl-btn" id="theme-toggle" title="Select Theme" aria-label="Select theme">
-        <option value="theme-vin">Life of a VIN</option>
-        <option value="theme-dark">Dark Theme</option>
-        <option value="theme-retro">Retro Theme</option>
-      </select>
+    <div class="custom-select" id="theme-select" data-name="theme">
+      <button type="button" class="cs-trigger" data-name="theme" aria-haspopup="listbox" aria-expanded="false" aria-label="Select theme">
+        <span class="cs-icon" aria-hidden="true">&#9876;</span>
+        <span class="cs-label">Life of a VIN</span>
+        <span class="cs-arrow" aria-hidden="true">&#9662;</span>
+      </button>
+      <ul class="cs-options" role="listbox" hidden>
+        <li class="cs-option" role="option" data-value="theme-vin"><span class="cs-icon" aria-hidden="true">&#9876;</span><span>Life of a VIN</span></li>
+        <li class="cs-option" role="option" data-value="theme-dark"><span class="cs-icon" aria-hidden="true">&#9680;</span><span>Dark Theme</span></li>
+        <li class="cs-option" role="option" data-value="theme-retro"><span class="cs-icon" aria-hidden="true">&#9635;</span><span>Retro Theme</span></li>
+      </ul>
     </div>
-    <label class="visually-hidden" for="lang-toggle">Language</label>
-    <div class="lang-selector">
-      <span class="lang-selector-flag" id="lang-flag" aria-hidden="true"></span>
-      <select class="ctrl-btn lang-en" id="lang-toggle" title="Select Language" aria-label="Select language">
-        <option value="en">EN</option>
-        <option value="pt">PT</option>
-      </select>
+    <div class="custom-select" id="lang-select" data-name="lang">
+      <button type="button" class="cs-trigger" data-name="lang" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+        <img class="cs-flag" src="/images/flags/us.png" alt="">
+        <span class="cs-label">EN</span>
+        <span class="cs-arrow" aria-hidden="true">&#9662;</span>
+      </button>
+      <ul class="cs-options" role="listbox" hidden>
+        <li class="cs-option" role="option" data-value="en"><img class="cs-flag" src="/images/flags/us.png" alt=""><span>English</span></li>
+        <li class="cs-option" role="option" data-value="pt"><img class="cs-flag" src="/images/flags/pt.svg" alt=""><span>Português</span></li>
+        <li class="cs-option" role="option" data-value="ja"><img class="cs-flag" src="/images/flags/jp.svg" alt=""><span>日本語</span></li>
+      </ul>
     </div>
   </div>
 </header>

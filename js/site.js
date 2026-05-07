@@ -2,13 +2,29 @@
 
 // Theme initialization
 const SITE_THEMES = ['theme-vin', 'theme-dark', 'theme-retro'];
-const PARTIAL_VERSION = '20260516';
+const PARTIAL_VERSION = '20260606b';
 const THEME_LABELS = {
   'theme-vin': 'Life of a VIN',
   'theme-dark': 'Dark Theme',
   'theme-retro': 'Retro Theme'
 };
-const CLASSIC_THEMES = ['theme-dark', 'theme-retro'];
+const THEME_ICONS = {
+  'theme-vin': '\u269C',
+  'theme-dark': '\u25D0',
+  'theme-retro': '\u25A3'
+};
+const SUPPORTED_LANGS = ['en', 'pt', 'ja'];
+const LANG_LABELS = { en: 'EN', pt: 'PT', ja: 'JA' };
+const LANG_FLAGS = {
+  en: '/images/flags/us.png',
+  pt: '/images/flags/pt.svg',
+  ja: '/images/flags/jp.svg'
+};
+const LANG_LOCALES = { en: 'en-US', pt: 'pt-PT', ja: 'ja-JP' };
+
+function getLocaleForLang(lang) {
+  return LANG_LOCALES[lang] || LANG_LOCALES.en;
+}
 
 function getStoredTheme() {
   const savedTheme = localStorage.getItem('theme');
@@ -34,21 +50,8 @@ function applySiteTheme(theme, persist = false) {
   return safeTheme;
 }
 
-function getNextTheme(theme) {
-  const index = SITE_THEMES.indexOf(theme);
-  return SITE_THEMES[(index + 1) % SITE_THEMES.length];
-}
-
 function getThemeSelectLabel(theme) {
   return THEME_LABELS[theme] || THEME_LABELS['theme-vin'];
-}
-
-function getClassicThemeButtonLabel(theme) {
-  return theme === 'theme-retro' ? 'DARK' : 'RETRO';
-}
-
-function getClassicThemeButtonTitle(theme) {
-  return theme === 'theme-retro' ? 'Switch to Dark Theme' : 'Switch to Retro Theme';
 }
 
 function getThemeSelectTitle(theme) {
@@ -188,13 +191,6 @@ const monthlyImages = {
     { file: "agostode2025.webp", month: "agosto", year: 2025, type: "image" }
   ]
 };
-
-// Paintings data
-const paintings = [
-  { file: "the-christian-general.webp", title: "The Christian General", artist: "William L. Maughan" },
-  { file: "red-roses-still-life.webp", title: "Red Roses in Ornate Vase", artist: "Unattributed, circa unknown", credit: "AI assisted frame scan by Vincent L." },
-  { file: "Shepherdess-with-Her-Flock.webp", title: "Shepherdess with Her Flock", artist: "Julien Dupré (1851–1910)", credit: "AI assisted frame scan by Vincent L." }
-];
 
 // Changelog config
 const GITHUB_USERNAME = 'vincentlarkin';
@@ -476,36 +472,158 @@ function renderHolidayMonitor() {
   }
 }
 
-// Initialize theme toggle
-function initThemeToggle() {
-  const themeSelect = document.getElementById('theme-toggle');
-  if (!themeSelect) return;
+// Custom dropdown component.
+// Replaces native <select> so we can render icons + flag images
+// in both the trigger and the option list.
+let customSelectGlobalsBound = false;
+const openCustomSelects = new Set();
 
-  const currentTheme = getStoredTheme();
-  applySiteTheme(currentTheme, false);
-  syncThemeNativeControl(themeSelect, currentTheme);
+function initCustomSelect(root, { onSelect, value } = {}) {
+  if (!root || root.dataset.bound === 'true') return;
+  root.dataset.bound = 'true';
 
-  if (!themeSelect.dataset.bound) {
-    themeSelect.addEventListener('change', function() {
-      const nextTheme = SITE_THEMES.includes(themeSelect.value) ? themeSelect.value : 'theme-vin';
-      applySiteTheme(nextTheme, true);
-      syncThemeNativeControl(themeSelect, nextTheme);
+  const trigger = root.querySelector('.cs-trigger');
+  const options = root.querySelector('.cs-options');
+  if (!trigger || !options) return;
+
+  function close() {
+    if (!root.classList.contains('is-open')) return;
+    root.classList.remove('is-open');
+    options.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+    openCustomSelects.delete(root);
+  }
+
+  function open() {
+    if (root.classList.contains('is-open')) return;
+    openCustomSelects.forEach(other => {
+      if (other !== root) {
+        other.dispatchEvent(new CustomEvent('cs:close'));
+      }
+    });
+    root.classList.add('is-open');
+    options.hidden = false;
+    trigger.setAttribute('aria-expanded', 'true');
+    openCustomSelects.add(root);
+  }
+
+  root.addEventListener('cs:close', close);
+
+  trigger.addEventListener('click', event => {
+    event.stopPropagation();
+    if (root.classList.contains('is-open')) {
+      close();
+    } else {
+      open();
+    }
+  });
+
+  trigger.addEventListener('keydown', event => {
+    if (event.key === 'Escape') close();
+    if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      open();
+      const first = options.querySelector('.cs-option');
+      if (first) first.focus();
+    }
+  });
+
+  options.querySelectorAll('.cs-option').forEach(option => {
+    option.tabIndex = 0;
+
+    option.addEventListener('click', event => {
+      event.stopPropagation();
+      const next = option.dataset.value;
+      setCustomSelectValue(root, next);
+      close();
+      if (typeof onSelect === 'function') onSelect(next);
     });
 
-    themeSelect.dataset.bound = 'true';
+    option.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        option.click();
+      } else if (event.key === 'Escape') {
+        close();
+        trigger.focus();
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        const next = option.nextElementSibling;
+        if (next) next.focus();
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        const prev = option.previousElementSibling;
+        if (prev) prev.focus();
+        else trigger.focus();
+      }
+    });
+  });
+
+  if (!customSelectGlobalsBound) {
+    customSelectGlobalsBound = true;
+    document.addEventListener('click', () => {
+      openCustomSelects.forEach(node => node.dispatchEvent(new CustomEvent('cs:close')));
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        openCustomSelects.forEach(node => node.dispatchEvent(new CustomEvent('cs:close')));
+      }
+    });
+  }
+
+  if (value !== undefined) {
+    setCustomSelectValue(root, value);
   }
 }
 
-function syncThemeNativeControl(themeSelect, theme) {
-  if (!themeSelect) return;
+function setCustomSelectValue(root, value) {
+  if (!root) return;
+  root.dataset.value = value;
+  const options = root.querySelectorAll('.cs-option');
+  let activeOption = null;
+  options.forEach(option => {
+    const isActive = option.dataset.value === value;
+    option.classList.toggle('is-active', isActive);
+    if (isActive) activeOption = option;
+  });
 
-  themeSelect.value = theme;
-  themeSelect.title = getThemeSelectTitle(theme);
-  const themeIcon = document.querySelector('.theme-selector-icon');
-  if (themeIcon) {
-    themeIcon.textContent = theme === 'theme-retro' ? '' : theme === 'theme-dark' ? '\u25D0' : '\u269C';
-    themeIcon.classList.toggle('has-icon', theme !== 'theme-retro');
-  }
+  const trigger = root.querySelector('.cs-trigger');
+  if (!trigger || !activeOption) return;
+
+  const labelEl = trigger.querySelector('.cs-label');
+  const iconEl = trigger.querySelector('.cs-icon');
+  const flagEl = trigger.querySelector('.cs-flag');
+
+  const optionLabel = activeOption.querySelector('span:not(.cs-icon)');
+  const optionIcon = activeOption.querySelector('.cs-icon');
+  const optionFlag = activeOption.querySelector('.cs-flag');
+
+  if (labelEl && optionLabel) labelEl.textContent = optionLabel.textContent;
+  if (iconEl && optionIcon) iconEl.textContent = optionIcon.textContent;
+  if (flagEl && optionFlag) flagEl.src = optionFlag.src;
+}
+
+function getCustomSelectValue(root) {
+  return root ? root.dataset.value : null;
+}
+
+function initThemeSelect() {
+  const root = document.getElementById('theme-select');
+  if (!root) return;
+
+  const currentTheme = getStoredTheme();
+  initCustomSelect(root, {
+    value: currentTheme,
+    onSelect: nextTheme => {
+      const safeTheme = SITE_THEMES.includes(nextTheme) ? nextTheme : 'theme-vin';
+      applySiteTheme(safeTheme, true);
+      const trigger = root.querySelector('.cs-trigger');
+      if (trigger) trigger.title = getThemeSelectTitle(safeTheme);
+    }
+  });
+
+  const trigger = root.querySelector('.cs-trigger');
+  if (trigger) trigger.title = getThemeSelectTitle(currentTheme);
 }
 
 // Initialize footer
@@ -575,32 +693,8 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
       document.body.dataset.page = page;
     }
 
-    // Immediately set language button class
-    const storedLang = localStorage.getItem('lang');
-    const lang = storedLang === 'pt' || storedLang === 'en' ? storedLang : 'en';
-    const langBtn = document.getElementById('lang-toggle');
-    if (langBtn) {
-      if (langBtn.tagName === 'SELECT') {
-        langBtn.value = lang;
-      } else {
-        langBtn.textContent = lang.toUpperCase();
-      }
-      langBtn.classList.add('ctrl-btn');
-      langBtn.classList.remove('lang-en', 'lang-pt');
-      langBtn.classList.add('lang-' + lang);
-    }
-    const langFlag = document.getElementById('lang-flag');
-    if (langFlag) {
-      langFlag.textContent = '';
-    }
-    const langSelector = document.querySelector('.lang-selector');
-    if (langSelector) {
-      langSelector.classList.toggle('is-pt', lang === 'pt');
-      langSelector.classList.toggle('is-en', lang !== 'pt');
-    }
-
     if (activeNavId) setActiveNav(activeNavId);
-    initThemeToggle();
+    initThemeSelect();
     updateRetroAddress();
     initFooter();
 
@@ -842,7 +936,7 @@ function getIndexText(key, fallback) {
 
 function formatVinCommitDate(date) {
   const currentLang = window.langSystem ? langSystem.getCurrentLang() : getStoredLang();
-  const locale = currentLang === 'pt' ? 'pt-PT' : 'en-US';
+  const locale = getLocaleForLang(currentLang);
   const month = date.toLocaleDateString(locale, { month: 'short' });
   return {
     month,
@@ -1014,40 +1108,9 @@ function renderGallery() {
   }
 }
 
-function renderPaintings() {
-  const container = document.getElementById('paintings-container');
-  if (!container) return;
-
-  if (paintings.length === 0) {
-    const emptyText = (window.langSystem ? langSystem.t('gallery', 'paintings-empty') : '') || 'No paintings yet.';
-    container.innerHTML = `<p style="color: var(--muted);">${emptyText}</p>`;
-    return;
-  }
-
-  let html = '<div class="paintings-grid">';
-  paintings.forEach(painting => {
-    const filePath = `/images/paintings/${painting.file}`;
-    const caption = `${painting.title || ''}${painting.artist ? ' - ' + painting.artist : ''}${painting.credit ? ' - ' + painting.credit : ''}`;
-    html += `
-      <div class="gallery-item">
-        <div class="gallery-item-container">
-          <img src="${filePath}" alt="${painting.title || ''}" class="gallery-media" loading="lazy" onclick="openLightbox('${filePath}', '${caption.replace(/'/g, "\\'")}')">
-        </div>
-        <div class="gallery-item-caption">
-          ${painting.title ? `<strong>${painting.title}</strong>` : ''}
-          ${painting.artist ? `<br>${painting.artist}` : ''}
-          ${painting.credit ? `<br><em style="font-size: 0.85em; opacity: 0.7;">${painting.credit}</em>` : ''}
-        </div>
-      </div>
-    `;
-  });
-  html += '</div>';
-  container.innerHTML = html;
-}
-
 function getStoredLang() {
   const storedLang = localStorage.getItem('lang');
-  return storedLang === 'pt' || storedLang === 'en' ? storedLang : 'en';
+  return SUPPORTED_LANGS.includes(storedLang) ? storedLang : 'en';
 }
 
 function getChangelogText(key, fallback) {
@@ -1058,7 +1121,7 @@ function getChangelogText(key, fallback) {
 }
 
 function formatDate(date, lang) {
-  const locale = lang === 'pt' ? 'pt-PT' : 'en-US';
+  const locale = getLocaleForLang(lang);
   return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
@@ -1122,7 +1185,9 @@ function updateSeeMoreButton() {
   if (changelogState.displayedCount < changelogState.allCommits.length) {
     const remaining = changelogState.allCommits.length - changelogState.displayedCount;
     const seeMoreText = window.langSystem ? (langSystem.t('changelog', 'see-more-btn') || 'See More') : 'See More';
-    const remainingText = currentLang === 'pt' ? 'restantes' : 'remaining';
+    const remainingText = window.langSystem
+      ? (langSystem.t('changelog', 'see-more-remaining') || 'remaining')
+      : (currentLang === 'pt' ? 'restantes' : currentLang === 'ja' ? '\u6B8B\u308A' : 'remaining');
     btn.textContent = `${seeMoreText} (${remaining} ${remainingText})`;
     btn.style.display = 'block';
   } else {
@@ -1239,6 +1304,9 @@ window.toggleYear = toggleYear;
 window.openLightbox = openLightbox;
 window.closeLightbox = closeLightbox;
 window.showMoreCommits = showMoreCommits;
+window.initCustomSelect = initCustomSelect;
+window.setCustomSelectValue = setCustomSelectValue;
+window.getCustomSelectValue = getCustomSelectValue;
 
 // Export for use
 window.siteUtils = {
@@ -1249,8 +1317,7 @@ window.siteUtils = {
   handleLanguageChange,
   getCurrentLang: () => {
     if (window.langSystem) return window.langSystem.getCurrentLang();
-    const storedLang = localStorage.getItem('lang');
-    return storedLang === 'pt' || storedLang === 'en' ? storedLang : 'en';
+    return getStoredLang();
   }
 };
 
