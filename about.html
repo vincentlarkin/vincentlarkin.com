@@ -22,14 +22,51 @@
   <div id="page-content" class="is-loading">
     <main>
       <h1 id="about-title">About</h1>
-      
-      <div class="about-grid about-grid-contact-only">
-        <section class="about-section">
+
+      <div class="about-grid about-grid-bio">
+        <section class="about-bio">
+          <div class="about-bio-portrait">
+            <img class="about-bio-portrait-img"
+                 src="/images/profile.jpg"
+                 alt="Vincent Larkin"
+                 loading="lazy"
+                 onerror="this.parentElement.classList.add('no-photo'); this.remove();">
+            <span class="about-bio-portrait-fallback" aria-hidden="true">VL</span>
+          </div>
+          <div class="about-bio-body">
+            <h2 class="about-bio-name">Vincent Larkin</h2>
+            <div class="about-bio-tagline" data-i18n="bio-tagline">Director of Operations</div>
+            <div class="about-bio-location">
+              <span class="about-bio-location-icon" aria-hidden="true">&#9678;</span>
+              <span data-i18n="bio-location">Shreveport-Bossier City Area</span>
+            </div>
+
+            <ul class="about-bio-bullets">
+              <li data-i18n="bio-bullet-1">Strong work ethic.</li>
+              <li data-i18n="bio-bullet-2">Dedicated to completing the task at hand.</li>
+              <li data-i18n="bio-bullet-3">JLPT N5</li>
+            </ul>
+
+            <blockquote class="about-bio-quote" data-i18n="bio-quote">&ldquo;More is lost by indecision than a wrong decision.&rdquo;</blockquote>
+
+            <div class="about-bio-skills-label" data-i18n="bio-skills-label">Top skills</div>
+            <ul class="about-bio-tags" aria-label="Skills">
+              <li data-i18n="bio-tag-pm">Project Management</li>
+              <li data-i18n="bio-tag-ops">Operations</li>
+              <li data-i18n="bio-tag-software">Software</li>
+              <li data-i18n="bio-tag-japanese">Japanese (N5)</li>
+              <li data-i18n="bio-tag-painting">Painting</li>
+              <li data-i18n="bio-tag-reading">Reading</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="about-section about-contact-card">
           <div class="about-section-header" id="contact-title">Contact</div>
           <div class="about-section-content">
             <div class="about-row">
               <div class="about-row-label" id="label-github">Github</div>
-              <div class="about-row-value"><a href="https://github.com/vincentlarkin" target="_blank">vincentlarkin</a></div>
+              <div class="about-row-value"><a href="https://github.com/vincentlarkin" target="_blank" rel="noopener">vincentlarkin</a></div>
             </div>
             <div class="about-row">
               <div class="about-row-label" id="label-email">Email</div>
@@ -37,7 +74,7 @@
             </div>
             <div class="about-row">
               <div class="about-row-label" id="label-linkedin">LinkedIn</div>
-              <div class="about-row-value"><a href="https://www.linkedin.com/in/vincentwlarkin/" target="_blank">vincentwlarkin</a></div>
+              <div class="about-row-value"><a href="https://www.linkedin.com/in/vincentwlarkin/" target="_blank" rel="noopener">vincentwlarkin</a></div>
             </div>
           </div>
         </section>
@@ -47,8 +84,8 @@
 
   <div id="site-footer"></div>
   
-  <script src="/js/i18n.js?v=20260606b"></script>
-  <script src="/js/site.js?v=20260606b"></script>
+  <script src="/js/i18n.js?v=20260606d"></script>
+  <script src="/js/site.js?v=20260606d"></script>
   <script>
     (function() {
       const page = 'about';

@@ -312,10 +312,38 @@ body.theme-retro {
 
 .theme-retro .archive-link {
   color: var(--retro-amber) !important;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.theme-retro .archive-link:hover {
+  color: #fff !important;
+  background: var(--retro-amber);
+  padding: 0.1rem 0.25rem;
+  text-decoration: none;
 }
 
 .theme-retro .caddo-link {
   color: var(--retro-red) !important;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.theme-retro .caddo-link:hover {
+  color: #fff !important;
+  background: var(--retro-red);
+  padding: 0.1rem 0.25rem;
+  text-decoration: none;
+}
+
+.theme-retro .quick-link-item.accent-link:hover {
+  background: var(--retro-red) !important;
+  color: #fff !important;
+  border-color: var(--retro-red);
+}
+
+.theme-retro .quick-link-item.archive-link-item:hover {
+  background: var(--retro-amber) !important;
+  color: #fff !important;
+  border-color: var(--retro-amber);
 }
 
 /* Main page panel */
@@ -518,6 +546,84 @@ body.theme-retro {
 .theme-retro .section-content {
   background: var(--retro-paper);
   border-color: #111;
+}
+
+/* About bio - Retro treatment */
+.theme-retro .about-bio {
+  padding: 1.4rem 1.5rem;
+  background: var(--retro-paper);
+  border: 2px solid var(--retro-blue);
+  box-shadow: inset 1px 1px #fff, 2px 2px 0 rgba(0, 0, 0, 0.18);
+}
+
+.theme-retro .about-bio-portrait {
+  width: 132px;
+  height: 132px;
+  background: #fff;
+  border: 1px solid #777;
+  box-shadow:
+    inset 2px 2px #9a9a9a,
+    inset -1px -1px #fff;
+  image-rendering: pixelated;
+}
+
+.theme-retro .about-bio-portrait-img {
+  filter: saturate(0.78) contrast(1.12) sepia(0.18);
+}
+
+.theme-retro .about-bio-portrait-fallback {
+  color: var(--retro-blue);
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-weight: 700;
+}
+
+.theme-retro .about-bio-name {
+  color: #111;
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.theme-retro .about-bio-tagline {
+  color: var(--retro-blue);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.theme-retro .about-bio-location {
+  color: var(--retro-blue);
+  font-weight: 700;
+}
+
+.theme-retro .about-bio-location-icon {
+  color: var(--retro-blue);
+}
+
+.theme-retro .about-bio-bullets li {
+  color: #111;
+}
+
+.theme-retro .about-bio-bullets li::before {
+  background: var(--retro-blue);
+  border-radius: 0;
+}
+
+.theme-retro .about-bio-quote {
+  border-left: 2px solid var(--retro-blue);
+  color: #222;
+}
+
+.theme-retro .about-bio-skills-label {
+  color: var(--retro-blue);
+}
+
+.theme-retro .about-bio-tags li {
+  background: #d6d6d6;
+  color: #111;
+  border: 1px solid #777;
+  box-shadow: inset 2px 2px #fff, inset -2px -2px #8d8d8d;
 }
 
 .theme-retro .about-section-header,
