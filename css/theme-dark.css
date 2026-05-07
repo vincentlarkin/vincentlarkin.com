@@ -1,0 +1,57 @@
+/* css/theme-dark.css - Dark theme overrides */
+
+.theme-dark {
+  --bg: #1c1c1c;
+  --fg: #e0e0e0;
+  --accent: #6cb6ff;
+  --muted: #888;
+  --border: #444;
+  --highlight: #2a2a00;
+}
+
+.theme-dark .lightbox {
+  background: rgba(0, 0, 0, 0.96);
+}
+
+/* Holiday monitor dark variants */
+.theme-dark .holiday-monitor[data-theme="easter"] {
+  --holiday-bg: linear-gradient(135deg, #6f5615 0%, #9d7a21 100%);
+  --holiday-border: #f0c66e;
+  --holiday-fg: #fff0ca;
+}
+
+.theme-dark .holiday-monitor[data-theme="new-year"] {
+  --holiday-bg: linear-gradient(135deg, #22366e 0%, #314e97 65%, #7a6522 100%);
+  --holiday-border: #9ebeff;
+  --holiday-fg: #ecf3ff;
+}
+
+.theme-dark .holiday-monitor[data-theme="patriot"] {
+  --holiday-bg: linear-gradient(120deg, #5d1522 0%, #4e1836 40%, #17386f 100%);
+  --holiday-border: #8db0f1;
+  --holiday-fg: #fff1f4;
+}
+
+.theme-dark .holiday-monitor[data-theme="independence"] {
+  --holiday-bg: linear-gradient(90deg, #7b1830 0%, #3f2953 50%, #18366c 100%);
+  --holiday-border: #f06b82;
+  --holiday-fg: #eef4ff;
+}
+
+.theme-dark .holiday-monitor[data-theme="thanksgiving"] {
+  --holiday-bg: linear-gradient(135deg, #7d4718 0%, #9a5a1c 52%, #5f2d10 100%);
+  --holiday-border: #f0b66f;
+  --holiday-fg: #ffedd6;
+}
+
+.theme-dark .holiday-monitor[data-theme="christmas"] {
+  --holiday-bg: linear-gradient(135deg, #a2192f 0%, #cc324a 100%);
+  --holiday-border: #f06e7f;
+  --holiday-fg: #fff6f7;
+}
+
+.theme-dark .holiday-monitor[data-theme="portugal"] {
+  --holiday-bg: linear-gradient(90deg, #0f5f38 0%, #0f5f38 46%, #a91f31 46%, #a91f31 100%);
+  --holiday-border: #ee7b86;
+  --holiday-fg: #f7fff9;
+}

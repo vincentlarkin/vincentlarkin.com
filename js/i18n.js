@@ -1,5 +1,5 @@
 // Language System - Centralized translations
-const supportedLangs = ['en', 'pt'];
+const supportedLangs = ['en', 'pt', 'ja'];
 function normalizeLang(value) {
   return supportedLangs.includes(value) ? value : 'en';
 }
@@ -12,148 +12,152 @@ let langCallback = null;
 
 // Fallback month names in case translations fail to load
 const fallbackMonths = {
-  janeiro: { pt: 'Janeiro', en: 'January' },
-  fevereiro: { pt: 'Fevereiro', en: 'February' },
-  março: { pt: 'Março', en: 'March' },
-  abril: { pt: 'Abril', en: 'April' },
-  maio: { pt: 'Maio', en: 'May' },
-  junho: { pt: 'Junho', en: 'June' },
-  julho: { pt: 'Julho', en: 'July' },
-  agosto: { pt: 'Agosto', en: 'August' },
-  setembro: { pt: 'Setembro', en: 'September' },
-  outubro: { pt: 'Outubro', en: 'October' },
-  novembro: { pt: 'Novembro', en: 'November' },
-  dezembro: { pt: 'Dezembro', en: 'December' }
+  janeiro:   { pt: 'Janeiro',   en: 'January',   ja: '1\u6708'  },
+  fevereiro: { pt: 'Fevereiro', en: 'February',  ja: '2\u6708'  },
+  'março':   { pt: 'Mar\u00E7o', en: 'March',    ja: '3\u6708'  },
+  abril:     { pt: 'Abril',     en: 'April',     ja: '4\u6708'  },
+  maio:      { pt: 'Maio',      en: 'May',       ja: '5\u6708'  },
+  junho:     { pt: 'Junho',     en: 'June',      ja: '6\u6708'  },
+  julho:     { pt: 'Julho',     en: 'July',      ja: '7\u6708'  },
+  agosto:    { pt: 'Agosto',    en: 'August',    ja: '8\u6708'  },
+  setembro:  { pt: 'Setembro',  en: 'September', ja: '9\u6708'  },
+  outubro:   { pt: 'Outubro',   en: 'October',   ja: '10\u6708' },
+  novembro:  { pt: 'Novembro',  en: 'November',  ja: '11\u6708' },
+  dezembro:  { pt: 'Dezembro',  en: 'December',  ja: '12\u6708' }
 };
 
 const embeddedTranslations = {
   nav: {
-    'nav-home': { pt: 'Início', en: 'Home' },
-    'nav-about': { pt: 'Sobre', en: 'About' },
-    'nav-news': { pt: 'Notícias / Livros', en: 'News / Books' },
-  'nav-gallery': { pt: 'Galeria', en: 'Gallery' },
-    'nav-changelog': { pt: 'Changelog', en: 'Changelog' },
-    'nav-caddo': { pt: 'Caddo911 Monitor', en: 'Caddo911 Monitor' },
-    'nav-archive': { pt: 'archive.vincentlarkin.com', en: 'archive.vincentlarkin.com' }
+    'nav-home':      { en: 'Home',                       pt: 'In\u00EDcio',                       ja: '\u30DB\u30FC\u30E0' },
+    'nav-about':     { en: 'About',                      pt: 'Sobre',                             ja: '\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB' },
+    'nav-news':      { en: 'News / Books',               pt: 'Not\u00EDcias / Livros',            ja: '\u30CB\u30E5\u30FC\u30B9 / \u672C' },
+    'nav-gallery':   { en: 'Gallery',                    pt: 'Galeria',                           ja: '\u30AE\u30E3\u30E9\u30EA\u30FC' },
+    'nav-changelog': { en: 'Changelog',                  pt: 'Changelog',                         ja: '\u66F4\u65B0\u5C65\u6B74' },
+    'nav-caddo':     { en: 'Caddo911 Monitor',           pt: 'Caddo911 Monitor',                  ja: 'Caddo911 \u30E2\u30CB\u30BF\u30FC' },
+    'nav-archive':   { en: 'archive.vincentlarkin.com',  pt: 'archive.vincentlarkin.com',         ja: 'archive.vincentlarkin.com' }
   },
   global: {
-    'footer-github': { pt: 'GitHub', en: 'GitHub' }
+    'footer-github': { en: 'GitHub', pt: 'GitHub', ja: 'GitHub' }
   },
   index: {
-    'welcome-title': { pt: 'Bem-vindo', en: 'Welcome' },
+    'welcome-title': { en: 'Welcome', pt: 'Bem-vindo', ja: '\u3088\u3046\u3053\u305D' },
     'intro-text': {
-      pt: 'Olá. Este é meu site pessoal. Navegue pelo menu acima para explorar.',
-      en: 'Hello. This is my personal website. Use the menu above to navigate.'
+      en: 'Hello. This is my personal website. Use the menu above to navigate.',
+      pt: 'Ol\u00E1. Este \u00E9 meu site pessoal. Navegue pelo menu acima para explorar.',
+      ja: '\u3053\u3093\u306B\u3061\u306F\u3002\u3053\u3053\u306F\u79C1\u306E\u500B\u4EBA\u30A6\u30A7\u30D6\u30B5\u30A4\u30C8\u3067\u3059\u3002\u4E0A\u306E\u30E1\u30CB\u30E5\u30FC\u304B\u3089\u3054\u5229\u7528\u304F\u3060\u3055\u3044\u3002'
     },
-    'status-text': { pt: 'site online', en: 'site online' },
-    'monthly-label': { pt: 'Imagem do Mês', en: 'Image of the Month' },
-    'monthly-caption': { pt: 'Abril de 2026', en: 'April 2026' },
-    'links-label': { pt: 'Links Rápidos', en: 'Quick Links' },
-    'link-about': { pt: 'Sobre', en: 'About' },
-    'link-gallery': { pt: 'Galeria', en: 'Gallery' },
-    'recent-notes-label': { pt: 'Notas Recentes', en: 'Recent Notes' },
-    'recent-notes-loading': { pt: 'Carregando commits recentes...', en: 'Loading recent commits...' },
-    'recent-notes-empty': { pt: 'Nenhum commit recente encontrado.', en: 'No recent commits found.' },
-    'recent-notes-error': { pt: 'Não foi possível carregar commits recentes.', en: 'Could not load recent commits.' },
-    'view-changelog': { pt: 'Ver Changelog', en: 'View Changelog' },
-    'quick-about-description': { pt: 'Saiba mais sobre mim', en: 'Learn more about me' },
-    'quick-news-description': { pt: 'Leituras', en: 'Reading' },
-    'quick-gallery-description': { pt: 'Fotos mensais em destaque do arquivo', en: 'Historical monthly featured photos' },
-    'quick-changelog-description': { pt: 'Atualizações e histórico do site', en: 'Site updates and history' },
-    'quick-caddo-description': { pt: 'Monitor de incidentes 911. Agora inclui 1 paróquia e 2 cidades.', en: '911 Incident Tracker. Now includes 1 parish and 2 cities.' },
-    'quick-archive-description': { pt: 'The Royal Archive Project', en: 'The Royal Archive Project' },
-    'contact-status-label': { pt: 'Contato e Status', en: 'Contact & Status' },
-    'view-profile': { pt: 'Ver Perfil Completo', en: 'View Full Profile' },
-    'status-operational': { pt: 'Todos os sistemas operacionais.', en: 'All systems operational.' }
+    'status-text':      { en: 'site online',      pt: 'site online',      ja: '\u30B5\u30A4\u30C8\u7A3C\u50CD\u4E2D' },
+    'monthly-label':    { en: 'Image of the Month', pt: 'Imagem do M\u00EAs', ja: '\u4ECA\u6708\u306E\u753B\u50CF' },
+    'monthly-caption':  { en: 'April 2026',        pt: 'Abril de 2026',    ja: '2026\u5E744\u6708' },
+    'links-label':      { en: 'Quick Links',       pt: 'Links R\u00E1pidos', ja: '\u30AF\u30A4\u30C3\u30AF\u30EA\u30F3\u30AF' },
+    'link-about':       { en: 'About',             pt: 'Sobre',            ja: '\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB' },
+    'link-gallery':     { en: 'Gallery',           pt: 'Galeria',          ja: '\u30AE\u30E3\u30E9\u30EA\u30FC' },
+    'recent-notes-label':   { en: 'Recent Notes',                 pt: 'Notas Recentes',                       ja: '\u6700\u8FD1\u306E\u30E1\u30E2' },
+    'recent-notes-loading': { en: 'Loading recent commits...',    pt: 'Carregando commits recentes...',       ja: '\u6700\u8FD1\u306E\u30B3\u30DF\u30C3\u30C8\u3092\u8AAD\u307F\u8FBC\u307F\u4E2D...' },
+    'recent-notes-empty':   { en: 'No recent commits found.',     pt: 'Nenhum commit recente encontrado.',    ja: '\u6700\u8FD1\u306E\u30B3\u30DF\u30C3\u30C8\u306F\u3042\u308A\u307E\u305B\u3093\u3002' },
+    'recent-notes-error':   { en: 'Could not load recent commits.', pt: 'N\u00E3o foi poss\u00EDvel carregar commits recentes.', ja: '\u6700\u8FD1\u306E\u30B3\u30DF\u30C3\u30C8\u3092\u8AAD\u307F\u8FBC\u3081\u307E\u305B\u3093\u3067\u3057\u305F\u3002' },
+    'view-changelog':       { en: 'View Changelog',               pt: 'Ver Changelog',                        ja: '\u66F4\u65B0\u5C65\u6B74\u3092\u898B\u308B' },
+    'quick-about-description':     { en: 'Learn more about me',                                pt: 'Saiba mais sobre mim',                                                  ja: '\u79C1\u306B\u3064\u3044\u3066' },
+    'quick-news-description':      { en: 'Reading',                                            pt: 'Leituras',                                                              ja: '\u8AAD\u66F8' },
+    'quick-gallery-description':   { en: 'Historical monthly featured photos',                 pt: 'Fotos mensais em destaque do arquivo',                                  ja: '\u904E\u53BB\u306E\u6708\u9593\u6CE8\u76EE\u5199\u771F' },
+    'quick-changelog-description': { en: 'Site updates and history',                           pt: 'Atualiza\u00E7\u00F5es e hist\u00F3rico do site',                       ja: '\u30B5\u30A4\u30C8\u306E\u66F4\u65B0\u3068\u5C65\u6B74' },
+    'quick-caddo-description':     { en: '911 Incident Tracker. Now includes 1 parish and 2 cities.', pt: 'Monitor de incidentes 911. Agora inclui 1 par\u00F3quia e 2 cidades.', ja: '911\u901A\u5831\u8FFD\u8DE1\u30B7\u30B9\u30C6\u30E0\u30021\u90E1\u30682\u5E02\u306B\u5BFE\u5FDC\u3002' },
+    'quick-archive-description':   { en: 'The Royal Archive Project',                          pt: 'The Royal Archive Project',                                             ja: '\u30ED\u30A4\u30E4\u30EB\u30FB\u30A2\u30FC\u30AB\u30A4\u30D6\u30FB\u30D7\u30ED\u30B8\u30A7\u30AF\u30C8' },
+    'contact-status-label': { en: 'Contact & Status',          pt: 'Contato e Status',           ja: '\u9023\u7D61\u5148 \u30FB \u30B9\u30C6\u30FC\u30BF\u30B9' },
+    'view-profile':         { en: 'View Full Profile',         pt: 'Ver Perfil Completo',        ja: '\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB\u3092\u898B\u308B' },
+    'status-operational':   { en: 'All systems operational.',  pt: 'Todos os sistemas operacionais.', ja: '\u3059\u3079\u3066\u6B63\u5E38\u306B\u7A3C\u50CD\u4E2D\u3067\u3059\u3002' }
   },
   about: {
-    'about-title': { pt: 'Sobre', en: 'About' },
-    'personal-info-title': { pt: 'Informações Pessoais', en: 'Personal Information' },
-    'label-occupation': { pt: 'Ocupação', en: 'Occupation' },
-    'value-occupation': { pt: 'Diretor de Operações', en: 'Director of Operations' },
-    'label-employer': { pt: 'Empregador', en: 'Employer' },
-    'contact-title': { pt: 'Contato', en: 'Contact' },
-    'label-github': { pt: 'Github', en: 'Github' },
-    'label-email': { pt: 'Email', en: 'Email' },
-    'label-linkedin': { pt: 'LinkedIn', en: 'LinkedIn' }
+    'about-title':         { en: 'About',                   pt: 'Sobre',                          ja: '\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB' },
+    'personal-info-title': { en: 'Personal Information',    pt: 'Informa\u00E7\u00F5es Pessoais', ja: '\u500B\u4EBA\u60C5\u5831' },
+    'label-occupation':    { en: 'Occupation',              pt: 'Ocupa\u00E7\u00E3o',             ja: '\u8077\u696D' },
+    'value-occupation':    { en: 'Director of Operations',  pt: 'Diretor de Opera\u00E7\u00F5es', ja: '\u696D\u52D9\u7BA1\u7406\u30C7\u30A3\u30EC\u30AF\u30BF\u30FC' },
+    'label-employer':      { en: 'Employer',                pt: 'Empregador',                     ja: '\u52E4\u52D9\u5148' },
+    'contact-title':       { en: 'Contact',                 pt: 'Contato',                        ja: '\u9023\u7D61\u5148' },
+    'label-github':        { en: 'Github',                  pt: 'Github',                         ja: 'Github' },
+    'label-email':         { en: 'Email',                   pt: 'Email',                          ja: '\u30E1\u30FC\u30EB' },
+    'label-linkedin':      { en: 'LinkedIn',                pt: 'LinkedIn',                       ja: 'LinkedIn' }
   },
   news: {
-    'news-title': { pt: 'Notícias / Livros', en: 'News / Books' },
+    'news-title': { en: 'News / Books', pt: 'Not\u00EDcias / Livros', ja: '\u30CB\u30E5\u30FC\u30B9 / \u672C' },
     'news-description': {
+      en: 'Interesting articles from the internet and my bookshelf.',
       pt: 'Artigos interessantes da internet e minha estante de livros.',
-      en: 'Interesting articles from the internet and my bookshelf.'
+      ja: '\u30A4\u30F3\u30BF\u30FC\u30CD\u30C3\u30C8\u306E\u8208\u5473\u6DF1\u3044\u8A18\u4E8B\u3068\u79C1\u306E\u672C\u68DA\u3002'
     },
-    'news-section-society': { pt: 'Sociedade e Cultura', en: 'Society & Culture' },
-    'news-section-health': { pt: 'Saúde e Medicina', en: 'Health & Medicine' },
-    'news-section-politics': { pt: 'Política e Relações Internacionais', en: 'Politics & International Relations' },
-    'news-section-business': { pt: 'Negócios e Tecnologia', en: 'Business & Technology' },
-    'bookshelf-title': { pt: 'Estante de Livros', en: 'Bookshelf' },
+    'news-section-society':  { en: 'Society & Culture',                  pt: 'Sociedade e Cultura',                              ja: '\u793E\u4F1A\u3068\u6587\u5316' },
+    'news-section-health':   { en: 'Health & Medicine',                  pt: 'Sa\u00FAde e Medicina',                            ja: '\u5065\u5EB7\u3068\u533B\u5B66' },
+    'news-section-politics': { en: 'Politics & International Relations', pt: 'Pol\u00EDtica e Rela\u00E7\u00F5es Internacionais', ja: '\u653F\u6CBB\u3068\u56FD\u969B\u95A2\u4FC2' },
+    'news-section-business': { en: 'Business & Technology',              pt: 'Neg\u00F3cios e Tecnologia',                        ja: '\u30D3\u30B8\u30CD\u30B9\u3068\u30C6\u30AF\u30CE\u30ED\u30B8\u30FC' },
+    'bookshelf-title': { en: 'Bookshelf', pt: 'Estante de Livros', ja: '\u672C\u68DA' },
     'bookshelf-subtitle': {
-      pt: 'Livros que encontro interessantes ou bons para ter em mãos.',
-      en: 'Books I find insightful or good to have on hand.'
+      en: 'Books I find insightful or good to have on hand.',
+      pt: 'Livros que encontro interessantes ou bons para ter em m\u00E3os.',
+      ja: '\u8208\u5473\u6DF1\u3044\u672C\u3084\u624B\u5143\u306B\u7F6E\u3044\u3066\u304A\u304D\u305F\u3044\u672C\u3002'
     },
-    'bookshelf-empty-text': { pt: 'Nenhum livro adicionado ainda.', en: 'No books added yet.' },
-    'wip-badge': { pt: 'Em Progresso', en: 'Work in Progress' }
+    'bookshelf-empty-text': { en: 'No books added yet.',  pt: 'Nenhum livro adicionado ainda.', ja: '\u307E\u3060\u672C\u306F\u8FFD\u52A0\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u3002' },
+    'wip-badge':            { en: 'Work in Progress',     pt: 'Em Progresso',                   ja: '\u5236\u4F5C\u4E2D' }
   },
   gallery: {
-    'gallery-title': { pt: 'Galeria', en: 'Gallery' },
+    'gallery-title': { en: 'Gallery', pt: 'Galeria', ja: '\u30AE\u30E3\u30E9\u30EA\u30FC' },
     'gallery-description': {
-      pt: 'Imagens mensais e minha coleção de pinturas.',
-      en: 'Monthly images and my painting collection.'
+      en: 'Monthly images and my painting collection.',
+      pt: 'Imagens mensais e minha cole\u00E7\u00E3o de pinturas.',
+      ja: '\u6708\u9593\u753B\u50CF\u3068\u7D75\u753B\u30B3\u30EC\u30AF\u30B7\u30E7\u30F3\u3002'
     },
-    'monthly-label': { pt: 'Galeria Mensal', en: 'Monthly Gallery' },
-    'paintings-label': { pt: 'Pinturas', en: 'Paintings' },
+    'monthly-label':   { en: 'Monthly Gallery', pt: 'Galeria Mensal', ja: '\u6708\u9593\u30AE\u30E3\u30E9\u30EA\u30FC' },
+    'paintings-label': { en: 'Paintings',       pt: 'Pinturas',       ja: '\u7D75\u753B' },
     'paintings-description': {
-      pt: 'Uma coleção de pinturas e imagens que gosto.',
-      en: 'A collection of paintings and images I like.'
+      en: 'A collection of paintings and images I like.',
+      pt: 'Uma cole\u00E7\u00E3o de pinturas e imagens que gosto.',
+      ja: '\u79C1\u304C\u597D\u304D\u306A\u7D75\u753B\u3068\u753B\u50CF\u306E\u30B3\u30EC\u30AF\u30B7\u30E7\u30F3\u3002'
     },
-    'paintings-archive-prefix': {
-      pt: 'Movido para',
-      en: 'Moved to'
-    },
-    'paintings-empty': { pt: 'Nenhuma pintura ainda.', en: 'No paintings yet.' }
+    'paintings-archive-prefix': { en: 'Moved to', pt: 'Movido para', ja: '\u79FB\u52D5\u5148\uFF1A' },
+    'paintings-empty':          { en: 'No paintings yet.', pt: 'Nenhuma pintura ainda.', ja: '\u307E\u3060\u7D75\u753B\u306F\u3042\u308A\u307E\u305B\u3093\u3002' }
   },
   changelog: {
-    'changelog-title': { pt: 'Changelog', en: 'Changelog' },
+    'changelog-title': { en: 'Changelog', pt: 'Changelog', ja: '\u66F4\u65B0\u5C65\u6B74' },
     'changelog-subtitle': {
-      pt: 'Atualizações recentes do site',
-      en: 'Recent site updates'
+      en: 'Recent site updates',
+      pt: 'Atualiza\u00E7\u00F5es recentes do site',
+      ja: '\u30B5\u30A4\u30C8\u306E\u6700\u8FD1\u306E\u66F4\u65B0'
     },
-    'changelog-source-label': { pt: 'Fonte:', en: 'Source:' },
-    'changelog-source-link': { pt: 'Repositório GitHub', en: 'GitHub Repository' },
-    'changelog-loading': { pt: 'Carregando commits...', en: 'Loading commits...' },
-    'changelog-no-commits': { pt: 'Nenhum commit encontrado', en: 'No commits found' },
-    'changelog-error': { pt: 'Não foi possível carregar commits do GitHub.', en: 'Could not load commits from GitHub.' },
-    'see-more-btn': { pt: 'Ver Mais', en: 'See More' }
+    'changelog-source-label':  { en: 'Source:',           pt: 'Fonte:',                ja: '\u30BD\u30FC\u30B9\uFF1A' },
+    'changelog-source-link':   { en: 'GitHub Repository', pt: 'Reposit\u00F3rio GitHub', ja: 'GitHub \u30EA\u30DD\u30B8\u30C8\u30EA' },
+    'changelog-loading':       { en: 'Loading commits...', pt: 'Carregando commits...', ja: '\u30B3\u30DF\u30C3\u30C8\u3092\u8AAD\u307F\u8FBC\u307F\u4E2D...' },
+    'changelog-no-commits':    { en: 'No commits found',  pt: 'Nenhum commit encontrado', ja: '\u30B3\u30DF\u30C3\u30C8\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093' },
+    'changelog-error':         { en: 'Could not load commits from GitHub.', pt: 'N\u00E3o foi poss\u00EDvel carregar commits do GitHub.', ja: 'GitHub \u304B\u3089\u30B3\u30DF\u30C3\u30C8\u3092\u8AAD\u307F\u8FBC\u3081\u307E\u305B\u3093\u3067\u3057\u305F\u3002' },
+    'see-more-btn':            { en: 'See More',          pt: 'Ver Mais',              ja: '\u3082\u3063\u3068\u898B\u308B' },
+    'see-more-remaining':      { en: 'remaining',         pt: 'restantes',             ja: '\u6B8B\u308A' }
   },
   holiday: {
-    'title': { pt: 'Feriado de hoje', en: "Today's holiday" },
-    'label-us': { pt: 'Estados Unidos', en: 'United States' },
-    'label-pt': { pt: 'Portugal', en: 'Portugal' },
-    'name-new-years-day': { pt: 'Ano Novo', en: "New Year's Day" },
-    'message-new-years-day': { pt: 'Feliz Ano Novo', en: 'Happy New Year' },
-    'name-presidents-day': { pt: 'Dia dos Presidentes', en: "Presidents' Day" },
-    'message-presidents-day': { pt: 'Dia dos Presidentes', en: "Presidents' Day" },
-    'name-easter': { pt: 'P\u00E1scoa', en: 'Easter' },
-    'message-easter': { pt: 'Feliz P\u00E1scoa', en: 'Happy Easter' },
-    'name-memorial-day': { pt: 'Dia da Mem\u00F3ria', en: 'Memorial Day' },
-    'message-memorial-day': { pt: 'Dia da Mem\u00F3ria', en: 'Memorial Day' },
-    'name-independence-day': { pt: 'Dia da Independ\u00EAncia', en: 'Independence Day' },
-    'message-independence-day': { pt: 'Feliz Dia da Independ\u00EAncia', en: 'Happy Independence Day' },
-    'name-labor-day': { pt: 'Dia do Trabalho', en: 'Labor Day' },
-    'message-labor-day': { pt: 'Dia do Trabalho', en: 'Labor Day' },
-    'name-columbus-day': { pt: 'Dia de Colombo', en: 'Columbus Day' },
-    'message-columbus-day': { pt: 'Dia de Colombo', en: 'Columbus Day' },
-    'name-veterans-day': { pt: 'Dia dos Veteranos', en: 'Veterans Day' },
-    'message-veterans-day': { pt: 'Dia dos Veteranos', en: 'Veterans Day' },
-    'name-thanksgiving': { pt: 'A\u00E7\u00E3o de Gra\u00E7as', en: 'Thanksgiving' },
-    'message-thanksgiving': { pt: 'Feliz Dia de A\u00E7\u00E3o de Gra\u00E7as', en: 'Happy Thanksgiving' },
-    'name-christmas': { pt: 'Natal', en: 'Christmas' },
-    'message-christmas': { pt: 'Feliz Natal', en: 'Merry Christmas' },
-    'name-portugal-day': { pt: 'Dia de Portugal', en: 'Portugal Day' },
-    'message-portugal-day': { pt: 'Dia de Portugal', en: 'Portugal Day' },
-    'name-restoration-day': { pt: 'Restaura\u00E7\u00E3o da Independ\u00EAncia', en: 'Restoration of Independence' },
-    'message-restoration-day': { pt: 'Restaura\u00E7\u00E3o da Independ\u00EAncia', en: 'Restoration of Independence' }
+    'title':    { en: "Today's holiday", pt: 'Feriado de hoje', ja: '\u4ECA\u65E5\u306E\u795D\u65E5' },
+    'label-us': { en: 'United States',   pt: 'Estados Unidos',  ja: '\u30A2\u30E1\u30EA\u30AB\u5408\u8846\u56FD' },
+    'label-pt': { en: 'Portugal',        pt: 'Portugal',        ja: '\u30DD\u30EB\u30C8\u30AC\u30EB' },
+    'name-new-years-day':       { en: "New Year's Day",       pt: 'Ano Novo',                                   ja: '\u5143\u65E5' },
+    'message-new-years-day':    { en: 'Happy New Year',       pt: 'Feliz Ano Novo',                             ja: '\u660E\u3051\u307E\u3057\u3066\u304A\u3081\u3067\u3068\u3046\u3054\u3056\u3044\u307E\u3059' },
+    'name-presidents-day':      { en: "Presidents' Day",      pt: 'Dia dos Presidentes',                        ja: '\u5927\u7D71\u9818\u306E\u65E5' },
+    'message-presidents-day':   { en: "Presidents' Day",      pt: 'Dia dos Presidentes',                        ja: '\u5927\u7D71\u9818\u306E\u65E5' },
+    'name-easter':              { en: 'Easter',               pt: 'P\u00E1scoa',                                ja: '\u30A4\u30FC\u30B9\u30BF\u30FC' },
+    'message-easter':           { en: 'Happy Easter',         pt: 'Feliz P\u00E1scoa',           ja: '\u30CF\u30C3\u30D4\u30FC\u30A4\u30FC\u30B9\u30BF\u30FC' },
+    'name-memorial-day':        { en: 'Memorial Day',         pt: 'Dia da Mem\u00F3ria',         ja: '\u6226\u6CA1\u5C06\u5175\u8FFD\u60BC\u8A18\u5FF5\u65E5' },
+    'message-memorial-day':     { en: 'Memorial Day',         pt: 'Dia da Mem\u00F3ria',         ja: '\u6226\u6CA1\u5C06\u5175\u8FFD\u60BC\u8A18\u5FF5\u65E5' },
+    'name-independence-day':    { en: 'Independence Day',     pt: 'Dia da Independ\u00EAncia',   ja: '\u72EC\u7ACB\u8A18\u5FF5\u65E5' },
+    'message-independence-day': { en: 'Happy Independence Day', pt: 'Feliz Dia da Independ\u00EAncia', ja: '\u72EC\u7ACB\u8A18\u5FF5\u65E5\u304A\u3081\u3067\u3068\u3046' },
+    'name-labor-day':           { en: 'Labor Day',            pt: 'Dia do Trabalho',             ja: '\u30EC\u30A4\u30D0\u30FC\u30FB\u30C7\u30FC' },
+    'message-labor-day':        { en: 'Labor Day',            pt: 'Dia do Trabalho',             ja: '\u30EC\u30A4\u30D0\u30FC\u30FB\u30C7\u30FC' },
+    'name-columbus-day':        { en: 'Columbus Day',         pt: 'Dia de Colombo',              ja: '\u30B3\u30ED\u30F3\u30D6\u30B9\u30FB\u30C7\u30FC' },
+    'message-columbus-day':     { en: 'Columbus Day',         pt: 'Dia de Colombo',              ja: '\u30B3\u30ED\u30F3\u30D6\u30B9\u30FB\u30C7\u30FC' },
+    'name-veterans-day':        { en: 'Veterans Day',         pt: 'Dia dos Veteranos',           ja: '\u9000\u5F79\u8ECD\u4EBA\u306E\u65E5' },
+    'message-veterans-day':     { en: 'Veterans Day',         pt: 'Dia dos Veteranos',           ja: '\u9000\u5F79\u8ECD\u4EBA\u306E\u65E5' },
+    'name-thanksgiving':        { en: 'Thanksgiving',         pt: 'A\u00E7\u00E3o de Gra\u00E7as', ja: '\u611F\u8B1D\u796D' },
+    'message-thanksgiving':     { en: 'Happy Thanksgiving',   pt: 'Feliz Dia de A\u00E7\u00E3o de Gra\u00E7as', ja: '\u611F\u8B1D\u796D\u304A\u3081\u3067\u3068\u3046' },
+    'name-christmas':           { en: 'Christmas',            pt: 'Natal',                       ja: '\u30AF\u30EA\u30B9\u30DE\u30B9' },
+    'message-christmas':        { en: 'Merry Christmas',      pt: 'Feliz Natal',                 ja: '\u30E1\u30EA\u30FC\u30AF\u30EA\u30B9\u30DE\u30B9' },
+    'name-portugal-day':        { en: 'Portugal Day',         pt: 'Dia de Portugal',             ja: '\u30DD\u30EB\u30C8\u30AC\u30EB\u306E\u65E5' },
+    'message-portugal-day':     { en: 'Portugal Day',         pt: 'Dia de Portugal',             ja: '\u30DD\u30EB\u30C8\u30AC\u30EB\u306E\u65E5' },
+    'name-restoration-day':     { en: 'Restoration of Independence', pt: 'Restaura\u00E7\u00E3o da Independ\u00EAncia', ja: '\u72EC\u7ACB\u56DE\u5FA9\u306E\u65E5' },
+    'message-restoration-day':  { en: 'Restoration of Independence', pt: 'Restaura\u00E7\u00E3o da Independ\u00EAncia', ja: '\u72EC\u7ACB\u56DE\u5FA9\u306E\u65E5' }
   },
   months: fallbackMonths
 };
@@ -248,29 +252,14 @@ function applyPageTranslations(page) {
   });
 }
 
-// Update language button appearance
+// Update language picker to reflect the current language.
+// The picker is a custom <div class="custom-select" id="lang-select">
+// managed by initCustomSelect() in site.js. We just call its
+// setter so the trigger displays the right flag + label.
 function updateLangButton() {
-  const langBtn = document.getElementById('lang-toggle');
-  if (langBtn) {
-    if (langBtn.tagName === 'SELECT') {
-      langBtn.value = currentLang;
-    } else {
-      langBtn.textContent = currentLang.toUpperCase();
-    }
-    langBtn.classList.add('ctrl-btn');
-    langBtn.classList.remove('lang-en', 'lang-pt');
-    langBtn.classList.add('lang-' + currentLang);
-  }
-
-  const langFlag = document.getElementById('lang-flag');
-  if (langFlag) {
-    langFlag.textContent = '';
-  }
-
-  const langSelector = document.querySelector('.lang-selector');
-  if (langSelector) {
-    langSelector.classList.toggle('is-pt', currentLang === 'pt');
-    langSelector.classList.toggle('is-en', currentLang !== 'pt');
+  const langSelect = document.getElementById('lang-select');
+  if (langSelect && typeof window.setCustomSelectValue === 'function') {
+    window.setCustomSelectValue(langSelect, currentLang);
   }
 }
 
@@ -291,9 +280,11 @@ function setLanguage(lang) {
   }));
 }
 
-// Switch language
+// Switch language - rotate through all supported langs
 function switchLanguage() {
-  setLanguage(currentLang === 'en' ? 'pt' : 'en');
+  const idx = supportedLangs.indexOf(currentLang);
+  const next = supportedLangs[(idx + 1) % supportedLangs.length];
+  setLanguage(next);
 }
 
 // Initialize language system
@@ -311,20 +302,18 @@ async function initLanguageSystem(page, callback) {
   document.documentElement.lang = currentLang;
   updateLangButton();
   
-  // Set up language button click handler
-  const langBtn = document.getElementById('lang-toggle');
-  if (langBtn && !langBtn.dataset.bound) {
-    langBtn.addEventListener(langBtn.tagName === 'SELECT' ? 'change' : 'click', () => {
-      if (langBtn.tagName === 'SELECT') {
-        setLanguage(langBtn.value);
-      } else {
-        switchLanguage();
-      }
-      if (langCallback) {
-        langCallback(currentLang);
+  // Bind the custom-select language picker.
+  // The component is implemented in site.js and exposes
+  // initCustomSelect() / setCustomSelectValue() on window.
+  const langSelect = document.getElementById('lang-select');
+  if (langSelect && typeof window.initCustomSelect === 'function') {
+    window.initCustomSelect(langSelect, {
+      value: currentLang,
+      onSelect: nextLang => {
+        setLanguage(nextLang);
+        if (langCallback) langCallback(currentLang);
       }
     });
-    langBtn.dataset.bound = 'true';
   }
   
   // Run callback with initial language

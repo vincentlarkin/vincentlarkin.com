@@ -1,0 +1,823 @@
+/* css/theme-vin.css
+   Life of a VIN / gothic luxury theme.
+   Additive theme: body.theme-vin */
+
+.theme-vin {
+  --bg: #050505;
+  --fg: #e7d7b5;
+  --accent: #c79a5c;
+  --muted: #b9a482;
+  --border: rgba(176, 138, 87, 0.54);
+  --highlight: rgba(127, 13, 13, 0.2);
+
+  --vin-black: #050505;
+  --vin-black-soft: #0b0b0b;
+  --vin-panel: rgba(7, 7, 7, 0.78);
+  --vin-panel-strong: rgba(5, 5, 5, 0.9);
+  --vin-crimson: #a41212;
+  --vin-crimson-deep: #7f0d0d;
+  --vin-crimson-glow: #5a0a0a;
+  --vin-gold: #b08a57;
+  --vin-gold-bright: #c79a5c;
+  --vin-cream: #e7d7b5;
+  --vin-faint: rgba(231, 215, 181, 0.68);
+  --vin-line: rgba(176, 138, 87, 0.42);
+  --vin-serif: Georgia, "Times New Roman", serif;
+  --vin-ui: "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+html.theme-vin {
+  background: #050505;
+}
+
+body.theme-vin {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--vin-black);
+  color: var(--vin-cream);
+  font-family: var(--vin-ui);
+  letter-spacing: 0;
+}
+
+body.theme-vin::before,
+body.theme-vin::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+body.theme-vin::before {
+  z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.86), rgba(5, 5, 5, 0.08) 42%, rgba(5, 5, 5, 0.84)),
+    url("/images/themes/life-of-a-vin/background.webp") center top / cover no-repeat,
+    var(--vin-black);
+  background-attachment: scroll;
+}
+
+body.theme-vin::after {
+  z-index: 0;
+  background:
+    repeating-radial-gradient(circle at 50% 50%, rgba(231, 215, 181, 0.035) 0 1px, transparent 1px 4px);
+  mix-blend-mode: multiply;
+  opacity: 0.72;
+}
+
+.theme-vin > * {
+  position: relative;
+  z-index: 1;
+}
+
+.theme-vin a {
+  color: var(--vin-gold-bright);
+}
+
+.theme-vin a:hover {
+  color: var(--vin-cream);
+  text-decoration: none;
+}
+
+.theme-vin #site-header,
+.theme-vin #page-content,
+.theme-vin #site-footer {
+  width: min(1450px, calc(100% - 5.5rem));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.theme-vin #site-header {
+  position: relative;
+}
+
+.theme-vin #site-header::after {
+  display: none;
+}
+
+.theme-vin #site-header > * {
+  position: relative;
+}
+
+/* Header sits above nav so the dropdown menu (positioned inside the
+   header) can fly out over the nav row below it. */
+.theme-vin #site-header > .header {
+  z-index: 50;
+}
+
+.theme-vin #site-header > .nav {
+  z-index: 1;
+}
+
+.theme-vin .header {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "brand controls";
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.6rem;
+  padding: 1.55rem 2.35rem 1.35rem;
+  border: 1px solid var(--vin-line);
+  border-bottom: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.82), rgba(5, 5, 5, 0.68));
+  box-shadow:
+    inset 0 0 0 1px rgba(199, 154, 92, 0.12),
+    0 24px 70px rgba(0, 0, 0, 0.46);
+}
+
+/* The open dropdown needs to escape the header's stacking context
+   and float over the nav (which is a later sibling at z-index 2). */
+.theme-vin .custom-select.is-open {
+  z-index: 200;
+}
+
+.theme-vin .header-holiday-slot {
+  display: none;
+}
+
+.theme-vin .site-id {
+  grid-area: brand;
+  gap: 1.25rem;
+  color: var(--vin-cream);
+  min-width: 0;
+}
+
+.theme-vin .site-id img {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  filter: sepia(0.7) saturate(0.8) brightness(0.95) contrast(1.08) drop-shadow(0 0 18px rgba(176, 138, 87, 0.28));
+}
+
+.theme-vin .site-id span {
+  font-family: var(--vin-serif);
+  font-size: clamp(1.45rem, 2.4vw, 2.35rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--vin-cream);
+  text-shadow: 0 0 22px rgba(176, 47, 35, 0.22);
+}
+
+.theme-vin .header-controls {
+  grid-area: controls;
+  align-self: center;
+  gap: 0.85rem;
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.theme-vin .classic-home {
+  display: none;
+}
+
+.theme-vin .vin-home-main {
+  display: block;
+}
+
+/* Custom dropdown styling */
+.theme-vin .cs-trigger {
+  min-height: 2.55rem;
+  border: 1px solid var(--vin-line);
+  background: rgba(6, 6, 6, 0.82);
+  color: var(--vin-cream);
+  font-family: var(--vin-ui);
+  letter-spacing: 0.06em;
+  box-shadow:
+    inset 0 0 0 1px rgba(199, 154, 92, 0.12),
+    0 0 18px rgba(127, 13, 13, 0.12);
+}
+
+.theme-vin .cs-trigger:hover,
+.theme-vin .cs-trigger:focus-visible {
+  border-color: var(--vin-gold-bright);
+  outline: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(199, 154, 92, 0.28),
+    0 0 22px rgba(127, 13, 13, 0.28);
+}
+
+.theme-vin .cs-trigger[data-name="theme"] {
+  width: clamp(12rem, 19vw, 14.25rem);
+}
+
+.theme-vin .cs-arrow {
+  color: var(--vin-gold-bright);
+}
+
+.theme-vin .cs-options {
+  background: #090909;
+  color: var(--vin-cream);
+  border: 1px solid var(--vin-line);
+  box-shadow:
+    inset 0 0 0 1px rgba(199, 154, 92, 0.12),
+    0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+.theme-vin .cs-option {
+  color: var(--vin-cream);
+}
+
+.theme-vin .cs-option:hover,
+.theme-vin .cs-option.is-active {
+  background: rgba(127, 13, 13, 0.42);
+  color: var(--vin-cream);
+  box-shadow: inset 2px 0 var(--vin-crimson);
+}
+
+.theme-vin .nav {
+  justify-content: center;
+  gap: 0;
+  padding: 0.9rem 1.6rem 0.95rem;
+  border: 1px solid var(--vin-line);
+  background: rgba(5, 5, 5, 0.72);
+  box-shadow: inset 0 1px rgba(199, 154, 92, 0.08);
+}
+
+.theme-vin .nav a {
+  position: relative;
+  padding: 0.38rem 1.18rem;
+  color: var(--vin-muted, var(--vin-faint));
+  font-family: var(--vin-serif);
+  font-size: 0.98rem;
+  letter-spacing: 0.035em;
+  white-space: nowrap;
+}
+
+.theme-vin .nav a:not(:last-child)::after {
+  content: "\25C6";
+  position: absolute;
+  right: -0.18rem;
+  top: 50%;
+  transform: translateY(-50%) scale(0.45);
+  color: var(--vin-gold);
+  opacity: 0.72;
+}
+
+.theme-vin .nav a:hover,
+.theme-vin .nav a.active {
+  color: var(--vin-cream);
+}
+
+.theme-vin .nav a.active::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: -0.58rem;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--vin-crimson), transparent);
+  box-shadow: 0 0 16px rgba(164, 18, 18, 0.86);
+}
+
+.theme-vin .caddo-link {
+  color: #ff3d35 !important;
+}
+
+.theme-vin .archive-link {
+  color: #d59b4a !important;
+}
+
+.theme-vin main {
+  width: 100%;
+  max-width: 1220px;
+  padding: 2rem 0 2.25rem;
+}
+
+.theme-vin main:not(.home-main):not(.vin-home-main) {
+  max-width: 980px;
+  margin-top: 1.5rem;
+  padding: 2rem;
+  border: 1px solid var(--vin-line);
+  background: var(--vin-panel);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.44);
+}
+
+.theme-vin h1,
+.theme-vin h2,
+.theme-vin h3 {
+  color: var(--vin-cream);
+  font-family: var(--vin-serif);
+  font-weight: 600;
+}
+
+.theme-vin p {
+  color: var(--vin-faint);
+  font-size: 1rem;
+}
+
+.theme-vin .vin-home-main {
+  max-width: 1220px;
+}
+
+.theme-vin .vin-home-top-row {
+  display: grid;
+  grid-template-columns: minmax(460px, 1.25fr) minmax(340px, 0.85fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5.5rem);
+  min-width: 0;
+  min-height: 460px;
+  margin: 0 auto 1.65rem;
+}
+
+.theme-vin .ornate-card,
+.theme-vin .info-card {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--vin-line);
+  background: rgba(3, 3, 3, 0.92);
+  box-shadow:
+    inset 0 0 0 1px rgba(199, 154, 92, 0.1),
+    0 18px 60px rgba(0, 0, 0, 0.44),
+    0 0 38px rgba(90, 10, 10, 0.16);
+}
+
+.theme-vin .ornate-card > *,
+.theme-vin .info-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.theme-vin .monthly-block {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 1.55rem 1.75rem 1.15rem;
+}
+
+.theme-vin .section-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 0 0 1rem;
+  color: var(--vin-gold-bright);
+  font-family: var(--vin-serif);
+  font-size: 0.96rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.theme-vin .section-kicker::before,
+.theme-vin .section-kicker::after {
+  content: "";
+  width: 1.25rem;
+  border-top: 1px solid var(--vin-gold);
+  opacity: 0.8;
+}
+
+.theme-vin .monthly-frame {
+  position: relative;
+  padding: 0.72rem;
+  border: 1px solid rgba(176, 138, 87, 0.62);
+  background: rgba(0, 0, 0, 0.54);
+  overflow: hidden;
+}
+
+.theme-vin .monthly-frame img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.06) contrast(1.08) brightness(0.9);
+}
+
+.theme-vin .monthly-frame:hover img {
+  opacity: 0.95;
+}
+
+.theme-vin .monthly-caption {
+  display: grid;
+  gap: 0.18rem;
+  margin-top: 0.72rem;
+  color: var(--vin-gold-bright);
+  font-family: var(--vin-serif);
+  text-align: center;
+}
+
+.theme-vin .monthly-caption strong {
+  color: var(--vin-gold-bright);
+  font-size: 1.05rem;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.theme-vin .monthly-caption span {
+  color: var(--vin-faint);
+  font-size: 0.86rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.theme-vin .intro-block {
+  margin: 0;
+}
+
+.theme-vin .intro-panel {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  max-width: 570px;
+  margin-inline: auto;
+  padding: 0.3rem 0;
+  text-align: center;
+}
+
+.theme-vin .intro-panel h1 {
+  margin: 0;
+  font-size: clamp(1.22rem, 2vw, 1.55rem);
+  line-height: 1.35;
+}
+
+.theme-vin .intro-panel p {
+  max-width: 50ch;
+  margin: 0;
+  color: rgba(231, 215, 181, 0.82);
+  font-size: 1.02rem;
+  line-height: 1.78;
+}
+
+.theme-vin .premium-btn,
+.theme-vin .card-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 2.5rem;
+  padding: 0.58rem 1.7rem;
+  border: 1px solid var(--vin-gold);
+  color: #ff443d;
+  background: rgba(5, 5, 5, 0.58);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.theme-vin .premium-btn:hover,
+.theme-vin .card-action:hover {
+  color: var(--vin-cream);
+  border-color: var(--vin-gold-bright);
+  background: rgba(127, 13, 13, 0.18);
+  box-shadow: 0 0 24px rgba(164, 18, 18, 0.28);
+}
+
+.theme-vin .vin-home-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.35rem;
+  align-items: stretch;
+  margin: 0 auto;
+}
+
+.theme-vin .info-card {
+  min-height: 352px;
+  padding: 1.42rem 1.45rem 1.15rem;
+}
+
+.theme-vin .note-list,
+.theme-vin .quick-link-list,
+.theme-vin .contact-list {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  border: 1px solid rgba(176, 138, 87, 0.18);
+}
+
+.theme-vin .vin-loading {
+  padding: 1rem;
+  color: rgba(231, 215, 181, 0.66);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.theme-vin .note-item,
+.theme-vin .quick-link-item,
+.theme-vin .contact-list a {
+  display: grid;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  padding: 0.68rem 0.84rem;
+  color: var(--vin-cream);
+  border-bottom: 1px solid rgba(176, 138, 87, 0.16);
+  background: rgba(0, 0, 0, 0.14);
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-vin .note-item:last-child,
+.theme-vin .quick-link-item:last-child,
+.theme-vin .contact-list a:last-child {
+  border-bottom: 0;
+}
+
+.theme-vin .note-item:hover,
+.theme-vin .quick-link-item:hover,
+.theme-vin .contact-list a:hover {
+  color: var(--vin-cream);
+  background: rgba(127, 13, 13, 0.2);
+  box-shadow: inset 2px 0 var(--vin-crimson);
+}
+
+.theme-vin .note-item {
+  grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+}
+
+.theme-vin .note-item time {
+  display: grid;
+  justify-items: center;
+  padding-right: 0.7rem;
+  border-right: 1px solid rgba(176, 138, 87, 0.18);
+  color: #ff443d;
+  font-family: var(--font-mono);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.theme-vin .note-item time span {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+}
+
+.theme-vin .note-item time strong {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.theme-vin .note-item strong,
+.theme-vin .quick-link-item strong,
+.theme-vin .contact-list strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--vin-cream);
+  font-size: 0.93rem;
+  font-weight: 500;
+  line-height: 1.32;
+}
+
+.theme-vin .note-item small,
+.theme-vin .quick-link-item small,
+.theme-vin .contact-list small {
+  display: block;
+  margin-top: 0.14rem;
+  color: rgba(231, 215, 181, 0.62);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  line-height: 1.35;
+}
+
+.theme-vin .quick-link-item,
+.theme-vin .contact-list a {
+  grid-template-columns: 2.1rem minmax(0, 1fr) auto;
+}
+
+.theme-vin .link-icon,
+.theme-vin .contact-list a > span:first-child {
+  display: inline-grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--vin-gold-bright);
+  font-family: var(--vin-serif);
+  font-size: 1rem;
+}
+
+.theme-vin .accent-link strong {
+  color: #ff443d;
+}
+
+.theme-vin .archive-link-item strong {
+  color: #d59b4a;
+}
+
+.theme-vin .card-action {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  min-width: 11.5rem;
+  margin: 0.9rem auto 0;
+  font-size: 0.75rem;
+}
+
+.theme-vin .contact-status-card .status-row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  gap: 0.32rem 0.52rem;
+  margin-top: 1.05rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(176, 138, 87, 0.18);
+  background: rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.theme-vin .contact-status-card .status-row small {
+  grid-column: 1 / -1;
+  color: rgba(231, 215, 181, 0.66);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.theme-vin .status-dot {
+  align-self: center;
+  background: #39b34a;
+  box-shadow: 0 0 12px rgba(57, 179, 74, 0.72);
+}
+
+.theme-vin .status-link {
+  color: #5fd46f;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.theme-vin .footer {
+  margin-bottom: 1.5rem;
+  padding: 1.15rem 2rem 1.4rem;
+  border-top: 1px solid var(--vin-line);
+  color: var(--vin-gold);
+  font-family: var(--vin-serif);
+  letter-spacing: 0.09em;
+}
+
+.theme-vin .footer::before,
+.theme-vin .footer::after {
+  content: "\2726";
+  display: inline-block;
+  margin: 0 0.75rem;
+  color: var(--vin-gold-bright);
+}
+
+.theme-vin .about-section,
+.theme-vin .gallery-year-section,
+.theme-vin .commit-item,
+.theme-vin .gallery-item,
+.theme-vin .section-toggle,
+.theme-vin .section-content,
+.theme-vin .bookshelf-empty {
+  border-color: var(--vin-line);
+  background: rgba(5, 5, 5, 0.56);
+}
+
+.theme-vin .about-section-header,
+.theme-vin .gallery-year-toggle,
+.theme-vin .section-toggle,
+.theme-vin .commit-hash,
+.theme-vin .see-more-btn {
+  background: rgba(127, 13, 13, 0.2);
+  color: var(--vin-gold-bright);
+  border-color: var(--vin-line);
+}
+
+@media (max-width: 1040px) {
+  .theme-vin #site-header,
+  .theme-vin #page-content,
+  .theme-vin #site-footer {
+    width: min(100% - 2rem, 900px);
+  }
+
+  .theme-vin .header {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "brand"
+      "controls";
+  }
+
+  .theme-vin .header-controls {
+    justify-content: flex-start;
+  }
+
+  .theme-vin .vin-home-top-row {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    min-height: 0;
+  }
+
+  .theme-vin .monthly-block {
+    max-width: 620px;
+    margin-inline: auto;
+  }
+
+  .theme-vin .vin-home-card-grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 640px;
+  }
+
+  .theme-vin .info-card {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .theme-vin #site-header,
+  .theme-vin #page-content,
+  .theme-vin #site-footer {
+    width: 100%;
+  }
+
+  .theme-vin #site-header::after {
+    display: block;
+  }
+
+  .theme-vin .header {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "brand"
+      "controls";
+    margin-top: 0;
+    padding: 1.15rem 1rem 1rem;
+  }
+
+  .theme-vin .site-id {
+    grid-area: brand;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .theme-vin .site-id img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .theme-vin .site-id span {
+    font-size: 1.2rem;
+    letter-spacing: 0.09em;
+    overflow-wrap: anywhere;
+  }
+
+  .theme-vin .header-controls {
+    grid-area: controls;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-content: stretch;
+    width: 100%;
+    gap: 0.65rem;
+  }
+
+  .theme-vin .custom-select {
+    width: 100%;
+  }
+
+  .theme-vin .cs-trigger {
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.88rem;
+  }
+
+  .theme-vin .cs-trigger[data-name="theme"] {
+    width: 100%;
+  }
+
+  .theme-vin .nav {
+    justify-content: flex-start;
+    padding: 0.7rem 0.85rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  .theme-vin .nav a {
+    padding: 0.4rem 0.86rem;
+    font-size: 0.91rem;
+  }
+
+  .theme-vin main,
+  .theme-vin main:not(.home-main):not(.vin-home-main) {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .theme-vin .vin-home-top-row,
+  .theme-vin .vin-home-card-grid,
+  .theme-vin .monthly-block,
+  .theme-vin .intro-panel {
+    max-width: 100%;
+  }
+
+  .theme-vin .monthly-block,
+  .theme-vin .info-card {
+    padding: 1.1rem;
+  }
+
+  .theme-vin .note-item {
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+  }
+
+  .theme-vin .note-item > span:last-child {
+    display: none;
+  }
+
+  .theme-vin .quick-link-item,
+  .theme-vin .contact-list a {
+    grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+  }
+}

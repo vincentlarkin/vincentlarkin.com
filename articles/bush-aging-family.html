@@ -18,55 +18,20 @@
 
 
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/theme-dark.css">
+  <link rel="stylesheet" href="../css/theme-retro.css">
+  <link rel="stylesheet" href="../css/theme-vin.css">
 </head>
 <body>
   <div id="site-header"></div>
   <script>
-    // Load theme first to prevent flashbang
     (function() {
-      const savedTheme = localStorage.getItem('theme') || 'theme-dark';
-      document.body.className = savedTheme;
+      const themes = ['theme-vin', 'theme-dark', 'theme-retro'];
+      const saved = localStorage.getItem('theme');
+      const initial = themes.includes(saved) ? saved : 'theme-vin';
+      document.documentElement.className = initial;
+      document.body.className = initial;
     })();
-    
-    // Load header
-    fetch('/header.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-header').innerHTML = html;
-        
-        // Add theme and language buttons
-        const nav = document.querySelector('nav ul');
-        const themeBtn = document.createElement('li');
-        themeBtn.innerHTML = '<button type="button" id="theme-toggle" class="theme-btn" title="Toggle Theme">🌙</button>';
-        nav.appendChild(themeBtn);
-        
-        const langBtnLi = document.createElement('li');
-        langBtnLi.innerHTML = '<button type="button" id="lang-toggle" class="lang-btn" title="Toggle Language"><span class="lang-active">PT</span> | <span class="lang-inactive">ENG</span></button>';
-        nav.appendChild(langBtnLi);
-        
-        // Initialize theme system
-        const themes = ['theme-dark', 'theme-light'];
-        const themeIcons = ['🌙', '☀️'];
-        let currentThemeIndex = themes.indexOf(document.body.className);
-        
-        function switchTheme() {
-          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-          const newTheme = themes[currentThemeIndex];
-          document.body.className = newTheme;
-          localStorage.setItem('theme', newTheme);
-          document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        }
-        
-        document.getElementById('theme-toggle').addEventListener('click', switchTheme);
-        document.getElementById('theme-toggle').textContent = themeIcons[currentThemeIndex];
-        
-        // Initialize language button
-        const langBtn = document.getElementById('lang-toggle');
-        if (langBtn) {
-          langBtn.addEventListener('click', switchLanguage);
-          // Initial language button state will be set by applyLanguage() in i18n.js
-        }
-      });
   </script>
   <main>
     <article class="news-article-single">
@@ -98,17 +63,14 @@
     </article>
   </main>
   <div id="site-footer"></div>
+  <script src="/js/i18n.js?v=20260606b"></script>
+  <script src="/js/site.js?v=20260606b"></script>
   <script>
-    fetch('/footer.html')
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById('site-footer').innerHTML = html;
-        const yearSpan = document.getElementById('copyright-year');
-        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-      });
+    (function() {
+      if (window.siteUtils && siteUtils.loadHeaderFooter) {
+        siteUtils.loadHeaderFooter(null, null);
+      }
+    })();
   </script>
-  
-  <!-- Language System -->
-  <script src="/js/i18n.js"></script>
 </body>
 </html>
