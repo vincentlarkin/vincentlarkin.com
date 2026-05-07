@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fce4a3"/>
+      <stop offset="22%" stop-color="#ecc97e"/>
+      <stop offset="48%" stop-color="#c79a5c"/>
+      <stop offset="78%" stop-color="#9d7434"/>
+      <stop offset="100%" stop-color="#5d4015"/>
+    </linearGradient>
+    <linearGradient id="goldHi" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#fff5d3" stop-opacity="0.95"/>
+      <stop offset="55%" stop-color="#dfb87b" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#7c5928" stop-opacity="0.32"/>
+    </linearGradient>
+    <linearGradient id="goldDeep" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a78147"/>
+      <stop offset="55%" stop-color="#8a6429"/>
+      <stop offset="100%" stop-color="#3d2a0e"/>
+    </linearGradient>
+    <radialGradient id="jewel" cx="35%" cy="68%" r="68%">
+      <stop offset="0%" stop-color="#fff7d4"/>
+      <stop offset="42%" stop-color="#e8be6c"/>
+      <stop offset="100%" stop-color="#6d4818"/>
+    </radialGradient>
+    <radialGradient id="pearl" cx="32%" cy="70%" r="70%">
+      <stop offset="0%" stop-color="#fff8d5"/>
+      <stop offset="55%" stop-color="#d6a85f"/>
+      <stop offset="100%" stop-color="#6b4a1b"/>
+    </radialGradient>
+    <filter id="ds" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="0.55"/>
+      <feOffset dx="0" dy="-0.9" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.6"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g transform="translate(0 80) scale(1 -1)">
+    <g filter="url(#ds)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 16 6 L 60 6 M 6 16 L 6 60 M 6 16 Q 6 6 16 6"
+            stroke="url(#goldDeep)" stroke-width="2" opacity="0.92"/>
+      <path d="M 16 6 L 60 6 M 6 16 L 6 60 M 6 16 Q 6 6 16 6"
+            stroke="url(#gold)" stroke-width="1.25"/>
+      <path d="M 16 5.4 L 58 5.4 M 5.4 16 L 5.4 58 M 5.4 16 Q 5.4 5.4 16 5.4"
+            stroke="url(#goldHi)" stroke-width="0.35" opacity="0.85"/>
+      <path d="M 18 11 L 50 11 M 11 18 L 11 50 M 11 18 Q 11 11 18 11"
+            stroke="url(#gold)" stroke-width="0.5" opacity="0.88"/>
+      <path d="M 19.5 19.5 C 27 19.5 32 24.5 32 32 C 32 36.5 35.5 39 39 40"
+            stroke="url(#gold)" stroke-width="0.85"/>
+      <path d="M 19.5 19.5 C 27 19.5 32 24.5 32 32"
+            stroke="url(#goldHi)" stroke-width="0.32" opacity="0.7"/>
+      <path d="M 32 32 C 28.5 27 28.5 23 33 20.5"
+            stroke="url(#gold)" stroke-width="0.6"/>
+      <path d="M 33 20.5 C 36 18.5 39.5 19.5 40 22.5 C 40.4 25 37 25 34 22.5 Z"
+            fill="url(#gold)" opacity="0.96"/>
+      <path d="M 36 21 L 38.5 23.5"
+            stroke="url(#goldHi)" stroke-width="0.32" opacity="0.85"/>
+      <path d="M 22.5 28 C 19.5 26.5 19.5 22.5 23.5 22.5"
+            stroke="url(#gold)" stroke-width="0.4" opacity="0.85"/>
+      <path d="M 22 33 C 24.5 32 26.5 30 27.5 28"
+            stroke="url(#goldHi)" stroke-width="0.28" opacity="0.55"/>
+      <path d="M 39 40 C 44 41 46 44 46 49"
+            stroke="url(#gold)" stroke-width="0.55"/>
+      <circle cx="48" cy="51" r="1.05" fill="url(#pearl)"/>
+      <circle cx="47.7" cy="50.7" r="0.35" fill="#fff" opacity="0.8"/>
+      <circle cx="40" cy="8" r="0.85" fill="url(#pearl)"/>
+      <circle cx="48" cy="8" r="0.55" fill="url(#gold)"/>
+      <circle cx="54" cy="8" r="0.4" fill="url(#goldDeep)"/>
+      <circle cx="8" cy="40" r="0.85" fill="url(#pearl)"/>
+      <circle cx="8" cy="48" r="0.55" fill="url(#gold)"/>
+      <circle cx="8" cy="54" r="0.4" fill="url(#goldDeep)"/>
+      <g transform="translate(17.5 17.5) rotate(45)">
+        <rect x="-3.6" y="-3.6" width="7.2" height="7.2"
+              fill="url(#goldDeep)" stroke="url(#goldHi)" stroke-width="0.35"/>
+        <rect x="-2.4" y="-2.4" width="4.8" height="4.8" fill="url(#gold)"/>
+        <rect x="-1.7" y="-1.7" width="3.4" height="3.4" fill="url(#jewel)"/>
+      </g>
+      <circle cx="16.7" cy="16.4" r="0.85" fill="#fff" opacity="0.8"/>
+      <circle cx="18.4" cy="18.6" r="0.4" fill="#fff" opacity="0.5"/>
+      <g transform="translate(60 6)">
+        <circle r="1.85" fill="url(#goldDeep)"/>
+        <circle r="1.35" fill="url(#gold)"/>
+        <circle r="0.55" fill="url(#goldHi)"/>
+      </g>
+      <g transform="translate(6 60)">
+        <circle r="1.85" fill="url(#goldDeep)"/>
+        <circle r="1.35" fill="url(#gold)"/>
+        <circle r="0.55" fill="url(#goldHi)"/>
+      </g>
+      <path d="M 26 14 C 28 14 30 12.5 31 11" stroke="url(#gold)" stroke-width="0.32" opacity="0.7"/>
+      <path d="M 14 26 C 14 28 12.5 30 11 31" stroke="url(#gold)" stroke-width="0.32" opacity="0.7"/>
+    </g>
+  </g>
+</svg>
