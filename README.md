@@ -29,8 +29,11 @@ Static site for [vincentlarkin.com](https://vincentlarkin.com). Plain HTML/CSS/J
 | `images/site-emblem.png` | Brand mark used in the header. |
 | `images/favicons/` | Favicon set + `site.webmanifest`. |
 | `images/flags/` | `us.png`, `pt.svg` for the language switcher. |
-| `images/themes/life-of-a-vin/background.png` | Background art for `theme-vin`. |
-| `images/mês/` | Monthly featured photos. Folder name is Portuguese for "month" (note the `ê`). Filenames are referenced from `monthlyImages` in `js/site.js`. |
+| `images/themes/life-of-a-vin/background.webp` | Background art for `theme-vin`. |
+| `images/profile.jpg` | Portrait shown on the About page bio block. Replace freely; if missing, the bio falls back to a "VL" monogram via the `onerror` handler. |
+| `images/mês/` | Monthly featured photos (originals). Folder name is Portuguese for "month" (note the `ê`). Filenames are referenced from `monthlyImages` in `js/site.js`. |
+| `images/mês/thumbs/` | ~480px-wide WebP thumbnails used by the gallery grid. Pre-generated; see [Adding a new monthly image](#adding-a-new-monthly-image). |
+| `images/mês/thumbs-md/` | ~1024px-wide WebP thumbnails used by the home page "Image of the Month" card. |
 | `images/articles/` | Images embedded in `articles/*.html`. |
 | `articles/` | Long-form article HTML. Each one is self-contained and uses the same shared header/footer/CSS. |
 | `robots.txt`, `sitemap.xml` | SEO. |
@@ -46,5 +49,40 @@ Static site for [vincentlarkin.com](https://vincentlarkin.com). Plain HTML/CSS/J
 Shared partials and JS bundles are loaded with `?v=PARTIAL_VERSION` (see top of `js/site.js`). Bump that string when you change `header.html`, `footer.html`, `js/site.js`, or `js/i18n.js` so visitors don't get the stale cached copy.
 
 ## Adding a new monthly image
-1. Drop the file into `images/mês/`.
-2. Add an entry at the top of the appropriate year array in `monthlyImages` inside `js/site.js`.
+The gallery and the home-page "Image of the Month" never load the original
+file in the page — they load thumbnails out of `thumbs/` and `thumbs-md/` and
+only fetch the original when the lightbox opens. So when you add a new
+monthly image you also need to generate the two thumbnail variants.
+
+1. Drop the original into `images/mês/` (any of `.jpg` / `.png` / `.webp` works,
+   but WebP is preferred to keep the lightbox payload small).
+2. Generate the small + medium WebP thumbnails (requires
+   [`ffmpeg`](https://ffmpeg.org) on your `PATH`):
+
+    ```powershell
+    cd "images/mês"
+    $base = "april-2026"          # filename without extension
+    $ext  = "webp"                # extension of the original
+    ffmpeg -y -i "$base.$ext" -vf "scale='min(480,iw)':-1"  -compression_level 6 -q:v 76 "thumbs/$base.webp"
+    ffmpeg -y -i "$base.$ext" -vf "scale='min(1024,iw)':-1" -compression_level 6 -q:v 82 "thumbs-md/$base.webp"
+    ```
+
+    Or, to (re)build thumbnails for *every* file in `images/mês/` at once:
+
+    ```powershell
+    Get-ChildItem images/mês -File | Where-Object { $_.Extension -in '.jpg','.jpeg','.png','.webp' } | ForEach-Object {
+        $b = [IO.Path]::GetFileNameWithoutExtension($_.Name)
+        ffmpeg -y -loglevel error -i $_.FullName -vf "scale='min(480,iw)':-1"  -compression_level 6 -q:v 76 "images/mês/thumbs/$b.webp"
+        ffmpeg -y -loglevel error -i $_.FullName -vf "scale='min(1024,iw)':-1" -compression_level 6 -q:v 82 "images/mês/thumbs-md/$b.webp"
+    }
+    ```
+
+    Targets: small ≈ 10–120 KB each, medium ≈ 70–650 KB each.
+3. Add an entry at the top of the appropriate year array in `monthlyImages`
+   inside `js/site.js`. Use the original filename — `getMonthlyImagePaths()`
+   derives the thumb paths from it automatically.
+4. If the new image is the latest one, update the hard-coded `<img src>` and
+   `data-full-src` on `#monthly-image` and `#vin-monthly-image` in
+   `index.html` so the page renders the right image before JS runs.
+5. Bump `PARTIAL_VERSION` in `js/site.js` (and `?v=` references in HTML) so
+   visitors pick up the new data without a hard refresh.
