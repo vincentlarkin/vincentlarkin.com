@@ -2,7 +2,7 @@
 
 // Theme initialization
 const SITE_THEMES = ['theme-vin', 'theme-dark', 'theme-retro'];
-const PARTIAL_VERSION = '20260606e';
+const PARTIAL_VERSION = '20260606f';
 const THEME_LABELS = {
   'theme-vin': 'Life of a VIN',
   'theme-dark': 'Dark Theme',
