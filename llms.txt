@@ -1,0 +1,32 @@
+# vincentlarkin.com
+
+> Personal website for Vincent Larkin.
+
+## Main Pages
+
+- [Home](https://vincentlarkin.com/)
+- [About](https://vincentlarkin.com/about.html)
+- [News / Books](https://vincentlarkin.com/news.html)
+- [Gallery](https://vincentlarkin.com/gallery.html)
+- [Changelog](https://vincentlarkin.com/changelog.html)
+- [Privacy Policy](https://vincentlarkin.com/privacy.html)
+
+## Articles
+
+- [Killing babies no different from abortion, experts say](https://vincentlarkin.com/articles/abortion-babies.html)
+- [What Killed Anthony Bourdain?](https://vincentlarkin.com/articles/bourdain-love-addiction.html)
+- [George H.W. Bush reflects on aging and the importance of family in letter to his children](https://vincentlarkin.com/articles/bush-aging-family.html)
+- [Why are America's farmers killing themselves in record numbers?](https://vincentlarkin.com/articles/farmers-suicides.html)
+- [Why a stay in the ICU can leave patients worse off](https://vincentlarkin.com/articles/icu-worse-off.html)
+- [T. Vincent Learson, 84, I.B.M. Chief, Dies](https://vincentlarkin.com/articles/learson-dies.html)
+- [Rethinking 'end of life' for aging medical equipment](https://vincentlarkin.com/articles/medical-equipment-end-of-life.html)
+- [Mike Pence dumped his college fiancee for being a sinner and narced on his beer-drinking frat bros](https://vincentlarkin.com/articles/pence-fiancee.html)
+- [Chinese finance ministry official says optimistic on trade war breakthrough](https://vincentlarkin.com/articles/trade-war-breakthrough.html)
+- [We Are Too Weak to Stop Israel](https://vincentlarkin.com/articles/weak-to-stop-israel.html)
+- [You're not alone in the uncomfortable silence of loss](https://vincentlarkin.com/articles/youre-not-alone-loss.html)
+
+## Machine-Readable Resources
+
+- [Sitemap](https://vincentlarkin.com/sitemap.xml)
+- [Robots policy](https://vincentlarkin.com/robots.txt)
+- [Security contact](https://vincentlarkin.com/.well-known/security.txt)

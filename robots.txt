@@ -1,4 +1,50 @@
-# Block aggressive SEO and scraping bots
+# Robots policy for vincentlarkin.com
+#
+# Explicitly allow the major crawlers I want discovery from. Specific
+# user-agent sections override the wildcard section, so repeat /error/ there.
+
+User-agent: Googlebot
+User-agent: Google-Extended
+User-agent: GoogleOther
+User-agent: GoogleOther-Image
+User-agent: GoogleOther-Video
+User-agent: Google-CloudVertexBot
+Allow: /
+Disallow: /error/
+
+User-agent: Bingbot
+User-agent: msnbot
+User-agent: AdIdxBot
+Allow: /
+Disallow: /error/
+
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /error/
+
+User-agent: PerplexityBot
+User-agent: ClaudeBot
+User-agent: Claude-User
+User-agent: anthropic-ai
+Allow: /
+Disallow: /error/
+
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: Amazonbot
+User-agent: DuckAssistBot
+User-agent: YouBot
+Allow: /
+Disallow: /error/
+
+User-agent: AlibabaBot
+User-agent: AliyunSecBot
+Allow: /
+Disallow: /error/
+
+# Block aggressive SEO and scraping bots.
 User-agent: AhrefsBot
 Disallow: /
 
@@ -32,12 +78,24 @@ Disallow: /
 User-agent: Omgilibot
 Disallow: /
 
-# Allow legitimate search engines and social media
+# Block explicitly unwanted social/search preview crawlers.
+User-agent: Kagibot
+Disallow: /
+
+User-agent: KagiBot
+Disallow: /
+
+User-agent: Bluesky
+Disallow: /
+
+User-agent: Bluesky Cardyb
+Disallow: /
+
+# Allow everything else except private/error utility pages.
 User-agent: *
 Allow: /
 Disallow: /error/
 
-# Sitemap location
 Sitemap: https://vincentlarkin.com/sitemap.xml
 
 # If Christ has died for my sin, I cannot trifle with the evil that killed my best friend.
