@@ -1164,11 +1164,16 @@ main.gallery-page {
   max-width: 720px;
 }
 
+.home-shell {
+  max-width: 720px;
+}
+
 .intro-block {
   margin-bottom: 2.5rem;
 }
 
-.intro-block h1 {
+.intro-block h1,
+.intro-block .home-title {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 1rem;

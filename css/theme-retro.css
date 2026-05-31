@@ -358,6 +358,10 @@ body.theme-retro {
   padding: 2rem 1.75rem;
 }
 
+.theme-retro .home-shell {
+  max-width: 1060px;
+}
+
 /* Homepage layout */
 .theme-retro .home-main {
   display: grid;
@@ -394,7 +398,8 @@ body.theme-retro {
   text-transform: uppercase;
 }
 
-.theme-retro .intro-block h1 {
+.theme-retro .intro-block h1,
+.theme-retro .intro-block .home-title {
   color: #111;
   text-transform: none;
   letter-spacing: 0.02em;

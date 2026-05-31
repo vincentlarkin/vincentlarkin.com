@@ -22,10 +22,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
   <link rel="manifest" href="/images/favicons/site.webmanifest">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/theme-dark.css">
-  <link rel="stylesheet" href="/css/theme-retro.css">
-  <link rel="stylesheet" href="/css/theme-vin.css">
+  <link rel="stylesheet" href="/css/styles.css?v=20260606g">
+  <link rel="stylesheet" href="/css/theme-dark.css?v=20260606g">
+  <link rel="stylesheet" href="/css/theme-retro.css?v=20260606g">
+  <link rel="stylesheet" href="/css/theme-vin.css?v=20260606g">
 </head>
 <body class="theme-vin" data-page="index">
   <script>
@@ -44,15 +44,18 @@
   <div id="site-header"></div>
 
   <div id="page-content" class="is-loading">
-    <main class="home-main classic-home">
-      <section class="intro-block">
-        <h1 id="welcome-title">Loading...</h1>
-        <p id="intro-text">Loading...</p>
-        <div class="status-row">
-          <span class="status-dot"></span>
-          <a href="https://status.vincentlarkin.com" target="_blank" id="status-text" class="status-link">site online</a>
-        </div>
-      </section>
+    <main class="home-shell" aria-labelledby="home-page-title">
+      <h1 id="home-page-title" class="visually-hidden" data-i18n="welcome-title">Welcome</h1>
+
+      <div class="home-main classic-home">
+        <section class="intro-block">
+          <div class="home-title" id="welcome-title">Loading...</div>
+          <p id="intro-text">Loading...</p>
+          <div class="status-row">
+            <span class="status-dot"></span>
+            <a href="https://status.vincentlarkin.com" target="_blank" id="status-text" class="status-link">site online</a>
+          </div>
+        </section>
 
       <section class="monthly-block">
         <div class="monthly-label" id="monthly-label">Image of the Month</div>
@@ -81,28 +84,28 @@
           </a>
         </div>
       </section>
-    </main>
+      </div>
 
-    <main class="vin-home-main" aria-labelledby="vin-welcome-title">
-      <div class="vin-home-top-row">
-        <section class="monthly-block vin-monthly ornate-card" aria-labelledby="vin-monthly-label">
-          <div class="section-kicker" id="vin-monthly-label" data-i18n="monthly-label">Image of the Month</div>
-          <div class="monthly-frame">
-            <img src="/images/mês/thumbs-md/abril-2026.webp"
-                 data-full-src="/images/mês/abril-2026.webp"
-                 alt="April 2026"
-                 id="vin-monthly-image"
-                 loading="lazy"
-                 decoding="async"
-                 onclick="openLightbox(this.dataset.fullSrc || this.src, document.getElementById('vin-monthly-caption').textContent)">
-          </div>
-          <div class="monthly-caption">
-            <strong id="vin-monthly-caption">April 2026</strong>
-          </div>
-        </section>
+      <div class="vin-home-main" aria-label="Homepage">
+        <div class="vin-home-top-row">
+          <section class="monthly-block vin-monthly ornate-card" aria-labelledby="vin-monthly-label">
+            <div class="section-kicker" id="vin-monthly-label" data-i18n="monthly-label">Image of the Month</div>
+            <div class="monthly-frame">
+              <img src="/images/mês/thumbs-md/abril-2026.webp"
+                   data-full-src="/images/mês/abril-2026.webp"
+                   alt="April 2026"
+                   id="vin-monthly-image"
+                   loading="lazy"
+                   decoding="async"
+                   onclick="openLightbox(this.dataset.fullSrc || this.src, document.getElementById('vin-monthly-caption').textContent)">
+            </div>
+            <div class="monthly-caption">
+              <strong id="vin-monthly-caption">April 2026</strong>
+            </div>
+          </section>
 
         <section class="intro-block intro-panel" aria-label="Welcome">
-          <h1 id="vin-welcome-title" data-i18n="welcome-title">Welcome</h1>
+          <div class="home-title" id="vin-welcome-title" data-i18n="welcome-title">Welcome</div>
           <p id="vin-intro-text" data-i18n="intro-text">Hello. This is my personal website. Use the menu above to navigate.</p>
         </section>
       </div>
@@ -167,6 +170,7 @@
           </div>
         </article>
       </section>
+      </div>
     </main>
 
     <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">

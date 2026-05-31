@@ -354,7 +354,7 @@ body.theme-vin::after {
   padding: 2rem 0 2.25rem;
 }
 
-.theme-vin main:not(.home-main):not(.vin-home-main) {
+.theme-vin main:not(.home-main):not(.vin-home-main):not(.home-shell) {
   max-width: 980px;
   margin-top: 1.5rem;
   padding: 2rem;
@@ -377,6 +377,10 @@ body.theme-vin::after {
 }
 
 .theme-vin .vin-home-main {
+  max-width: 1220px;
+}
+
+.theme-vin .home-shell {
   max-width: 1220px;
 }
 
@@ -497,7 +501,8 @@ body.theme-vin::after {
   text-align: center;
 }
 
-.theme-vin .intro-panel h1 {
+.theme-vin .intro-panel h1,
+.theme-vin .intro-panel .home-title {
   margin: 0;
   font-size: clamp(1.22rem, 2vw, 1.55rem);
   line-height: 1.35;
@@ -979,7 +984,7 @@ body.theme-vin::after {
   }
 
   .theme-vin main,
-  .theme-vin main:not(.home-main):not(.vin-home-main) {
+  .theme-vin main:not(.home-main):not(.vin-home-main):not(.home-shell) {
     max-width: 100%;
     padding: 1rem;
   }
