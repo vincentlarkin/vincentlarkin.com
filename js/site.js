@@ -2,7 +2,7 @@
 
 // Theme initialization
 const SITE_THEMES = ['theme-vin', 'theme-dark', 'theme-retro'];
-const PARTIAL_VERSION = '20260606f';
+const PARTIAL_VERSION = '20260612a';
 const THEME_LABELS = {
   'theme-vin': 'Life of a VIN',
   'theme-dark': 'Dark Theme',
@@ -179,7 +179,8 @@ const navByPage = {
 // Monthly Gallery data
 const monthlyImages = {
   "2026": [
-    { file: "abril-2026.webp", month: "abril", year: 2026, type: "image" },
+    { file: "junho-julho-2026.webp", month: "junho", year: 2026, type: "image", caption: { en: "June-July 2026", pt: "Junho-Julho de 2026", ja: "2026\u5E746\u6708\u301C7\u6708" } },
+    { file: "abril-2026.webp", month: "abril", year: 2026, type: "image", caption: { en: "April-May 2026", pt: "Abril-Maio de 2026", ja: "2026\u5E744\u6708\u301C5\u6708" } },
     { file: "marco-2026.webp", month: "março", year: 2026, type: "image" },
     { file: "fevereiro-2026.webp", month: "fevereiro", year: 2026, type: "image" },
     { file: "janeiro-2026.webp", month: "janeiro", year: 2026, type: "image" }
@@ -946,6 +947,16 @@ function getLatestMonthlyImage() {
   return latestYear && monthlyImages[latestYear] ? monthlyImages[latestYear][0] : null;
 }
 
+function getMonthlyImageLabel(item) {
+  if (!item) return '';
+  const lang = window.langSystem ? langSystem.getCurrentLang() : getStoredLang();
+  if (item.caption && item.caption[lang]) {
+    return item.caption[lang];
+  }
+  const monthName = window.langSystem ? langSystem.getMonthName(item.month) : item.month;
+  return `${monthName} ${item.year}`;
+}
+
 function renderVinMonthlyImage() {
   const item = getLatestMonthlyImage();
   const image = document.getElementById('vin-monthly-image');
@@ -953,8 +964,7 @@ function renderVinMonthlyImage() {
 
   if (!item || !image || !caption) return;
 
-  const monthName = window.langSystem ? langSystem.getMonthName(item.month) : item.month;
-  const label = `${monthName} ${item.year}`;
+  const label = getMonthlyImageLabel(item);
 
   bindMonthlyHeroImage(image, item, label);
   caption.textContent = label;
@@ -1111,9 +1121,8 @@ function renderGallery() {
     `;
 
     yearItems.forEach(item => {
-      const monthName = (typeof langSystem !== 'undefined') ? langSystem.getMonthName(item.month) : item.month;
       const paths = getMonthlyImagePaths(item.file);
-      const label = `${monthName} ${item.year}`;
+      const label = getMonthlyImageLabel(item);
       const fullEsc = paths.full.replace(/'/g, "\\'");
       const labelEsc = label.replace(/'/g, "\\'");
 
