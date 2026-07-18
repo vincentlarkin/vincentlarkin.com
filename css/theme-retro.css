@@ -322,12 +322,12 @@ body.theme-retro {
   text-decoration: none;
 }
 
-.theme-retro .caddo-link {
+.theme-retro .louisiana-link {
   color: var(--retro-red) !important;
   transition: color 0.15s ease, background 0.15s ease;
 }
 
-.theme-retro .caddo-link:hover {
+.theme-retro .louisiana-link:hover {
   color: #fff !important;
   background: var(--retro-red);
   padding: 0.1rem 0.25rem;
