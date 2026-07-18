@@ -270,12 +270,12 @@ body.theme-vin::after {
   box-shadow: 0 0 16px rgba(164, 18, 18, 0.86);
 }
 
-.theme-vin .caddo-link {
+.theme-vin .louisiana-link {
   color: #ff3d35 !important;
   transition: color 0.22s ease, text-shadow 0.22s ease;
 }
 
-.theme-vin .caddo-link:hover {
+.theme-vin .louisiana-link:hover {
   color: #ff7a72 !important;
   text-shadow:
     0 0 10px rgba(255, 61, 53, 0.7),

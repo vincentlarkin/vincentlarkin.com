@@ -437,17 +437,17 @@ a:hover { text-decoration: underline; }
   color: var(--accent);
 }
 
-.caddo-link,
+.louisiana-link,
 .archive-link {
   position: relative;
   transition: color 0.2s ease, text-shadow 0.2s ease, letter-spacing 0.2s ease;
 }
 
-.caddo-link {
+.louisiana-link {
   color: #e57373 !important;
 }
 
-.caddo-link:hover {
+.louisiana-link:hover {
   color: #ff5550 !important;
   text-shadow: 0 0 12px rgba(255, 85, 80, 0.55);
   letter-spacing: 0.02em;
