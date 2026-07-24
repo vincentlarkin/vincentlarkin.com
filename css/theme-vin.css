@@ -385,12 +385,8 @@ body.theme-vin::after {
 }
 
 .theme-vin .vin-home-top-row {
-  display: grid;
-  grid-template-columns: minmax(460px, 1.25fr) minmax(340px, 0.85fr);
-  align-items: center;
-  gap: clamp(2rem, 5vw, 5.5rem);
+  display: block;
   min-width: 0;
-  min-height: 460px;
   margin: 0 auto 1.65rem;
 }
 
@@ -414,9 +410,10 @@ body.theme-vin::after {
 
 .theme-vin .monthly-block {
   width: 100%;
+  max-width: none;
   min-width: 0;
   margin: 0;
-  padding: 1.55rem 1.75rem 1.15rem;
+  padding: 1.55rem clamp(1.1rem, 3vw, 2.5rem) 1.25rem;
 }
 
 .theme-vin .section-kicker {
@@ -443,6 +440,12 @@ body.theme-vin::after {
   opacity: 0.8;
 }
 
+.theme-vin .vin-monthly .section-kicker::before,
+.theme-vin .vin-monthly .section-kicker::after {
+  flex: 1;
+  width: auto;
+}
+
 .theme-vin .monthly-frame {
   position: relative;
   padding: 0.72rem;
@@ -451,9 +454,14 @@ body.theme-vin::after {
   overflow: hidden;
 }
 
+.theme-vin .vin-monthly .monthly-frame {
+  width: min(94%, 1080px);
+  margin-inline: auto;
+}
+
 .theme-vin .monthly-frame img {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 7;
   object-fit: cover;
   display: block;
   filter: saturate(1.06) contrast(1.08) brightness(0.9);
@@ -896,7 +904,7 @@ body.theme-vin::after {
   }
 
   .theme-vin .monthly-block {
-    max-width: 620px;
+    max-width: none;
     margin-inline: auto;
   }
 
@@ -999,6 +1007,10 @@ body.theme-vin::after {
   .theme-vin .monthly-block,
   .theme-vin .info-card {
     padding: 1.1rem;
+  }
+
+  .theme-vin .monthly-frame img {
+    aspect-ratio: 16 / 9;
   }
 
   .theme-vin .note-item {

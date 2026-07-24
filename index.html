@@ -22,10 +22,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
   <link rel="manifest" href="/images/favicons/site.webmanifest">
-  <link rel="stylesheet" href="/css/styles.css?v=20260606g">
-  <link rel="stylesheet" href="/css/theme-dark.css?v=20260606g">
-  <link rel="stylesheet" href="/css/theme-retro.css?v=20260606g">
-  <link rel="stylesheet" href="/css/theme-vin.css?v=20260606g">
+  <link rel="stylesheet" href="/css/styles.css?v=20260724c">
+  <link rel="stylesheet" href="/css/theme-dark.css?v=20260724c">
+  <link rel="stylesheet" href="/css/theme-retro.css?v=20260724c">
+  <link rel="stylesheet" href="/css/theme-vin.css?v=20260724c">
 </head>
 <body class="theme-vin" data-page="index">
   <noscript>
@@ -50,45 +50,36 @@
 
   <div id="page-content" class="is-loading">
     <main class="home-shell" aria-labelledby="home-page-title">
-      <h1 id="home-page-title" class="visually-hidden" data-i18n="welcome-title">Welcome</h1>
+      <h1 id="home-page-title" class="visually-hidden" data-i18n="monthly-label">Image of the Month</h1>
 
       <div class="home-main classic-home">
-        <section class="intro-block">
-          <div class="home-title" id="welcome-title">Loading...</div>
-          <p id="intro-text">Loading...</p>
-          <div class="status-row">
-            <span class="status-dot"></span>
-            <a href="https://status.vincentlarkin.com" target="_blank" id="status-text" class="status-link">site online</a>
+        <section class="monthly-block">
+          <div class="monthly-label" id="monthly-label">Image of the Month</div>
+          <div class="monthly-frame">
+            <img src="/images/mês/thumbs-md/junho-julho-2026.webp"
+                 data-full-src="/images/mês/junho-julho-2026.webp"
+                 alt="June-July 2026"
+                 id="monthly-image"
+                 loading="lazy"
+                 decoding="async"
+                 onclick="openLightbox(this.dataset.fullSrc || this.src, document.getElementById('monthly-caption').textContent)">
           </div>
+          <div class="monthly-caption" id="monthly-caption">June-July 2026</div>
         </section>
 
-      <section class="monthly-block">
-        <div class="monthly-label" id="monthly-label">Image of the Month</div>
-        <div class="monthly-frame">
-          <img src="/images/mês/thumbs-md/junho-julho-2026.webp"
-               data-full-src="/images/mês/junho-julho-2026.webp"
-               alt="June-July 2026"
-               id="monthly-image"
-               loading="lazy"
-               decoding="async"
-               onclick="openLightbox(this.dataset.fullSrc || this.src, document.getElementById('monthly-caption').textContent)">
-        </div>
-        <div class="monthly-caption" id="monthly-caption">June-July 2026</div>
-      </section>
-
-      <section class="links-block">
-        <div class="links-label" id="links-label">Quick Links</div>
-        <div class="links-grid">
-          <a href="/about.html" class="link-item" id="link-about">
-            <span>About</span>
-            <span class="arrow">→</span>
-          </a>
-          <a href="/gallery.html" class="link-item" id="link-gallery">
-            <span>Gallery</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </section>
+        <section class="links-block">
+          <div class="links-label" id="links-label">Quick Links</div>
+          <div class="links-grid">
+            <a href="/about.html" class="link-item" id="link-about">
+              <span>About</span>
+              <span class="arrow">→</span>
+            </a>
+            <a href="/gallery.html" class="link-item" id="link-gallery">
+              <span>Gallery</span>
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </section>
       </div>
 
       <div class="vin-home-main" aria-label="Homepage">
@@ -108,11 +99,6 @@
               <strong id="vin-monthly-caption">June-July 2026</strong>
             </div>
           </section>
-
-        <section class="intro-block intro-panel" aria-label="Welcome">
-          <div class="home-title" id="vin-welcome-title" data-i18n="welcome-title">Welcome</div>
-          <p id="vin-intro-text" data-i18n="intro-text">Hello. This is my personal website. Use the menu above to navigate.</p>
-        </section>
       </div>
 
       <section class="vin-home-card-grid" aria-label="Homepage sections">
@@ -187,7 +173,7 @@
 
   <div id="site-footer"></div>
 
-  <script src="/js/i18n.js?v=20260612a"></script>
+  <script src="/js/i18n.js?v=20260724a"></script>
   <script src="/js/site.js?v=20260612a"></script>
   <script>
     (function() {

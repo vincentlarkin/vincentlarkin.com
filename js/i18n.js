@@ -40,12 +40,6 @@ const embeddedTranslations = {
     'footer-github': { en: 'GitHub', pt: 'GitHub', ja: 'GitHub' }
   },
   index: {
-    'welcome-title': { en: 'Welcome', pt: 'Bem-vindo', ja: '\u3088\u3046\u3053\u305D' },
-    'intro-text': {
-      en: 'Hello. This is my personal website. Use the menu above to navigate.',
-      pt: 'Ol\u00E1. Este \u00E9 meu site pessoal. Navegue pelo menu acima para explorar.',
-      ja: '\u3053\u3093\u306B\u3061\u306F\u3002\u3053\u3053\u306F\u79C1\u306E\u500B\u4EBA\u30A6\u30A7\u30D6\u30B5\u30A4\u30C8\u3067\u3059\u3002\u4E0A\u306E\u30E1\u30CB\u30E5\u30FC\u304B\u3089\u3054\u5229\u7528\u304F\u3060\u3055\u3044\u3002'
-    },
     'status-text':      { en: 'site online',      pt: 'site online',      ja: '\u30B5\u30A4\u30C8\u7A3C\u50CD\u4E2D' },
     'monthly-label':    { en: 'Image of the Month', pt: 'Imagem do M\u00EAs', ja: '\u4ECA\u6708\u306E\u753B\u50CF' },
     'monthly-caption':  { en: 'June-July 2026',    pt: 'Junho-Julho de 2026', ja: '2026\u5E746\u6708\u301C7\u6708' },
