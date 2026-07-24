@@ -1161,11 +1161,11 @@ main.gallery-page {
    Homepage (classic / non-vin layout)
    ============================== */
 .home-main {
-  max-width: 720px;
+  max-width: 900px;
 }
 
 .home-shell {
-  max-width: 720px;
+  max-width: 900px;
 }
 
 .intro-block {
@@ -1224,11 +1224,22 @@ main.gallery-page {
 }
 
 .monthly-label {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--muted);
   margin-bottom: 0.75rem;
+  white-space: nowrap;
+}
+
+.monthly-label::before,
+.monthly-label::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--border);
 }
 
 .monthly-frame {
