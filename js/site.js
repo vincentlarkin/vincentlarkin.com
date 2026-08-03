@@ -1,17 +1,17 @@
 // js/site.js - Shared site functionality
 
 // Theme initialization
-const SITE_THEMES = ['theme-vin', 'theme-dark', 'theme-retro'];
-const PARTIAL_VERSION = '20260612a';
+const SITE_THEMES = ['theme-light', 'theme-retro', 'theme-vin'];
+const PARTIAL_VERSION = '20260803b';
 const THEME_LABELS = {
-  'theme-vin': 'Life of a VIN',
-  'theme-dark': 'Dark Theme',
-  'theme-retro': 'Retro Theme'
+  'theme-light': 'Editorial Light',
+  'theme-retro': 'Retro Theme',
+  'theme-vin': 'Life of a VIN'
 };
 const THEME_ICONS = {
-  'theme-vin': '\u269C',
-  'theme-dark': '\u25D0',
-  'theme-retro': '\u25A3'
+  'theme-light': '\u2600',
+  'theme-retro': '\u25A3',
+  'theme-vin': '\u269C'
 };
 const SUPPORTED_LANGS = ['en', 'pt', 'ja'];
 const LANG_LABELS = { en: 'EN', pt: 'PT', ja: 'JA' };
@@ -28,11 +28,12 @@ function getLocaleForLang(lang) {
 
 function getStoredTheme() {
   const savedTheme = localStorage.getItem('theme');
-  return SITE_THEMES.includes(savedTheme) ? savedTheme : 'theme-vin';
+  if (savedTheme === 'theme-dark') return 'theme-light';
+  return SITE_THEMES.includes(savedTheme) ? savedTheme : 'theme-light';
 }
 
 function applySiteTheme(theme, persist = false) {
-  const safeTheme = SITE_THEMES.includes(theme) ? theme : 'theme-vin';
+  const safeTheme = SITE_THEMES.includes(theme) ? theme : 'theme-light';
   document.documentElement.classList.remove(...SITE_THEMES);
   document.documentElement.classList.add(safeTheme);
   document.body.classList.remove(...SITE_THEMES);
@@ -51,7 +52,7 @@ function applySiteTheme(theme, persist = false) {
 }
 
 function getThemeSelectLabel(theme) {
-  return THEME_LABELS[theme] || THEME_LABELS['theme-vin'];
+  return THEME_LABELS[theme] || THEME_LABELS['theme-light'];
 }
 
 function getThemeSelectTitle(theme) {
@@ -157,6 +158,7 @@ let spaInitialized = false;
 let navInFlight = false;
 let lightboxBound = false;
 let languageHandlerBound = false;
+let editorialNavGlobalsBound = false;
 let vinRecentCommits = [];
 
 const spaRoutes = new Set([
@@ -633,7 +635,7 @@ function initThemeSelect() {
   initCustomSelect(root, {
     value: currentTheme,
     onSelect: nextTheme => {
-      const safeTheme = SITE_THEMES.includes(nextTheme) ? nextTheme : 'theme-vin';
+      const safeTheme = SITE_THEMES.includes(nextTheme) ? nextTheme : 'theme-light';
       applySiteTheme(safeTheme, true);
       const trigger = root.querySelector('.cs-trigger');
       if (trigger) trigger.title = getThemeSelectTitle(safeTheme);
@@ -654,13 +656,100 @@ function initFooter() {
 // Mark active nav link
 function setActiveNav(navId) {
   const resolvedNavId = navId === 'home' ? 'nav-home' : navId;
-  const navLinks = document.querySelectorAll('.nav a');
+  const navLinks = document.querySelectorAll('.nav a, .editorial-nav [data-nav-id]');
   navLinks.forEach(link => link.classList.remove('active'));
   if (!resolvedNavId) return;
   navLinks.forEach(link => {
-    if (link.id === resolvedNavId || (resolvedNavId === 'nav-home' && link.getAttribute('href') === '/')) {
+    if (link.id === resolvedNavId || link.dataset.navId === resolvedNavId || (resolvedNavId === 'nav-home' && link.getAttribute('href') === '/')) {
       link.classList.add('active');
     }
+  });
+}
+
+function closeEditorialNav() {
+  document.querySelectorAll('.editorial-nav-trigger[aria-expanded="true"]').forEach(trigger => {
+    trigger.setAttribute('aria-expanded', 'false');
+  });
+  document.querySelectorAll('.editorial-submenu.is-open').forEach(panel => {
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+  });
+}
+
+function initEditorialNav() {
+  const nav = document.querySelector('.editorial-nav');
+  if (!nav || nav.dataset.bound === 'true') return;
+  nav.dataset.bound = 'true';
+
+  nav.addEventListener('click', event => {
+    const trigger = event.target.closest('.editorial-nav-trigger');
+    if (trigger) {
+      event.preventDefault();
+      event.stopPropagation();
+      const menuName = trigger.dataset.editorialMenu;
+      const panel = nav.querySelector(`[data-editorial-panel="${menuName}"]`);
+      if (!panel) return;
+      const willOpen = trigger.getAttribute('aria-expanded') !== 'true';
+      closeEditorialNav();
+      if (willOpen) {
+        trigger.setAttribute('aria-expanded', 'true');
+        panel.classList.add('is-open');
+        panel.setAttribute('aria-hidden', 'false');
+      }
+      return;
+    }
+
+    if (event.target.closest('.editorial-submenu-close')) {
+      event.preventDefault();
+      closeEditorialNav();
+    }
+  });
+
+  if (!editorialNavGlobalsBound) {
+    editorialNavGlobalsBound = true;
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.editorial-nav')) closeEditorialNav();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeEditorialNav();
+    });
+  }
+}
+
+function beginPageTransition(contentEl) {
+  closeEditorialNav();
+  if (!document.body.classList.contains('theme-light') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    contentEl.classList.add('is-loading');
+    return Promise.resolve();
+  }
+
+  document.body.classList.add('is-page-transitioning');
+  contentEl.classList.remove('is-page-entering', 'is-page-entering-active');
+  contentEl.classList.add('is-page-leaving');
+  return new Promise(resolve => window.setTimeout(resolve, 210));
+}
+
+function finishPageTransition(contentEl) {
+  const useSlide = document.body.classList.contains('theme-light')
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  contentEl.classList.remove('is-loading', 'is-page-leaving');
+  if (!useSlide) {
+    document.body.classList.remove('is-page-transitioning');
+    return Promise.resolve();
+  }
+
+  contentEl.classList.add('is-page-entering');
+  void contentEl.offsetWidth;
+  return new Promise(resolve => {
+    requestAnimationFrame(() => {
+      contentEl.classList.add('is-page-entering-active');
+      window.setTimeout(() => {
+        contentEl.classList.remove('is-page-entering', 'is-page-entering-active');
+        document.body.classList.remove('is-page-transitioning');
+        resolve();
+      }, 300);
+    });
   });
 }
 
@@ -713,6 +802,7 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
 
     if (activeNavId) setActiveNav(activeNavId);
     initThemeSelect();
+    initEditorialNav();
     updateRetroAddress();
     initFooter();
 
@@ -816,11 +906,17 @@ function navigate(url, options = {}) {
 
   navInFlight = true;
   closeLightbox();
-  contentEl.classList.add('is-loading');
 
-  fetch(targetUrl.pathname + targetUrl.search)
+  fetch(targetUrl.pathname + targetUrl.search, {
+    credentials: 'same-origin',
+    headers: { Accept: 'text/html' }
+  })
     .then(response => {
-      if (!response.ok) throw new Error('Navigation failed');
+      const responseUrl = new URL(response.url, window.location.origin);
+      const contentType = response.headers.get('content-type') || '';
+      if (!response.ok || responseUrl.origin !== window.location.origin || !contentType.includes('text/html')) {
+        throw new Error('Navigation failed');
+      }
       return response.text();
     })
     .then(html => {
@@ -833,8 +929,11 @@ function navigate(url, options = {}) {
         : getPageFromPath(targetPath);
       const nextNavId = getNavIdForPage(nextPage);
 
+      return beginPageTransition(contentEl).then(() => ({ doc, newContent, nextPage, nextNavId }));
+    })
+    .then(({ doc, newContent, nextPage, nextNavId }) => {
       document.title = doc.title || document.title;
-      contentEl.innerHTML = newContent.innerHTML;
+      contentEl.replaceChildren(...newContent.childNodes);
 
       if (nextPage) {
         document.body.dataset.page = nextPage;
@@ -844,7 +943,7 @@ function navigate(url, options = {}) {
         delete contentEl.dataset.page;
       }
 
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
 
       return loadHeaderFooter(nextNavId, nextPage).then(() => {
         runPageInit(nextPage);
@@ -860,11 +959,9 @@ function navigate(url, options = {}) {
             target.scrollIntoView({ behavior: 'smooth' });
           }
         } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'auto' });
         }
-        requestAnimationFrame(() => {
-          contentEl.classList.remove('is-loading');
-        });
+        return finishPageTransition(contentEl);
       });
     })
     .catch(() => {
@@ -1184,15 +1281,27 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+function getSafeGitHubImageUrl(value, fallback) {
+  try {
+    const url = new URL(value);
+    const allowedHosts = new Set(['github.com', 'avatars.githubusercontent.com']);
+    return url.protocol === 'https:' && allowedHosts.has(url.hostname) ? url.href : fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
 function renderCommit(commit) {
   const currentLang = window.langSystem ? langSystem.getCurrentLang() : getStoredLang();
   const commitDate = new Date(commit.commit.author.date);
   const formattedDate = formatDate(commitDate, currentLang);
-  const shortHash = commit.sha.substring(0, 7);
-  const commitUrl = `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}/commit/${commit.sha}`;
-  const avatarUrl = changelogState.userData && changelogState.userData.avatar_url
-    ? changelogState.userData.avatar_url
-    : `https://github.com/${GITHUB_USERNAME}.png`;
+  const safeSha = /^[0-9a-f]{7,40}$/i.test(commit.sha) ? commit.sha : '';
+  const shortHash = safeSha ? safeSha.substring(0, 7) : 'commit';
+  const commitUrl = safeSha
+    ? `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}/commit/${safeSha}`
+    : `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}`;
+  const fallbackAvatarUrl = `https://github.com/${GITHUB_USERNAME}.png`;
+  const avatarUrl = getSafeGitHubImageUrl(changelogState.userData && changelogState.userData.avatar_url, fallbackAvatarUrl);
   const messageLines = commit.commit.message.split('\n');
   const title = messageLines[0];
 
@@ -1211,7 +1320,7 @@ function renderCommit(commit) {
       </div>
       <div class="commit-content">
         <div class="commit-header">
-          <a href="${commitUrl}" target="_blank"><span class="commit-hash">${shortHash}</span></a>
+          <a href="${commitUrl}" target="_blank" rel="noopener noreferrer"><span class="commit-hash">${shortHash}</span></a>
           <span class="commit-date" data-original-date="${commit.commit.author.date}">${formattedDate}</span>
         </div>
         <div class="commit-message">${escapeHtml(title)}</div>
@@ -1331,7 +1440,7 @@ function closeLightbox(event) {
   }
 
   lightbox.style.display = 'none';
-  document.body.style.overflow = 'auto';
+  document.body.style.overflow = '';
 }
 
 function initLightboxBindings() {

@@ -1,7 +1,11 @@
 <header class="header">
   <a href="/" class="site-id">
     <img src="/images/site-emblem.png" alt="emblem">
-    <span>vincentlarkin.com</span>
+    <span class="site-name-original">vincentlarkin.com</span>
+    <span class="site-wordmark-wrap">
+      <img class="site-wordmark" src="/images/vincentlarkin-wordmark.svg" alt="vincentlarkin.com">
+      <small>Vincent Larkin Personal Homepage</small>
+    </span>
   </a>
   <div class="header-holiday-slot">
     <div class="holiday-monitor" id="holiday-monitor" role="status" aria-live="polite" hidden>
@@ -13,14 +17,14 @@
   <div class="header-controls">
     <div class="custom-select" id="theme-select" data-name="theme">
       <button type="button" class="cs-trigger" data-name="theme" aria-haspopup="listbox" aria-expanded="false" aria-label="Select theme">
-        <span class="cs-icon" aria-hidden="true">&#9876;</span>
-        <span class="cs-label">Life of a VIN</span>
+        <span class="cs-icon" aria-hidden="true">&#9728;</span>
+        <span class="cs-label">Editorial Light</span>
         <span class="cs-arrow" aria-hidden="true">&#9662;</span>
       </button>
       <ul class="cs-options" role="listbox" hidden>
-        <li class="cs-option" role="option" data-value="theme-vin"><span class="cs-icon" aria-hidden="true">&#9876;</span><span>Life of a VIN</span></li>
-        <li class="cs-option" role="option" data-value="theme-dark"><span class="cs-icon" aria-hidden="true">&#9680;</span><span>Dark Theme</span></li>
+        <li class="cs-option" role="option" data-value="theme-light"><span class="cs-icon" aria-hidden="true">&#9728;</span><span>Editorial Light</span></li>
         <li class="cs-option" role="option" data-value="theme-retro"><span class="cs-icon" aria-hidden="true">&#9635;</span><span>Retro Theme</span></li>
+        <li class="cs-option" role="option" data-value="theme-vin"><span class="cs-icon" aria-hidden="true">&#9876;</span><span>Life of a VIN</span></li>
       </ul>
     </div>
     <div class="custom-select" id="lang-select" data-name="lang">
@@ -46,4 +50,69 @@
   <a href="/changelog.html" id="nav-changelog">Changelog</a>
   <a href="https://louisiana911.com" class="louisiana-link" target="_blank" rel="noopener" id="nav-louisiana">Louisiana911</a>
   <a href="https://archive.vincentlarkin.com" class="archive-link" target="_blank" rel="noopener" id="nav-archive">archive.vincentlarkin.com</a>
+</nav>
+
+<nav class="editorial-nav" aria-label="Primary navigation">
+  <div class="editorial-nav-inner">
+    <div class="editorial-nav-item">
+      <a href="/" data-nav-id="nav-home">Home</a>
+    </div>
+
+    <div class="editorial-nav-item">
+      <button type="button" class="editorial-nav-trigger" data-nav-id="nav-about" data-editorial-menu="about" aria-expanded="false">About</button>
+      <div class="editorial-submenu" data-editorial-panel="about" aria-hidden="true">
+        <div class="editorial-submenu-inner">
+          <a class="editorial-submenu-title" href="/about.html">About Vincent</a>
+          <div class="editorial-submenu-grid">
+            <a href="/about.html">Profile and experience</a>
+            <a href="mailto:vincent@vincentlarkin.com">Email Vincent</a>
+            <a href="https://github.com/vincentlarkin" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://www.linkedin.com/in/vincentwlarkin/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+          <button type="button" class="editorial-submenu-close" aria-label="Close About menu"><span>Close</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="editorial-nav-item">
+      <button type="button" class="editorial-nav-trigger" data-nav-id="nav-news" data-editorial-menu="news" aria-expanded="false">News / Books</button>
+      <div class="editorial-submenu" data-editorial-panel="news" aria-hidden="true">
+        <div class="editorial-submenu-inner">
+          <a class="editorial-submenu-title" href="/news.html">News / Books</a>
+          <div class="editorial-submenu-grid">
+            <a href="/news.html">Latest notes and reading</a>
+            <a href="/news.html#books">Bookshelf</a>
+            <a href="/news.html#articles">Articles</a>
+            <a href="/changelog.html">Latest site updates</a>
+          </div>
+          <button type="button" class="editorial-submenu-close" aria-label="Close News menu"><span>Close</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="editorial-nav-item">
+      <button type="button" class="editorial-nav-trigger" data-nav-id="nav-gallery" data-editorial-menu="gallery" aria-expanded="false">Gallery</button>
+      <div class="editorial-submenu" data-editorial-panel="gallery" aria-hidden="true">
+        <div class="editorial-submenu-inner">
+          <a class="editorial-submenu-title" href="/gallery.html">Gallery</a>
+          <div class="editorial-submenu-grid">
+            <a href="/gallery.html">Monthly photo gallery</a>
+            <a href="https://archive.vincentlarkin.com/paintings.html" target="_blank" rel="noopener">Paintings archive</a>
+            <a href="https://archive.vincentlarkin.com" target="_blank" rel="noopener">Royal Archive</a>
+          </div>
+          <button type="button" class="editorial-submenu-close" aria-label="Close Gallery menu"><span>Close</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="editorial-nav-item">
+      <a href="/changelog.html" data-nav-id="nav-changelog">Changelog</a>
+    </div>
+    <div class="editorial-nav-item">
+      <a href="https://louisiana911.com" target="_blank" rel="noopener">Louisiana911</a>
+    </div>
+    <div class="editorial-nav-item">
+      <a href="https://archive.vincentlarkin.com" target="_blank" rel="noopener">archive.vincentlarkin.com</a>
+    </div>
+  </div>
 </nav>
