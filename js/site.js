@@ -2,7 +2,7 @@
 
 // Theme initialization
 const SITE_THEMES = ['theme-light', 'theme-retro', 'theme-vin'];
-const PARTIAL_VERSION = '20260803b';
+const PARTIAL_VERSION = '20260803c';
 const THEME_LABELS = {
   'theme-light': 'Editorial Light',
   'theme-retro': 'Retro Theme',
