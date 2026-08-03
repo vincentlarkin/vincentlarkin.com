@@ -3,9 +3,9 @@
    holiday monitor, and custom dropdown component.
 
    Theme-specific styles live in:
-     css/theme-vin.css   (default - "Life of a VIN")
-     css/theme-dark.css  (dark theme overrides)
-     css/theme-retro.css (retro IBM/Mosaic theme) */
+     css/theme-editorial.css (default Olympus-inspired light theme)
+     css/theme-retro.css     (retro IBM/Mosaic theme)
+     css/theme-vin.css       ("Life of a VIN" gothic theme) */
 
 :root {
   --font-mono: 'Consolas', 'Monaco', 'Lucida Console', monospace;
@@ -122,6 +122,41 @@ a:hover { text-decoration: underline; }
   font-weight: 600;
   font-size: 1.2rem;
   letter-spacing: -0.5px;
+}
+
+.site-id .site-wordmark-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.site-name-original,
+.editorial-nav,
+.editorial-home {
+  display: none;
+}
+
+/* Life of a VIN keeps its original wordmark treatment and markup contract. */
+.theme-vin .site-id .site-name-original {
+  display: inline;
+}
+
+.theme-vin .site-id .site-wordmark-wrap {
+  display: none;
+}
+
+.site-id .site-wordmark {
+  width: 235px;
+  height: auto;
+  display: block;
+}
+
+.site-wordmark-wrap small {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  white-space: nowrap;
 }
 
 .header-holiday-slot {

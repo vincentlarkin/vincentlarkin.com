@@ -368,6 +368,19 @@ body.theme-retro {
   max-width: 1060px;
 }
 
+.theme-retro .site-id .site-wordmark {
+  width: 235px;
+  height: auto;
+  filter: none;
+}
+
+.theme-retro .site-wordmark-wrap small {
+  color: #333;
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: .75rem;
+  letter-spacing: 0;
+}
+
 .theme-retro .intro-block {
   grid-column: 1;
   margin-bottom: 0;
