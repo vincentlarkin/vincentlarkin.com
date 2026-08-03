@@ -30,6 +30,7 @@ Static site for [vincentlarkin.com](https://vincentlarkin.com). Plain HTML/CSS/J
 | `images/favicons/` | Favicon set + `site.webmanifest`. |
 | `images/flags/` | `us.png`, `pt.svg` for the language switcher. |
 | `images/themes/life-of-a-vin/background.webp` | Background art for `theme-vin`. |
+| `fonts/` | Self-hosted Noto Sans Latin/Latin Extended webfonts used by Editorial Light, with the SIL Open Font License. |
 | `images/profile.jpg` | Portrait shown on the About page bio block. Replace freely; if missing, the bio falls back to a "VL" monogram via the `onerror` handler. |
 | `images/mês/` | Monthly featured photos (originals). Folder name is Portuguese for "month" (note the `ê`). Filenames are referenced from `monthlyImages` in `js/site.js`. |
 | `images/mês/thumbs/` | ~480px-wide WebP thumbnails used by the gallery grid. Pre-generated; see [Adding a new monthly image](#adding-a-new-monthly-image). |
