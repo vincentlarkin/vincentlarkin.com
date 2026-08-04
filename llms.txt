@@ -1,15 +1,15 @@
 # vincentlarkin.com
 
-> Personal website for Vincent Larkin.
+> Personal website for Vincent Larkin, featuring his professional profile, projects, photo gallery, site updates, and a curated article archive.
 
 ## Main Pages
 
-- [Home](https://vincentlarkin.com/)
-- [About](https://vincentlarkin.com/about.html)
-- [News / Books](https://vincentlarkin.com/news.html)
-- [Gallery](https://vincentlarkin.com/gallery.html)
-- [Changelog](https://vincentlarkin.com/changelog.html)
-- [Privacy Policy](https://vincentlarkin.com/privacy.html)
+- [Home](https://vincentlarkin.com/): Project highlights, recent site notes, featured topics, contact links, and the latest monthly image.
+- [About](https://vincentlarkin.com/about.html): Professional profile, skills, location, and contact information.
+- [News / Books](https://vincentlarkin.com/news.html): Curated article archive and bookshelf.
+- [Gallery](https://vincentlarkin.com/gallery.html): Monthly photo gallery and visual archive.
+- [Changelog](https://vincentlarkin.com/changelog.html): Recent updates pulled from the site's public GitHub history.
+- [Privacy Policy](https://vincentlarkin.com/privacy.html): Details about hosting logs, local storage, and third-party services.
 
 ## Articles
 
@@ -29,4 +29,4 @@
 
 - [Sitemap](https://vincentlarkin.com/sitemap.xml)
 - [Robots policy](https://vincentlarkin.com/robots.txt)
-- [Security contact](https://vincentlarkin.com/.well-known/security.txt)
+- [Security contact](https://vincentlarkin.com/.well-known/security.txt): Contact and disclosure information for security issues.

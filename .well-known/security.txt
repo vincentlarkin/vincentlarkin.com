@@ -1,4 +1,4 @@
 Contact: mailto:vincent@vincentlarkin.com
 Expires: 2027-05-31T00:00:00Z
-Preferred-Languages: en
+Preferred-Languages: en-US, pt-PT, ja
 Canonical: https://vincentlarkin.com/.well-known/security.txt
