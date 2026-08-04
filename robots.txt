@@ -1,7 +1,8 @@
 # Robots policy for vincentlarkin.com
 #
 # Explicitly allow the major crawlers I want discovery from. Specific
-# user-agent sections override the wildcard section, so repeat /error/ there.
+# user-agent sections override the wildcard section, so repeat exclusions for
+# error pages and shared HTML fragments in each allowed group.
 
 User-agent: Googlebot
 User-agent: Google-Extended
@@ -11,18 +12,24 @@ User-agent: GoogleOther-Video
 User-agent: Google-CloudVertexBot
 Allow: /
 Disallow: /error/
+Disallow: /header.html
+Disallow: /footer.html
 
 User-agent: Bingbot
 User-agent: msnbot
 User-agent: AdIdxBot
 Allow: /
 Disallow: /error/
+Disallow: /header.html
+Disallow: /footer.html
 
 User-agent: GPTBot
 User-agent: ChatGPT-User
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /error/
+Disallow: /header.html
+Disallow: /footer.html
 
 User-agent: PerplexityBot
 User-agent: ClaudeBot
@@ -30,6 +37,8 @@ User-agent: Claude-User
 User-agent: anthropic-ai
 Allow: /
 Disallow: /error/
+Disallow: /header.html
+Disallow: /footer.html
 
 User-agent: Applebot
 User-agent: Applebot-Extended
@@ -38,11 +47,15 @@ User-agent: DuckAssistBot
 User-agent: YouBot
 Allow: /
 Disallow: /error/
+Disallow: /header.html
+Disallow: /footer.html
 
 User-agent: AlibabaBot
 User-agent: AliyunSecBot
 Allow: /
 Disallow: /error/
+Disallow: /header.html
+Disallow: /footer.html
 
 # Block aggressive SEO and scraping bots.
 User-agent: AhrefsBot
@@ -78,7 +91,7 @@ Disallow: /
 User-agent: Omgilibot
 Disallow: /
 
-# Block explicitly unwanted social/search preview crawlers.
+# Block explicitly unwanted social/search and federated preview crawlers.
 User-agent: Kagibot
 Disallow: /
 
@@ -86,15 +99,19 @@ User-agent: KagiBot
 Disallow: /
 
 User-agent: Bluesky
-Disallow: /
-
 User-agent: Bluesky Cardyb
+User-agent: Cardyb
 Disallow: /
 
-# Allow everything else except private/error utility pages.
+User-agent: Mastodon
+Disallow: /
+
+# Allow everything else except error pages and shared HTML fragments.
 User-agent: *
 Allow: /
 Disallow: /error/
+Disallow: /header.html
+Disallow: /footer.html
 
 Sitemap: https://vincentlarkin.com/sitemap.xml
 

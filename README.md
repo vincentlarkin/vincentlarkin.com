@@ -15,6 +15,7 @@ Static site for [vincentlarkin.com](https://vincentlarkin.com). Plain HTML/CSS/J
 | `news.html` | Curated articles (links into `articles/`) plus a bookshelf placeholder. |
 | `gallery.html` | Monthly Gallery grouped by year (data lives in `js/site.js`) plus a paintings section that just links out to `archive.vincentlarkin.com`. |
 | `changelog.html` | Live GitHub commit feed for this repo. |
+| `privacy.html` | Privacy policy covering hosting logs, local storage, and third-party services. |
 | `header.html` / `footer.html` | Shared partials, fetched at runtime by `js/site.js`. Cache-busted with `?v=...` (see `PARTIAL_VERSION`). |
 
 ### Static assets
@@ -37,7 +38,9 @@ Static site for [vincentlarkin.com](https://vincentlarkin.com). Plain HTML/CSS/J
 | `images/mês/thumbs-md/` | ~1024px-wide WebP thumbnails used by the home page "Image of the Month" card. |
 | `images/articles/` | Images embedded in `articles/*.html`. |
 | `articles/` | Long-form article HTML. Each one is self-contained and uses the same shared header/footer/CSS. |
-| `robots.txt`, `sitemap.xml` | SEO. |
+| `robots.txt`, `sitemap.xml` | Crawler policy and canonical public-page inventory. |
+| `llms.txt` | LLM-oriented site summary and public content index. |
+| `.well-known/security.txt` | Security contact and disclosure information. |
 | `.github/workflows/deploy.yml` | GitHub Actions deploy pipeline. |
 
 ## Default theme
