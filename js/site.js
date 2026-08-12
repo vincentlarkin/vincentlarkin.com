@@ -2,7 +2,7 @@
 
 // Theme initialization
 const SITE_THEMES = ['theme-light', 'theme-retro', 'theme-vin'];
-const PARTIAL_VERSION = '20260803c';
+const PARTIAL_VERSION = '20260812a';
 const THEME_LABELS = {
   'theme-light': 'Editorial Light',
   'theme-retro': 'Retro Theme',
@@ -21,6 +21,12 @@ const LANG_FLAGS = {
   ja: '/images/flags/jp.svg'
 };
 const LANG_LOCALES = { en: 'en-US', pt: 'pt-PT', ja: 'ja-JP' };
+
+function trackSiteEvent(eventName, parameters) {
+  if (window.siteAnalytics && typeof window.siteAnalytics.track === 'function') {
+    window.siteAnalytics.track(eventName, parameters || {});
+  }
+}
 
 function getLocaleForLang(lang) {
   return LANG_LOCALES[lang] || LANG_LOCALES.en;
@@ -695,6 +701,7 @@ function initEditorialNav() {
         trigger.setAttribute('aria-expanded', 'true');
         panel.classList.add('is-open');
         panel.setAttribute('aria-hidden', 'false');
+        trackSiteEvent('navigation_menu_open', { menu_name: menuName });
       }
       return;
     }
@@ -1183,6 +1190,10 @@ function toggleSection(sectionId) {
   content.style.display = isHidden ? 'block' : 'none';
   if (btn) btn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
   if (icon) icon.textContent = isHidden ? '▲' : '▼';
+  trackSiteEvent('content_section_toggle', {
+    section_name: sectionId,
+    section_action: isHidden ? 'open' : 'close'
+  });
 }
 
 function toggleYear(yearId) {
@@ -1194,6 +1205,10 @@ function toggleYear(yearId) {
   const isHidden = content.style.display === 'none' || !content.style.display;
   content.style.display = isHidden ? 'block' : 'none';
   if (icon) icon.textContent = isHidden ? '▲' : '▼';
+  trackSiteEvent('gallery_year_toggle', {
+    gallery_year: String(yearId).replace('year-', ''),
+    section_action: isHidden ? 'open' : 'close'
+  });
 }
 
 function renderGallery() {
@@ -1363,6 +1378,10 @@ function showMoreCommits() {
 
   changelogState.displayedCount += nextBatch.length;
   updateSeeMoreButton();
+  trackSiteEvent('changelog_load_more', {
+    items_loaded: nextBatch.length,
+    items_visible: changelogState.displayedCount
+  });
 }
 
 async function fetchCommits() {
@@ -1424,6 +1443,8 @@ function openLightbox(src, caption) {
   if (captionEl) captionEl.textContent = caption || '';
   lightbox.style.display = 'flex';
   document.body.style.overflow = 'hidden';
+  const imageName = String(src || '').split('/').pop().split('?')[0].slice(0, 100);
+  trackSiteEvent('gallery_image_open', { image_name: imageName || 'image' });
 }
 
 function closeLightbox(event) {
