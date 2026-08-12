@@ -26,6 +26,7 @@ Static site for [vincentlarkin.com](https://vincentlarkin.com). Plain HTML/CSS/J
 | `css/theme-vin.css` | Original "Life of a VIN" theme. Gothic luxury look with the dark background and ornate cards. |
 | `css/theme-retro.css` | Retro IBM / NCSA Mosaic theme + fake browser chrome (chrome is injected by `js/site.js`). |
 | `js/site.js` | App glue: SPA-style navigation, theme/language wiring, holiday monitor, monthly image renderer, GitHub commit fetcher, lightbox. |
+| `js/analytics.js` | Site-wide Google Analytics 4 loader and interaction measurement using web stream `G-9D6Q6F0NB5`. |
 | `js/i18n.js` | Translation system (English / Português / 日本語). All strings are embedded in `embeddedTranslations`; no JSON fetch. To add a new string, add a key with `{ en, pt, ja }` values. To add a new language, append it to `supportedLangs`, give every translation key a value for that lang, add an entry to `LANG_LABELS`/`LANG_FLAGS`/`LANG_LOCALES` in `js/site.js`, and add an `<li class="cs-option">` to the lang dropdown in `header.html`. |
 | `images/site-emblem.png` | Brand mark used in the header. |
 | `images/favicons/` | Favicon set + `site.webmanifest`. |
@@ -53,6 +54,12 @@ Life of a VIN remains an isolated opt-in theme. Its stylesheet and homepage bloc
 
 ## Cache-busting
 Shared partials and JS bundles are loaded with `?v=PARTIAL_VERSION` (see top of `js/site.js`). Bump that string when you change `header.html`, `footer.html`, `js/site.js`, or `js/i18n.js` so visitors don't get the stale cached copy.
+
+## Google Analytics
+
+Google Analytics loads on every public HTML page, including articles and error pages, using measurement ID `G-9D6Q6F0NB5`. It measures page views and broad site interactions. Google Signals and ad personalization remain disabled.
+
+In the GA4 web stream, enable Enhanced Measurement and keep **Page changes based on browser history events** enabled. This is required because the main pages use SPA-style navigation. Do not paste a second Google tag snippet into the HTML files; the site loads it centrally from `js/analytics.js`.
 
 ## Adding a new monthly image
 The gallery and the home-page "Image of the Month" never load the original
