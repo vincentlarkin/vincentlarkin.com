@@ -3,7 +3,13 @@
 [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/22wyu.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
 [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v3/monitor/22wyu.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
 
-Static site for [vincentlarkin.com](https://vincentlarkin.com). Plain HTML/CSS/JS, deployed via GitHub Pages workflow in `.github/workflows/deploy.yml`.
+Static site for [vincentlarkin.com](https://vincentlarkin.com), deployed through `.github/workflows/deploy.yml`. Carbon React is the default presentation; Retro and Life of a VIN remain available. Existing HTML pages retain their content and search metadata.
+
+## Build and preview Carbon
+
+From `carbon-mockup/`, run `npm ci`, `npm run build:site`, then `npm run serve:site`. Open http://127.0.0.1:4173. Run `npm run test:site` with that server running. Commit the generated `assets/carbon/` alongside source changes; deployment serves these prebuilt files and excludes the source workspace. No Node runtime is needed on the server.
+
+See [Carbon source notes](carbon-mockup/README.md) and [Analytics and theme reporting](carbon-mockup/ANALYTICS.md).
 
 ## Project layout
 
@@ -22,7 +28,10 @@ Static site for [vincentlarkin.com](https://vincentlarkin.com). Plain HTML/CSS/J
 | Path | Purpose |
 | --- | --- |
 | `css/styles.css` | Global layout, base typography, header/nav/footer skeleton, lightbox, holiday monitor, custom dropdown styles. |
-| `css/theme-editorial.css` | Default Editorial Light theme. Olympus-inspired typography, measured layout rails, topic cards, and full-width navigation flyouts. |
+| `assets/carbon/` | Built Carbon app, styles, and self-hosted IBM Plex fonts. Generated with `npm run build:site`. |
+| `carbon-mockup/src/` | Carbon source, factual content, translations, responsive styles, and components. |
+| `js/preferences.js` | Shared theme/language storage, theme-change events, and Carbon loader. |
+| `css/theme-editorial.css` | Readable legacy fallback if the Carbon bundle cannot load; no longer the default presentation. |
 | `css/theme-vin.css` | Original "Life of a VIN" theme. Gothic luxury look with the dark background and ornate cards. |
 | `css/theme-retro.css` | Retro IBM / NCSA Mosaic theme + fake browser chrome (chrome is injected by `js/site.js`). |
 | `js/site.js` | App glue: SPA-style navigation, theme/language wiring, holiday monitor, monthly image renderer, GitHub commit fetcher, lightbox. |
@@ -45,12 +54,12 @@ Static site for [vincentlarkin.com](https://vincentlarkin.com). Plain HTML/CSS/J
 | `.github/workflows/deploy.yml` | GitHub Actions deploy pipeline. |
 
 ## Default theme
-`theme-light` ("Editorial Light") is the default and is set in three places:
+`theme-light` now selects Carbon, replacing Olympus. Its light/dark preference is retained separately in `vl-carbon-theme`. The default is set in three places:
 1. Each HTML file starts with `theme-light` on its `<body>` where applicable.
 2. The inline boot script in `index.html` falls back to `theme-light`.
-3. `getStoredTheme()` in `js/site.js` returns `theme-light` if nothing valid is in `localStorage`.
+3. `js/preferences.js` selects `theme-light` if nothing valid is in `localStorage`; `js/site.js` mounts Carbon for that preference.
 
-Life of a VIN remains an isolated opt-in theme. Its stylesheet and homepage block should not be changed as part of Editorial Light work.
+Life of a VIN remains an isolated opt-in theme. Its stylesheet and homepage block should not be changed as part of Carbon work. Switching between Carbon and a legacy theme reloads the current URL. Switching Carbon light/dark or Retro/VIN updates the current page.
 
 ## Cache-busting
 Shared partials and JS bundles are loaded with `?v=PARTIAL_VERSION` (see top of `js/site.js`). Bump that string when you change `header.html`, `footer.html`, `js/site.js`, or `js/i18n.js` so visitors don't get the stale cached copy.
@@ -59,7 +68,7 @@ Shared partials and JS bundles are loaded with `?v=PARTIAL_VERSION` (see top of 
 
 Google Analytics loads on every public HTML page, including articles and error pages, using measurement ID `G-9D6Q6F0NB5`. It measures page views and broad site interactions. Google Signals and ad personalization remain disabled.
 
-In the GA4 web stream, enable Enhanced Measurement and keep **Page changes based on browser history events** enabled. This is required because the main pages use SPA-style navigation. Do not paste a second Google tag snippet into the HTML files; the site loads it centrally from `js/analytics.js`.
+In the GA4 web stream, keep Enhanced Measurement and **Page changes based on browser history events** enabled for legacy theme navigation. Carbon uses existing document URLs and standard page loads. Do not paste a second Google tag snippet into the HTML files; the site loads it centrally from `js/analytics.js`. Theme context is attached to page views and interactions, with `theme_view` and `theme_change` events. Localhost does not send Analytics requests. See [reporting setup](carbon-mockup/ANALYTICS.md).
 
 ## Adding a new monthly image
 The gallery and the home-page "Image of the Month" never load the original
@@ -91,7 +100,7 @@ monthly image you also need to generate the two thumbnail variants.
     ```
 
     Targets: small ≈ 10–120 KB each, medium ≈ 70–650 KB each.
-3. Add an entry at the top of the appropriate year array in `monthlyImages`
+3. Add the photograph to `carbon-mockup/src/data.js`, then rebuild Carbon. Also add an entry at the top of the appropriate year array in `monthlyImages`
    inside `js/site.js`. Use the original filename — `getMonthlyImagePaths()`
    derives the thumb paths from it automatically.
 4. If the new image is the latest one, update the hard-coded `<img src>` and

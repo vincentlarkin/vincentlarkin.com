@@ -4,7 +4,7 @@ function normalizeLang(value) {
   return supportedLangs.includes(value) ? value : 'en';
 }
 
-let currentLang = normalizeLang(localStorage.getItem('lang'));
+let currentLang = normalizeLang(window.sitePreferences?.language || 'en');
 let translations = {};
 let translationsLoaded = false;
 let currentPage = null;
@@ -288,7 +288,7 @@ function updateLangButton() {
 
 function setLanguage(lang) {
   currentLang = normalizeLang(lang);
-  localStorage.setItem('lang', currentLang);
+  try { localStorage.setItem('lang', currentLang); } catch {}
   document.documentElement.lang = currentLang;
   updateLangButton();
   applyNavTranslations();

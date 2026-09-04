@@ -1,10 +1,27 @@
+(function () {
+if (window.sitePreferences?.theme === 'theme-light' && !window.carbonFailed) {
+  window.sitePreferences.mountCarbon().catch(error => {
+    console.error('Carbon could not load; showing the readable fallback.', error);
+    document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+      const pathname = new URL(link.href).pathname;
+      if (pathname.startsWith('/assets/carbon/')) link.remove();
+      if (pathname.startsWith('/css/')) link.disabled = false;
+    });
+    window.carbonFailed = true;
+    const retry = document.createElement('script');
+    retry.src = '/js/site.js?v=20260904';
+    retry.onload = () => window.siteUtils.initPage(document.body.dataset.page || null, null);
+    document.body.appendChild(retry);
+  });
+  return;
+}
 // js/site.js - Shared site functionality
 
 // Theme initialization
 const SITE_THEMES = ['theme-light', 'theme-retro', 'theme-vin'];
-const PARTIAL_VERSION = '20260812a';
+const PARTIAL_VERSION = '20260904';
 const THEME_LABELS = {
-  'theme-light': 'Editorial Light',
+  'theme-light': 'Carbon',
   'theme-retro': 'Retro Theme',
   'theme-vin': 'Life of a VIN'
 };
@@ -33,13 +50,17 @@ function getLocaleForLang(lang) {
 }
 
 function getStoredTheme() {
-  const savedTheme = localStorage.getItem('theme');
+  const savedTheme = window.sitePreferences?.theme || 'theme-light';
   if (savedTheme === 'theme-dark') return 'theme-light';
   return SITE_THEMES.includes(savedTheme) ? savedTheme : 'theme-light';
 }
 
 function applySiteTheme(theme, persist = false) {
   const safeTheme = SITE_THEMES.includes(theme) ? theme : 'theme-light';
+  if (persist && window.sitePreferences) {
+    window.sitePreferences.selectTheme(safeTheme);
+    if (safeTheme === 'theme-light') return safeTheme;
+  }
   document.documentElement.classList.remove(...SITE_THEMES);
   document.documentElement.classList.add(safeTheme);
   document.body.classList.remove(...SITE_THEMES);
@@ -51,7 +72,7 @@ function applySiteTheme(theme, persist = false) {
   }
 
   if (persist) {
-    localStorage.setItem('theme', safeTheme);
+    try { localStorage.setItem('theme', safeTheme); } catch {}
   }
 
   return safeTheme;
@@ -1266,7 +1287,7 @@ function renderGallery() {
 }
 
 function getStoredLang() {
-  const storedLang = localStorage.getItem('lang');
+  const storedLang = window.sitePreferences?.language || 'en';
   return SUPPORTED_LANGS.includes(storedLang) ? storedLang : 'en';
 }
 
@@ -1496,3 +1517,5 @@ window.siteUtils = {
   }
 };
 
+
+})();

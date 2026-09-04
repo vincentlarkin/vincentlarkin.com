@@ -22,9 +22,12 @@
   // Load GA4 immediately on every page. Advertising and personalization
   // features remain disabled; this installation is for site measurement.
   window.gtag('js', new Date());
+  updateThemeContext(false);
   window.gtag('config', GA_MEASUREMENT_ID, {
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
+    site_theme: getTheme(),
+    site_language: getLanguage(),
     cookie_flags: 'SameSite=Lax;Secure',
     transport_type: 'beacon'
   });
@@ -32,20 +35,30 @@
   const googleTag = document.createElement('script');
   googleTag.async = true;
   googleTag.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA_MEASUREMENT_ID)}`;
-  document.head.appendChild(googleTag);
+  const enabled = ['vincentlarkin.com', 'www.vincentlarkin.com'].includes(location.hostname);
+  if (enabled) document.head.appendChild(googleTag);
 
   function getPageKey() {
     return `${window.location.pathname}${window.location.search}`;
   }
 
   function getTheme() {
-    return ['theme-light', 'theme-retro', 'theme-vin'].find(theme => document.body && document.body.classList.contains(theme))
-      || localStorage.getItem('theme')
-      || 'theme-light';
+    return window.sitePreferences?.analyticsTheme() || 'carbon-light';
   }
 
   function getLanguage() {
-    return localStorage.getItem('lang') || document.documentElement.lang || 'en';
+    return window.sitePreferences?.language || document.documentElement.lang || 'en';
+  }
+
+  function updateThemeContext(updateConfig = true) {
+    window.gtag('set', { site_theme: getTheme(), site_language: getLanguage() });
+    window.gtag('set', 'user_properties', { preferred_theme: getTheme() });
+    if (updateConfig) window.gtag('config', GA_MEASUREMENT_ID, {
+      update: true,
+      send_page_view: false,
+      site_theme: getTheme(),
+      site_language: getLanguage()
+    });
   }
 
   function cleanText(value, fallback = '') {
@@ -72,6 +85,7 @@
     activeSeconds = 0;
     sentEngagement = new Set();
     sentScrollDepths = new Set();
+    track('theme_view');
   }
 
   function startEngagementTimer() {
@@ -118,17 +132,6 @@
   }
 
   function handleTrackedClick(event) {
-    const selectOption = event.target.closest('.cs-option[data-value]');
-    if (selectOption) {
-      const select = selectOption.closest('.custom-select');
-      const setting = select && select.dataset.name;
-      if (setting === 'theme') {
-        track('theme_change', { theme_name: cleanText(selectOption.dataset.value) });
-      } else if (setting === 'lang') {
-        track('language_change', { language_code: cleanText(selectOption.dataset.value) });
-      }
-    }
-
     const link = event.target.closest('a[href]');
     if (!link) return;
     const rawHref = link.getAttribute('href') || '';
@@ -237,6 +240,18 @@
 
   function init() {
     instrumentHistory();
+    track('theme_view');
+    window.addEventListener('site:theme-change', event => {
+      updateThemeContext();
+      track('theme_change', event.detail);
+    });
+    window.addEventListener('site:language-change', event => {
+      updateThemeContext();
+      track('language_change', event.detail);
+    });
+    document.addEventListener('languageChanged', event => {
+      window.sitePreferences?.selectLanguage(event.detail.lang);
+    });
     document.addEventListener('click', handleTrackedClick);
     document.addEventListener('play', handleVideoEvent, true);
     document.addEventListener('pause', handleVideoEvent, true);
@@ -249,6 +264,7 @@
 
   window.siteAnalytics = {
     configured: true,
+    enabled,
     measurementId: GA_MEASUREMENT_ID,
     track
   };

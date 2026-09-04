@@ -52,6 +52,7 @@ jobs:
             rsync -a --delete \
               --exclude '.git' \
               --exclude '.github' \
+              --exclude 'carbon-mockup' \
               "$WORK_DIR"/ "$NEW_DIR"/
 
             if [ -d "$NEW_DIR/.git" ]; then
