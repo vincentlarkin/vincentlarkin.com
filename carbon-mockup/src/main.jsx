@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   Theme,
-  Select,
-  SelectItem,
   OverflowMenu,
   OverflowMenuItem,
   FeatureFlags,
@@ -690,6 +688,23 @@ function ContactBanner() {
   );
 }
 
+function ThemeMenuLabel() {
+  return (
+    <span className="theme-button-label">
+      {t("Theme")}
+      <ChevronDown size={16} />
+    </span>
+  );
+}
+function LanguageMenuLabel() {
+  return (
+    <span className="theme-button-label">
+      {language.toUpperCase()}
+      <ChevronDown size={16} />
+    </span>
+  );
+}
+
 function App() {
   const holidays = useHolidays();
   const [page, setPage] = useState(route);
@@ -704,6 +719,13 @@ function App() {
     }
   });
   const [menuOpen, setMenuOpen] = useState(false);
+  const [preferenceMenu, setPreferenceMenu] = useState(null);
+  const mobileMenuLauncher = useRef(null);
+  const languageNames = { en: "English", pt: "Português", ja: "日本語" };
+  const headerMenuOffset = (menu, direction, trigger) => ({
+    left: -(menu.offsetWidth - trigger.offsetWidth) / 2,
+    top: holidays.length ? 32 : 0,
+  });
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [photoIndex, setPhotoIndex] = useState(null);
@@ -822,6 +844,7 @@ function App() {
             }}
           />
           <HeaderMenuButton
+            ref={mobileMenuLauncher}
             aria-label={menuOpen ? t("Close navigation") : t("Open navigation")}
             isActive={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
@@ -852,6 +875,7 @@ function App() {
           </HeaderNavigation>
           <HeaderGlobalBar>
             <HeaderGlobalAction
+              className="header-search"
               aria-label={t("Search the site")}
               ref={searchLauncher}
               tooltipAlignment="end"
@@ -890,16 +914,17 @@ function App() {
             <OverflowMenu
               id="header-theme-menu"
               className="header-theme-trigger"
-              menuOptionsClass="header-theme-options"
+              menuOptionsClass="header-preference-options header-theme-options cds--g100"
+              menuOffsetFlip={headerMenuOffset}
+              open={preferenceMenu === "theme"}
+              onOpen={() => setPreferenceMenu("theme")}
+              onClose={() =>
+                setPreferenceMenu((value) => (value === "theme" ? null : value))
+              }
               aria-label={t("Theme")}
               iconDescription={t("Theme")}
               flipped
-              renderIcon={() => (
-                <span className="theme-button-label">
-                  {t("Theme")}
-                  <ChevronDown size={16} />
-                </span>
-              )}
+              renderIcon={ThemeMenuLabel}
             >
               {[
                 ["carbon-light", "Carbon light"],
@@ -919,11 +944,52 @@ function App() {
                     </span>
                   }
                   onClick={() => {
+                    setPreferenceMenu(null);
                     if (value.startsWith("carbon-")) {
                       const next = value === "carbon-dark" ? "g100" : "white";
                       window.sitePreferences?.selectTheme("theme-light", next);
                       setTheme(next);
                     } else window.sitePreferences?.selectTheme(value);
+                  }}
+                />
+              ))}
+            </OverflowMenu>
+            <OverflowMenu
+              id="header-language-menu"
+              className="header-language-trigger"
+              menuOptionsClass="header-preference-options header-language-options cds--g100"
+              aria-label={`${t("Language")}: ${languageNames[language]}`}
+              iconDescription={`${t("Language")}: ${languageNames[language]}`}
+              flipped
+              menuOffsetFlip={headerMenuOffset}
+              open={preferenceMenu === "language"}
+              onOpen={() => setPreferenceMenu("language")}
+              onClose={() =>
+                setPreferenceMenu((value) =>
+                  value === "language" ? null : value,
+                )
+              }
+              renderIcon={LanguageMenuLabel}
+            >
+              {Object.entries(languageNames).map(([code, name]) => (
+                <OverflowMenuItem
+                  key={code}
+                  itemText={
+                    <span className="theme-option-label">
+                      <span lang={code}>{name}</span>
+                      <span className="language-option-meta">
+                        <span>{code.toUpperCase()}</span>
+                        {code === language && (
+                          <Checkmark size={16} aria-label="Selected" />
+                        )}
+                      </span>
+                    </span>
+                  }
+                  onClick={() => {
+                    setPreferenceMenu(null);
+                    if (code === language) return;
+                    window.sitePreferences?.selectLanguage(code);
+                    setTimeout(() => location.reload(), 150);
                   }}
                 />
               ))}
@@ -936,6 +1002,16 @@ function App() {
             onOverlayClick={() => setMenuOpen(false)}
           >
             <SideNavItems>
+              <SideNavLink
+                href="#search"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setMenuOpen(false);
+                  setSearchOpen(true);
+                }}
+              >
+                {t("Search the site")}
+              </SideNavLink>
               {navigation.map((n) => (
                 <SideNavLink
                   key={n.id}
@@ -1019,23 +1095,7 @@ function App() {
             {t("Back to top")}
           </Button>
         </div>
-        {window.sitePreferences && (
-          <div className="wrap site-preferences">
-            <Select
-              id="carbon-language-select"
-              labelText={t("Language")}
-              value={language}
-              onChange={(event) => {
-                window.sitePreferences.selectLanguage(event.target.value);
-                setTimeout(() => location.reload(), 150);
-              }}
-            >
-              <SelectItem value="en" text="English" />
-              <SelectItem value="pt" text="Português" />
-              <SelectItem value="ja" text="日本語" />
-            </Select>
-          </div>
-        )}
+
         <div className="wrap footer-bottom">
           <span>© {new Date().getFullYear()} Vincent Larkin</span>
           <div>
@@ -1059,7 +1119,11 @@ function App() {
         modalLabel="Vincent Larkin"
         size="sm"
         selectorPrimaryFocus="#site-search"
-        launcherButtonRef={searchLauncher}
+        launcherButtonRef={
+          window.matchMedia("(max-width: 480px)").matches
+            ? mobileMenuLauncher
+            : searchLauncher
+        }
         className="search-modal"
       >
         <Search

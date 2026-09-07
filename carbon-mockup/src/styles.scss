@@ -154,10 +154,14 @@ main:focus {
 .cds--header {
   height: 56px;
 }
-.header-theme-trigger.cds--overflow-menu {
+.header-theme-trigger.cds--overflow-menu,
+.header-language-trigger.cds--overflow-menu {
   width: 96px;
   height: 56px;
   border-left: 1px solid #393939;
+}
+.header-language-trigger.cds--overflow-menu {
+  width: 72px;
 }
 .theme-button-label {
   display: flex;
@@ -166,8 +170,45 @@ main:focus {
   color: #f4f4f4;
   font-size: 14px;
 }
-.header-theme-options {
-  width: 208px;
+.header-preference-options.cds--overflow-menu-options {
+  width: 224px;
+  z-index: 8001;
+  background: #262626;
+  border: 1px solid #525252;
+  border-top: 2px solid #4589ff;
+  box-shadow: 0 6px 16px #00000038;
+  padding-block: 4px;
+}
+.header-preference-options.cds--overflow-menu-options::after {
+  display: none;
+}
+.header-preference-options .cds--overflow-menu-options__btn {
+  height: 44px;
+  max-width: none;
+  color: #f4f4f4;
+  padding-inline: 16px;
+}
+.header-preference-options .cds--overflow-menu-options__btn:hover,
+.header-preference-options .cds--overflow-menu-options__option:hover {
+  background: #353535;
+}
+.header-preference-options .cds--overflow-menu-options__btn:focus {
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+.language-option-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #c6c6c6;
+  font-size: 12px;
+}
+.header-language-options .language-option-meta {
+  min-width: 44px;
+  justify-content: flex-end;
+}
+.header-preference-options .cds--overflow-menu-options__option-content {
+  width: 100%;
 }
 .theme-option-label {
   display: flex;
@@ -322,6 +363,20 @@ main:focus {
   }
   .header-theme-trigger.cds--overflow-menu {
     width: 80px;
+  }
+}
+@media (max-width: 480px) {
+  .cds--header__global .cds--popover-container:has(.header-search) {
+    display: none;
+  }
+  .header-language-trigger.cds--overflow-menu {
+    width: 60px;
+  }
+  .header-theme-trigger.cds--overflow-menu {
+    width: 76px;
+  }
+  .app-theme .cds--header a.cds--header__name {
+    padding-inline: 6px;
   }
 }
 .cds--header__name,
@@ -1642,6 +1697,9 @@ main {
   }
 }
 @media (max-width: 359px) {
+  .header-language-trigger.cds--overflow-menu {
+    width: 52px;
+  }
   .app-theme .cds--header a.cds--header__name {
     font-size: 12px;
     padding-inline: 4px;
