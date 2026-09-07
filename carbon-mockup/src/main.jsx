@@ -62,6 +62,7 @@ import { photos, photoSrc, navigation, changes, articles } from "./data";
 import "./styles.scss";
 import { t, language } from "./translations";
 import { HolidayBanner, useHolidays } from "./HolidayBanner";
+import { usePageNavigation } from "./usePageNavigation";
 
 const external = { target: "_blank", rel: "noopener noreferrer" };
 const paths = {
@@ -739,17 +740,18 @@ function App() {
       image_name: photos[index].file,
     });
   }
-  useEffect(() => {
-    const change = () => {
-      setPage(route());
+  usePageNavigation({
+    route,
+    paths,
+    setPage,
+    main,
+    closeMenus: () => {
       setMenuOpen(false);
       setSearchOpen(false);
-      window.scrollTo(0, 0);
-      requestAnimationFrame(() => main.current?.focus({ preventScroll: true }));
-    };
-    window.addEventListener("hashchange", change);
-    return () => window.removeEventListener("hashchange", change);
-  }, []);
+      setPreferenceMenu(null);
+      setPhotoIndex(null);
+    },
+  });
   useEffect(() => {
     document.documentElement.dataset.carbonTheme = theme;
     document.documentElement.style.colorScheme =

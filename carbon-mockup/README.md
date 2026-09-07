@@ -19,7 +19,7 @@ Open http://127.0.0.1:4173. The server listens only on this computer. Commit the
 - `../js/preferences.js` shares theme and language preferences across Carbon, Retro, and Life of a VIN. Existing `theme-light` preferences now select Carbon.
 - `../js/site.js` mounts Carbon for the default preference; legacy themes retain their existing functionality and isolated styles.
 - Existing HTML content and metadata remain available for search engines and script-free reading. Article bodies and the privacy policy render inside the Carbon shell without duplicating editorial source content.
-- Navigation uses the existing document URLs. Browser Back, direct links, canonical metadata, and article URLs continue to work.
+- Header tabs and links between Home, About, Gallery, News / Books, and Changelog switch in place using the existing document URLs. A brief Carbon crossfade keeps the header and holiday strip steady; reduced-motion users get an immediate update. Browser Back/Forward restores scroll position, and titles, canonical URLs, focus, and Analytics follow the current page. Article and privacy links retain normal document navigation.
 - The live GitHub feed shows recent commits, with a clearly labeled saved fallback if GitHub is unavailable.
 - The header preserves the selected blue-and-white pelican with the US/PT shield. Louisiana911 uses its original Olympus artwork. The archive uses a generated, understated gold crest.
 - The header is 56px high. The portrait is 160px on desktop and 128px on mobile. Copy remains factual and short.
@@ -40,11 +40,14 @@ With the local site server running:
 
 ```sh
 npm run test:site
+node qa-navigation.mjs
 ```
 
 This uses installed Chrome through Playwright. It checks desktop and narrow layouts, accessible page structure, automated WCAG A/AA rules, original project assets, the GitHub feed, light/dark persistence, all legacy theme transitions, language changes, the photo viewer, and real Google tag request payloads. Collection requests are intercepted, so test traffic never reaches Analytics. Screenshots and reports are saved under ignored `qa/`.
 
 The earlier `qa.mjs`, `qa-interactions.mjs`, and `qa-refinements.mjs` document design-sandbox checks. Production checks use `qa-production.mjs`.
+
+`qa-navigation.mjs` checks desktop/mobile navigation without reloads, native and fallback transitions, reduced motion, repeated clicks, Back/Forward, scroll restoration, focus, direct links, and article return navigation. The production test verifies one real Google page-view payload per tab change, intercepted locally.
 
 ## Editing
 

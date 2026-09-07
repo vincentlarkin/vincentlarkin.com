@@ -1236,17 +1236,47 @@ main:focus {
   overflow: hidden;
   white-space: nowrap;
 }
+// Only the page changes; the header and holiday strip keep their position.
 main {
-  animation: page-enter 400ms motion.motion(entrance, expressive) both;
+  overflow-anchor: none;
 }
-@keyframes page-enter {
+.cds--header {
+  view-transition-name: site-header;
+}
+.holiday-strip {
+  view-transition-name: holiday-strip;
+}
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-group(*) {
+  animation-duration: 0s;
+}
+::view-transition-old(root) {
+  animation: page-fade-out 150ms motion.motion(exit, productive) both;
+}
+::view-transition-new(root) {
+  animation: page-fade-in 240ms motion.motion(entrance, productive) both;
+}
+::view-transition-old(site-header),
+::view-transition-old(holiday-strip) {
+  display: none;
+}
+::view-transition-new(site-header),
+::view-transition-new(holiday-strip) {
+  animation: none;
+}
+@keyframes page-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-fade-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
