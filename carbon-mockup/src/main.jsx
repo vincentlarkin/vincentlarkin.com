@@ -4,6 +4,8 @@ import {
   Theme,
   Select,
   SelectItem,
+  OverflowMenu,
+  OverflowMenuItem,
   FeatureFlags,
   Header,
   HeaderName,
@@ -51,6 +53,7 @@ import {
   View,
   Copy,
   Checkmark,
+  ChevronDown,
 } from "@carbon/react/icons";
 import "@fontsource/ibm-plex-sans/latin-300.css";
 import "@fontsource/ibm-plex-sans/latin-400.css";
@@ -60,6 +63,7 @@ import "@fontsource/ibm-plex-mono/latin-400.css";
 import { photos, photoSrc, navigation, changes, articles } from "./data";
 import "./styles.scss";
 import { t, language } from "./translations";
+import { HolidayBanner, useHolidays } from "./HolidayBanner";
 
 const external = { target: "_blank", rel: "noopener noreferrer" };
 const paths = {
@@ -180,8 +184,7 @@ function Home({ onPhoto }) {
           </h1>
           <p className="hero-description">
             {t("Projects, photographs,")}
-            <br />
-            {t("notes, and links.")}
+            <br /> {t("notes, and links.")}
           </p>
           <div className="hero-actions">
             <Button href={hrefFor("about")} renderIcon={ArrowRight}>
@@ -688,6 +691,7 @@ function ContactBanner() {
 }
 
 function App() {
+  const holidays = useHolidays();
   const [page, setPage] = useState(route);
   const [theme, setTheme] = useState(() => {
     try {
@@ -803,7 +807,10 @@ function App() {
     : searchable.filter((r) => r.category === "Page");
   const photo = photoIndex !== null ? photos[photoIndex] : null;
   return (
-    <Theme theme={theme} className="app-theme">
+    <Theme
+      theme={theme}
+      className={`app-theme${holidays.length ? " has-holiday" : ""}`}
+    >
       <Theme theme="g100">
         <Header aria-label="Vincent Larkin">
           <SkipToContent
@@ -853,6 +860,7 @@ function App() {
               <SearchIcon size={20} />
             </HeaderGlobalAction>
             <HeaderGlobalAction
+              className="header-mode-toggle"
               aria-label={
                 theme === "white"
                   ? t("Switch to dark theme")
@@ -870,6 +878,7 @@ function App() {
               {theme === "white" ? <Moon size={20} /> : <Sun size={20} />}
             </HeaderGlobalAction>
             <HeaderGlobalAction
+              className="header-github"
               aria-label={t("GitHub profile")}
               tooltipAlignment="end"
               as="a"
@@ -878,6 +887,47 @@ function App() {
             >
               <LogoGithub size={20} />
             </HeaderGlobalAction>
+            <OverflowMenu
+              id="header-theme-menu"
+              className="header-theme-trigger"
+              menuOptionsClass="header-theme-options"
+              aria-label={t("Theme")}
+              iconDescription={t("Theme")}
+              flipped
+              renderIcon={() => (
+                <span className="theme-button-label">
+                  {t("Theme")}
+                  <ChevronDown size={16} />
+                </span>
+              )}
+            >
+              {[
+                ["carbon-light", "Carbon light"],
+                ["carbon-dark", "Carbon dark"],
+                ["theme-retro", "Retro"],
+                ["theme-vin", "Life of a VIN"],
+              ].map(([value, label]) => (
+                <OverflowMenuItem
+                  key={value}
+                  itemText={
+                    <span className="theme-option-label">
+                      {t(label)}
+                      {value ===
+                        (theme === "g100" ? "carbon-dark" : "carbon-light") && (
+                        <Checkmark size={16} aria-label="Selected" />
+                      )}
+                    </span>
+                  }
+                  onClick={() => {
+                    if (value.startsWith("carbon-")) {
+                      const next = value === "carbon-dark" ? "g100" : "white";
+                      window.sitePreferences?.selectTheme("theme-light", next);
+                      setTheme(next);
+                    } else window.sitePreferences?.selectTheme(value);
+                  }}
+                />
+              ))}
+            </OverflowMenu>
           </HeaderGlobalBar>
           <SideNav
             aria-label={t("Mobile navigation")}
@@ -899,6 +949,7 @@ function App() {
             </SideNavItems>
           </SideNav>
         </Header>
+        <HolidayBanner holidays={holidays} />
       </Theme>
       <main id="main-content" ref={main} tabIndex={-1} key={page}>
         {page === "home" ? (
@@ -935,8 +986,7 @@ function App() {
           </a>
           <p>
             {t("Projects, photographs,")}
-            <br />
-            {t("notes, and links.")}
+            <br /> {t("notes, and links.")}
           </p>
           <div>
             <a href="https://github.com/vincentlarkin" {...external}>
@@ -971,24 +1021,6 @@ function App() {
         </div>
         {window.sitePreferences && (
           <div className="wrap site-preferences">
-            <Select
-              id="carbon-theme-select"
-              labelText={t("Theme")}
-              value={theme === "g100" ? "carbon-dark" : "carbon-light"}
-              onChange={(event) => {
-                const value = event.target.value;
-                if (value.startsWith("carbon-")) {
-                  const next = value === "carbon-dark" ? "g100" : "white";
-                  window.sitePreferences.selectTheme("theme-light", next);
-                  setTheme(next);
-                } else window.sitePreferences.selectTheme(value);
-              }}
-            >
-              <SelectItem value="carbon-light" text={t("Carbon light")} />
-              <SelectItem value="carbon-dark" text={t("Carbon dark")} />
-              <SelectItem value="theme-retro" text="Retro" />
-              <SelectItem value="theme-vin" text="Life of a VIN" />
-            </Select>
             <Select
               id="carbon-language-select"
               labelText={t("Language")}

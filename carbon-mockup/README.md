@@ -23,7 +23,8 @@ Open http://127.0.0.1:4173. The server listens only on this computer. Commit the
 - The live GitHub feed shows recent commits, with a clearly labeled saved fallback if GitHub is unavailable.
 - The header preserves the selected blue-and-white pelican with the US/PT shield. Louisiana911 uses its original Olympus artwork. The archive uses a generated, understated gold crest.
 - The header is 56px high. The portrait is 160px on desktop and 128px on mobile. Copy remains factual and short.
-- Carbon light/dark, Retro, and Life of a VIN are available through the footer Theme setting. The header moon/sun switches Carbon light/dark. Footer language settings preserve English, Portuguese, and Japanese interface choices. Original articles retain their source language.
+- Carbon light/dark, Retro, and Life of a VIN are available through the labeled Theme menu at the top, including on mobile. The desktop moon/sun also switches Carbon light/dark. Footer language settings preserve English, Portuguese, and Japanese interface choices. Original articles retain their source language.
+- A thin country-colored holiday strip restores the holiday display beneath the header. It covers U.S., Portuguese, Japanese, and Louisiana holidays, with a small Louisiana flag glyph and brief particles. See [HOLIDAYS.md](HOLIDAYS.md) for official calendar sources, observance rules, and annual updates.
 - The existing GA4 stream is retained. See [ANALYTICS.md](ANALYTICS.md) for events, local exclusions, verification, and property reporting setup.
 
 ## Carbon implementation

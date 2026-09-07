@@ -1,0 +1,53 @@
+import { chromium, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+import fs from 'node:fs/promises';
+const browser=await chromium.launch({channel:'chrome'});
+const errors=[],violations=[];
+for (const width of [1440,768,390,320]) {
+  const context=await browser.newContext({viewport:{width,height:900},timezoneId:'America/Chicago'});
+  const page=await context.newPage();
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.clock.install({time:new Date('2026-09-07T12:00:00-05:00')});
+  await page.goto('http://127.0.0.1:4173/'); await page.locator('.brand-lockup').waitFor();
+  await expect(page.locator('.holiday-strip')).toContainText('Labor Day');
+  expect((await page.locator('.holiday-strip').boundingBox()).height).toBe(32);
+  expect((await page.locator('#header-theme-menu').boundingBox()).y).toBeLessThan(56);
+  const themeBox=await page.locator('#header-theme-menu').boundingBox();
+  expect(themeBox.x+themeBox.width).toBeLessThanOrEqual(width);
+  await page.getByRole('button',{name:'Theme',exact:true}).click();
+  await expect(page.getByRole('menuitem',{name:'Life of a VIN',exact:true})).toBeVisible();
+  await page.getByRole('menuitem',{name:'Carbon dark',exact:true}).click();
+  await expect(page.locator('.app-theme')).toHaveClass(/cds--g100/);
+  await page.getByRole('button',{name:'Theme',exact:true}).click();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button',{name:'Theme',exact:true})).toBeFocused();
+  await page.clock.runFor(5000);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+  violations.push(...audit.violations.map(v=>({width,id:v.id,nodes:v.nodes.map(n=>n.target)})));
+  await page.screenshot({path:`qa/holiday-us-${width}.png`});
+  for (const [date,region,label] of [['2026-06-10','pt','Portugal Day'],['2026-09-22','jp','Citizens’ Holiday'],['2026-02-17','la','Mardi Gras'],['2026-10-12','us','Sports Day'],['2026-01-01','us',"New Year's Day"]]) {
+    await page.clock.setSystemTime(new Date(date+'T12:00:00-05:00'));
+    await page.reload(); await page.locator('.holiday-strip').waitFor();
+    await expect(page.locator('.holiday-strip')).toHaveAttribute('data-region',region);
+    await expect(page.locator('.holiday-strip')).toContainText(label);
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    if (width===1440 || width===390) await page.screenshot({path:`qa/holiday-${date}-${width}.png`});
+  }
+  await page.clock.setSystemTime(new Date('2026-09-07T23:59:58-05:00'));
+  await page.reload(); await page.locator('.holiday-strip').waitFor();
+  await page.clock.runFor(2500);
+  await expect(page.locator('.holiday-strip')).toHaveCount(0);
+  expect(await page.locator('.app-theme').evaluate(e=>getComputedStyle(e).paddingTop)).toBe('56px');
+  await context.close();
+}
+const reduced=await browser.newContext({reducedMotion:'reduce'});
+const p=await reduced.newPage();
+await p.clock.setFixedTime(new Date('2026-09-07T12:00:00'));
+await p.goto('http://127.0.0.1:4173/');
+await p.locator('.holiday-strip').waitFor();
+await expect(p.locator('.holiday-confetti')).toBeHidden();
+await browser.close();
+await fs.writeFile('qa/holiday-report.json',JSON.stringify({errors,violations},null,2));
+expect(errors).toEqual([]); expect(violations).toEqual([]);
+console.log('Header theme menu, holiday variants, narrow screens, midnight rollover, and reduced motion passed.');

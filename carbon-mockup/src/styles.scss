@@ -154,6 +154,176 @@ main:focus {
 .cds--header {
   height: 56px;
 }
+.header-theme-trigger.cds--overflow-menu {
+  width: 96px;
+  height: 56px;
+  border-left: 1px solid #393939;
+}
+.theme-button-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f4f4f4;
+  font-size: 14px;
+}
+.header-theme-options {
+  width: 208px;
+}
+.theme-option-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+.header-theme-options .cds--overflow-menu-options__option-content {
+  width: 100%;
+}
+.app-theme.has-holiday {
+  padding-top: 88px;
+}
+.has-holiday .cds--side-nav {
+  top: 88px;
+  height: calc(100% - 88px);
+}
+.has-holiday .cds--side-nav__overlay {
+  top: 88px;
+}
+.holiday-strip {
+  --holiday-bg: #001d6c;
+  --holiday-accent: #78a9ff;
+  --holiday-colors: linear-gradient(
+    90deg,
+    #da1e28 0 33.333%,
+    #fff 33.333% 66.666%,
+    #4589ff 66.666%
+  );
+  position: fixed;
+  inset: 56px 0 auto;
+  height: 32px;
+  z-index: 7999;
+  background: var(--holiday-bg);
+  color: #fff;
+  overflow: hidden;
+}
+.holiday-strip::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--holiday-colors);
+}
+.holiday-strip[data-region="pt"] {
+  --holiday-bg: #073b2c;
+  --holiday-accent: #f1c21b;
+  --holiday-colors: linear-gradient(90deg, #24a148 0 40%, #da1e28 40%);
+}
+.holiday-strip[data-region="jp"] {
+  --holiday-bg: #530b16;
+  --holiday-accent: #ffb3b8;
+  --holiday-colors: linear-gradient(
+    90deg,
+    #fff 0 42%,
+    #fa4d56 42% 58%,
+    #fff 58%
+  );
+}
+.holiday-strip[data-region="la"] {
+  --holiday-bg: #00205b;
+  --holiday-accent: #f1c21b;
+  --holiday-colors: linear-gradient(
+    90deg,
+    #4589ff 0 42%,
+    #fff 42% 58%,
+    #4589ff 58%
+  );
+}
+.holiday-strip-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: safe center;
+  gap: 24px;
+  height: 30px;
+  padding-inline: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.holiday-strip-content:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+.holiday-message {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+.holiday-flags {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.holiday-flags img {
+  flex-shrink: 0;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px #ffffff30;
+}
+.holiday-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.holiday-confetti i {
+  position: absolute;
+  left: var(--x);
+  bottom: -5px;
+  width: 3px;
+  height: 5px;
+  background: var(--holiday-accent);
+  animation: holiday-spark 4s var(--delay) ease-out both;
+}
+.holiday-confetti i:nth-child(3n) {
+  background: #fff;
+  width: 3px;
+  height: 3px;
+}
+.holiday-confetti i:nth-child(4n) {
+  background: #ff8389;
+}
+@keyframes holiday-spark {
+  0% {
+    transform: translate(0, 0) rotate(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.65;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(18px, -38px) rotate(var(--turn));
+    opacity: 0;
+  }
+}
+@media (max-width: 1199px) {
+  .cds--header__global .cds--popover-container:has(.header-github) {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .cds--header__global .cds--popover-container:has(.header-mode-toggle) {
+    display: none;
+  }
+  .header-theme-trigger.cds--overflow-menu {
+    width: 80px;
+  }
+}
 .cds--header__name,
 .cds--header__menu-item,
 .cds--header__action {
@@ -1472,6 +1642,14 @@ main {
   }
 }
 @media (max-width: 359px) {
+  .app-theme .cds--header a.cds--header__name {
+    font-size: 12px;
+    padding-inline: 4px;
+  }
+  .app-theme .cds--header .cds--header__action {
+    width: 40px;
+    min-width: 40px;
+  }
   .cds--header__name {
     font-size: 14px;
     padding-right: 8px;
@@ -1489,8 +1667,16 @@ main {
     width: 28px;
     height: 36px;
   }
-  .cds--header__global .cds--popover-container:last-child {
-    display: none;
+  .cds--header__name {
+    font-size: 12px;
+    padding-right: 4px;
+  }
+  .header-theme-trigger.cds--overflow-menu {
+    width: 72px;
+  }
+  .theme-button-label {
+    font-size: 12px;
+    gap: 4px;
   }
   .hero-actions {
     flex-wrap: wrap;
@@ -1503,6 +1689,9 @@ main {
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .holiday-confetti {
+    display: none;
+  }
   *,
   *::before,
   *::after {
