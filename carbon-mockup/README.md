@@ -10,14 +10,15 @@ npm run build:site
 npm run serve:site
 ```
 
-Open http://127.0.0.1:4173. The server listens only on this computer. Commit the generated `../assets/carbon/` together with source changes. the server serves the prebuilt files and does not need Node. The deployment excludes this development directory.
+Open http://127.0.0.1:4173. The server listens only on this computer. Commit the generated `../assets/carbon/` and updated root/article HTML together with source changes: the build writes matching early asset URLs into each page. the server serves the prebuilt files and does not need Node. The deployment excludes this development directory.
 
 `npm run dev` remains an isolated design sandbox with hash navigation. Use `serve:site` for production checks, theme switching, real article pages, and Analytics verification. Stop one server before starting the other; both use port 4173.
 
 ## Production integration
 
 - `../js/preferences.js` shares theme and language preferences across Carbon, Retro, and Life of a VIN. Existing `theme-light` preferences now select Carbon.
-- `../js/site.js` mounts Carbon for the default preference; legacy themes retain their existing functionality and isolated styles.
+- `../js/preferences.js` starts the active theme's downloads in the head. `../js/boot.js` mounts Carbon directly; only legacy themes load `site.js`, `i18n.js`, and the legacy stylesheets. A readable fallback remains if Carbon fails to load.
+- Only the Carbon component styles used by this site are included. Small WebP display copies preserve the emblem, archive artwork, and portrait, with their original source files retained. See [PERFORMANCE.md](PERFORMANCE.md) for startup measurements and maintenance.
 - Existing HTML content and metadata remain available for search engines and script-free reading. Article bodies and the privacy policy render inside the Carbon shell without duplicating editorial source content.
 - Header tabs and links between Home, About, Gallery, News / Books, and Changelog switch in place using the existing document URLs. A brief Carbon crossfade keeps the header and holiday strip steady; reduced-motion users get an immediate update. Browser Back/Forward restores scroll position, and titles, canonical URLs, focus, and Analytics follow the current page. Article and privacy links retain normal document navigation.
 - The live GitHub feed shows recent commits, with a clearly labeled saved fallback if GitHub is unavailable.
@@ -41,6 +42,8 @@ With the local site server running:
 ```sh
 npm run test:site
 node qa-navigation.mjs
+node qa-startup.mjs
+node qa-first-load.mjs
 ```
 
 This uses installed Chrome through Playwright. It checks desktop and narrow layouts, accessible page structure, automated WCAG A/AA rules, original project assets, the GitHub feed, light/dark persistence, all legacy theme transitions, language changes, the photo viewer, and real Google tag request payloads. Collection requests are intercepted, so test traffic never reaches Analytics. Screenshots and reports are saved under ignored `qa/`.

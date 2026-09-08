@@ -36,7 +36,7 @@ await page.setViewportSize({ width:1440,height:1000 });
 await open('/');
 await expect(page.locator('.change-row').first()).toContainText('Production integration check');
 await expect(page.locator('.louisiana-art img')).toHaveAttribute('src','/images/louisiana911-icon-192.png');
-await expect(page.locator('.archive-image img')).toHaveAttribute('src','/images/archive-gold-crest.png');
+await expect(page.locator('.archive-image img')).toHaveAttribute('src','/images/archive-gold-crest-card.webp');
 await page.screenshot({path:'qa/production-home.png',fullPage:true});
 await page.getByRole('button',{name:'Switch to dark theme',exact:true}).click();
 await expect(page.locator('.app-theme')).toHaveClass(/cds--g100/);

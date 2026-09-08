@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { flushSync } from "react-dom";
 import {
   Theme,
   OverflowMenu,
@@ -257,7 +258,11 @@ function Home({ onPhoto }) {
             {...external}
           >
             <div className="project-art archive-image">
-              <img src="/images/archive-gold-crest.png" alt="" loading="lazy" />
+              <img
+                src="/images/archive-gold-crest-card.webp"
+                alt=""
+                loading="lazy"
+              />
             </div>
             <div className="project-body">
               <span className="eyebrow">{t("Personal archive")}</span>
@@ -435,7 +440,7 @@ function About() {
       <PageLead label={t("About")} title={t("About")} />
       <section className="wrap about-layout">
         <div className="portrait">
-          <img src="/images/profile.jpg" alt="Vincent Larkin" />
+          <img src="/images/profile-card.webp" alt="Vincent Larkin" />
         </div>
         <div className="about-body">
           <h2>Vincent Larkin</h2>
@@ -855,7 +860,7 @@ function App() {
             <span className="brand-lockup">
               <img
                 className="brand-emblem"
-                src="/images/pelican-carbon.png"
+                src="/images/pelican-carbon-small.webp"
                 alt=""
               />
               <span>
@@ -1232,10 +1237,12 @@ function App() {
 }
 
 export function mount(element) {
-  createRoot(element).render(
-    <FeatureFlags enableFocusWrapWithoutSentinels>
-      <App />
-    </FeatureFlags>,
+  flushSync(() =>
+    createRoot(element).render(
+      <FeatureFlags enableFocusWrapWithoutSentinels>
+        <App />
+      </FeatureFlags>,
+    ),
   );
 }
 if (!window.sitePreferences) mount(document.getElementById("root"));

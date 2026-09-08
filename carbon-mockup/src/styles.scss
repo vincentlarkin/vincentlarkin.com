@@ -1,6 +1,24 @@
-@use "@carbon/react" with (
+@use "@carbon/react/scss/config" with (
   $css--font-face: false
 );
+@use "@carbon/react/scss/reset";
+@use "@carbon/react/scss/fonts";
+@use "@carbon/react/scss/grid";
+@use "@carbon/react/scss/layer";
+@use "@carbon/react/scss/layout";
+@use "@carbon/react/scss/zone";
+@use "@carbon/react/scss/components/ui-shell";
+@use "@carbon/react/scss/components/button";
+@use "@carbon/react/scss/components/overflow-menu";
+@use "@carbon/react/scss/components/popover";
+@use "@carbon/react/scss/components/tooltip";
+@use "@carbon/react/scss/components/tile";
+@use "@carbon/react/scss/components/tag";
+@use "@carbon/react/scss/components/modal";
+@use "@carbon/react/scss/components/search";
+@use "@carbon/react/scss/components/tabs";
+@use "@carbon/react/scss/components/accordion";
+@use "@carbon/react/scss/components/breadcrumb";
 @use "@carbon/react/scss/spacing" as spacing;
 @use "@carbon/react/scss/type" as type;
 @use "@carbon/react/scss/motion" as motion;

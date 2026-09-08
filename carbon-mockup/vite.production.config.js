@@ -1,6 +1,7 @@
 import { defineConfig, mergeConfig } from "vite";
 import config from "./vite.config.js";
 import fs from "node:fs";
+import { writeStartup } from "./build-startup.mjs";
 
 export default mergeConfig(
   config,
@@ -24,6 +25,7 @@ export default mergeConfig(
             )
             .join("\n\n");
           fs.writeFileSync("../assets/carbon/LICENSES.txt", notices);
+          writeStartup();
         },
       },
     ],
