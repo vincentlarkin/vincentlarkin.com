@@ -8,8 +8,6 @@ export const translations = {
   Privacy: ["Privacidade", "プライバシー"],
   Theme: ["Tema", "テーマ"],
   Language: ["Idioma", "言語"],
-  "Carbon light": ["Carbon claro", "Carbon ライト"],
-  "Carbon dark": ["Carbon escuro", "Carbon ダーク"],
   "Projects, photographs,": ["Projetos, fotografias,", "プロジェクト、写真、"],
   "notes, and links.": ["notas e ligações.", "メモ、リンク。"],
   "About Vincent": ["Sobre Vincent", "Vincent について"],

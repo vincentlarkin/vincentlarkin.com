@@ -936,8 +936,7 @@ function App() {
               renderIcon={ThemeMenuLabel}
             >
               {[
-                ["carbon-light", "Carbon light"],
-                ["carbon-dark", "Carbon dark"],
+                ["theme-light", "Carbon"],
                 ["theme-retro", "Retro"],
                 ["theme-vin", "Life of a VIN"],
               ].map(([value, label]) => (
@@ -946,19 +945,14 @@ function App() {
                   itemText={
                     <span className="theme-option-label">
                       {t(label)}
-                      {value ===
-                        (theme === "g100" ? "carbon-dark" : "carbon-light") && (
+                      {value === "theme-light" && (
                         <Checkmark size={16} aria-label="Selected" />
                       )}
                     </span>
                   }
                   onClick={() => {
                     setPreferenceMenu(null);
-                    if (value.startsWith("carbon-")) {
-                      const next = value === "carbon-dark" ? "g100" : "white";
-                      window.sitePreferences?.selectTheme("theme-light", next);
-                      setTheme(next);
-                    } else window.sitePreferences?.selectTheme(value);
+                    window.sitePreferences?.selectTheme(value);
                   }}
                 />
               ))}
@@ -1129,7 +1123,7 @@ function App() {
         size="sm"
         selectorPrimaryFocus="#site-search"
         launcherButtonRef={
-          window.matchMedia("(max-width: 480px)").matches
+          window.matchMedia("(max-width: 600px)").matches
             ? mobileMenuLauncher
             : searchLauncher
         }

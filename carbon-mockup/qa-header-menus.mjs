@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import fs from 'node:fs/promises';
 const browser=await chromium.launch({channel:'chrome'});
 const errors=[], violations=[];
-for(const width of [1440,1024,768,390,320]) {
+for(const width of [1440,1024,768,600,481,390,320]) {
   const context=await browser.newContext({viewport:{width,height:900}});
   const page=await context.newPage();
   page.on('pageerror',e=>errors.push(e.message));
@@ -18,9 +18,13 @@ for(const width of [1440,1024,768,390,320]) {
   }
   for(const mode of ['light','dark']) {
     await page.locator('#header-theme-menu').click();
-    await expect(page.getByRole('menuitem')).toHaveCount(4);
+    await expect(page.getByRole('menuitem')).toHaveCount(3);
+    await expect(page.getByRole('menuitem',{name:'Carbon Selected',exact:true})).toBeVisible();
     await checkMenu(page,width,'theme-'+mode);
-    await page.getByRole('menuitem',{name:/Carbon dark/}).click();
+    await page.getByRole('menuitem',{name:/^Carbon/}).click();
+    await expect(page.locator('.app-theme')).toHaveClass(mode==='light'?/cds--white/:/cds--g100/);
+    await page.locator('.header-mode-toggle').click();
+    await expect(page.locator('.app-theme')).toHaveClass(mode==='light'?/cds--g100/:/cds--white/);
     await page.locator('#header-language-menu').click();
     await expect(page.getByRole('menuitem')).toHaveCount(3);
     await checkMenu(page,width,'language-'+mode);
@@ -42,7 +46,7 @@ for(const width of [1440,1024,768,390,320]) {
   await page.locator('#header-language-menu').click();
   await page.getByRole('menuitem',{name:/English/}).click();
   await expect(page.locator('#header-language-menu')).toContainText('EN');
-  if(width<=480) {
+  if(width<=600) {
     await page.getByRole('button',{name:'Open navigation',exact:true}).click();
     await page.getByRole('link',{name:'Search the site',exact:true}).click();
     await expect(page.getByRole('dialog',{name:'Vincent Larkin',exact:true})).toBeVisible();

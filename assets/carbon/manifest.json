@@ -40,12 +40,12 @@
     "src": "node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2"
   },
   "src/main.jsx": {
-    "file": "assets/main-CgYKR741.js",
+    "file": "assets/main-UHFGN0Eb.js",
     "name": "main",
     "src": "src/main.jsx",
     "isEntry": true,
     "css": [
-      "assets/main-B4UgMOKk.css"
+      "assets/main-BQ4FTZQY.css"
     ],
     "assets": [
       "assets/ibm-plex-sans-latin-300-normal-b4i7YzLG.woff2",

@@ -16,7 +16,8 @@ for (const width of [1440,768,390,320]) {
   expect(themeBox.x+themeBox.width).toBeLessThanOrEqual(width);
   await page.getByRole('button',{name:'Theme',exact:true}).click();
   await expect(page.getByRole('menuitem',{name:'Life of a VIN',exact:true})).toBeVisible();
-  await page.getByRole('menuitem',{name:'Carbon dark',exact:true}).click();
+  await page.getByRole('menuitem',{name:/^Carbon/}).click();
+  await page.getByRole('button',{name:'Switch to dark theme',exact:true}).click();
   await expect(page.locator('.app-theme')).toHaveClass(/cds--g100/);
   await page.getByRole('button',{name:'Theme',exact:true}).click();
   await page.keyboard.press('Escape');
