@@ -23,7 +23,7 @@ for (const dark of [false, true]) {
   // individual component styles; catch missing token imports visually.
   expect((await page.locator('.hero-actions .cds--btn--primary').boundingBox()).height).toBeGreaterThanOrEqual(48);
   await page.screenshot({ path: `qa/optimized-${dark ? 'dark' : 'light'}.png` });
-  expect(requests.filter(url => url.startsWith('/css/') || ['/js/site.js', '/js/i18n.js', '/assets/carbon/manifest.json', '/images/pelican-carbon.png', '/images/archive-gold-crest.png'].includes(url))).toEqual([]);
+  expect(requests.filter(url => url.startsWith('/css/') || ['/js/site.js', '/js/i18n.js', '/assets/carbon/manifest.json', '/images/site-emblem-carbon.png', '/images/archive-gold-crest.png'].includes(url))).toEqual([]);
   expect(requests.filter(url => url.includes('/thumbs/') || url.includes('/paintings/'))).toEqual([]);
   await context.close();
 }

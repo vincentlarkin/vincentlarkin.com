@@ -118,6 +118,11 @@ a:hover { text-decoration: underline; }
   height: 42px;
 }
 
+.site-id > .site-emblem {
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .site-id span {
   font-weight: 600;
   font-size: 1.2rem;

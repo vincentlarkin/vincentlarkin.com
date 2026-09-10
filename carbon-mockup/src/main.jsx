@@ -862,7 +862,7 @@ function App() {
             <span className="brand-lockup">
               <img
                 className="brand-emblem"
-                src="/images/pelican-carbon-small.webp"
+                src="/images/site-emblem-carbon-small.webp"
                 alt=""
               />
               <span>

@@ -20,7 +20,7 @@ These are the final build's latest three-run medians. Earlier optimized runs mea
 - `boot.js` mounts Carbon without downloading the old themes' JavaScript or styles. Old styles remain in `noscript` for script-free reading, and load on demand for Retro/VIN or recovery.
 - Hidden legacy images use lazy loading so the HTML preload scanner does not download a second set of page artwork while Carbon starts.
 - Styles import only the Carbon components in use. When adding a component, include its Sass module and verify its keyboard, responsive, and theme states.
-- Display assets use the original artwork: the transparent emblem is a 108 px lossless WebP, archive artwork is a 960 px WebP at quality 85, and the portrait is a 400 px WebP at quality 88. Original PNG/JPEG files remain available.
+- Display assets use compact derivatives. The September 10 replacement Carbon emblem is a 120 px-high lossless WebP (11,786 bytes); the table above records the earlier September 8 emblem. Archive artwork is a 960 px WebP at quality 85, and the portrait is a 400 px WebP at quality 88. Current PNG/JPEG masters remain available.
 - The static header remains until the React mount commits; failed module or stylesheet requests restore the readable legacy page.
 
 Run `node qa-first-load.mjs` with the local server active, without other browser tests competing for resources. It saves timings and request waterfalls under `qa/first-load-after.json`. Set `REPORT` to another label to retain a comparison. `qa-startup.mjs` checks early light/dark painting, unused request exclusions, failed assets, and disabled JavaScript. The normal production and menu tests cover the slimmer stylesheet's layout, accessibility, theme/language switching, photo viewer, and Analytics.

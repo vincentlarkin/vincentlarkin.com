@@ -9,7 +9,7 @@ if (window.sitePreferences?.theme === 'theme-light' && !window.carbonFailed) {
     });
     window.carbonFailed = true;
     const retry = document.createElement('script');
-    retry.src = '/js/site.js?v=20260904';
+    retry.src = '/js/site.js?v=20260910-emblem';
     retry.onload = () => window.siteUtils.initPage(document.body.dataset.page || null, null);
     document.body.appendChild(retry);
   });
@@ -19,7 +19,7 @@ if (window.sitePreferences?.theme === 'theme-light' && !window.carbonFailed) {
 
 // Theme initialization
 const SITE_THEMES = ['theme-light', 'theme-retro', 'theme-vin'];
-const PARTIAL_VERSION = '20260904';
+const PARTIAL_VERSION = '20260910-emblem';
 const THEME_LABELS = {
   'theme-light': 'Carbon',
   'theme-retro': 'Retro Theme',
@@ -65,6 +65,7 @@ function applySiteTheme(theme, persist = false) {
   document.documentElement.classList.add(safeTheme);
   document.body.classList.remove(...SITE_THEMES);
   document.body.classList.add(safeTheme);
+  syncSiteEmblem(safeTheme);
 
   if (safeTheme === 'theme-retro') {
     ensureRetroChrome();
@@ -76,6 +77,13 @@ function applySiteTheme(theme, persist = false) {
   }
 
   return safeTheme;
+}
+
+function syncSiteEmblem(theme = getStoredTheme()) {
+  const emblem = document.querySelector('.site-id > .site-emblem');
+  if (emblem) emblem.src = theme === 'theme-retro'
+    ? '/images/site-emblem-retro.png'
+    : '/images/site-emblem-small.webp';
 }
 
 function getThemeSelectLabel(theme) {
@@ -818,6 +826,7 @@ function loadHeaderFooter(activeNavId, page, langCallback) {
     if (headerHtml && headerEl) {
       headerEl.innerHTML = headerHtml;
       headerEl.dataset.loaded = 'true';
+      syncSiteEmblem();
     }
     if (footerHtml && footerEl) {
       footerEl.innerHTML = footerHtml;

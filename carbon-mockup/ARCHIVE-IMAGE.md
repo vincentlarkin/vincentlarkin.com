@@ -1,6 +1,6 @@
 # Archive card image
 
-Saved asset: `../images/archive-gold-crest.png`, shared by the production site and design sandbox. Generated with the built-in ImageGen tool from `../images/site-emblem.png` as the visual reference. The header continues to use the user's selected blue-and-white pelican with the US/PT shield background.
+Saved asset: `../images/archive-gold-crest.png`, shared by the production site and design sandbox. Generated with the built-in ImageGen tool from the site's previous full-color emblem as the visual reference. The archive artwork remains in use; the September 10 header emblems are documented in `EMBLEM.md`.
 
 Final prompt:
 

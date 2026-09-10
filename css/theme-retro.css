@@ -661,7 +661,7 @@ body.theme-retro {
   }
 
   .theme-retro .header {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "brand"
       "controls"
@@ -670,6 +670,27 @@ body.theme-retro {
 
   .theme-retro .header-controls {
     justify-self: stretch;
+    flex-wrap: wrap;
+  }
+
+  .theme-retro .site-id {
+    width: 100%;
+  }
+
+  .theme-retro .site-id .site-wordmark-wrap {
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .theme-retro .site-id .site-wordmark {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .theme-retro .site-wordmark-wrap small {
+    white-space: normal;
   }
 
   .theme-retro .home-main {

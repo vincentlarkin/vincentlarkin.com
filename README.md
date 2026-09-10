@@ -16,7 +16,7 @@ See [Carbon source notes](carbon-mockup/README.md) and [Analytics and theme repo
 ### Top-level pages
 | File | Purpose |
 | --- | --- |
-| `index.html` | Home. Contains three isolated presentations: the Olympus-inspired Editorial Light layout, the retro Mosaic layout, and the original Life of a VIN layout. Only the selected theme's block is displayed. |
+| `index.html` | Home. Carbon is the default; Retro and Life of a VIN have dedicated presentations, with readable legacy content available if Carbon cannot load. |
 | `about.html` | Single contact card. |
 | `news.html` | Curated articles (links into `articles/`) plus a bookshelf placeholder. |
 | `gallery.html` | Monthly Gallery grouped by year (data lives in `js/site.js`) plus a paintings section that just links out to `archive.vincentlarkin.com`. |
@@ -37,7 +37,7 @@ See [Carbon source notes](carbon-mockup/README.md) and [Analytics and theme repo
 | `js/site.js` | App glue: SPA-style navigation, theme/language wiring, holiday monitor, monthly image renderer, GitHub commit fetcher, lightbox. |
 | `js/analytics.js` | Site-wide Google Analytics 4 loader and interaction measurement using web stream `G-9D6Q6F0NB5`. |
 | `js/i18n.js` | Translation system (English / Português / 日本語). All strings are embedded in `embeddedTranslations`; no JSON fetch. To add a new string, add a key with `{ en, pt, ja }` values. To add a new language, append it to `supportedLangs`, give every translation key a value for that lang, add an entry to `LANG_LABELS`/`LANG_FLAGS`/`LANG_LOCALES` in `js/site.js`, and add an `<li class="cs-option">` to the lang dropdown in `header.html`. |
-| `images/site-emblem.png` | Brand mark used in the header. |
+| `images/site-emblem*.png` / `images/site-emblem*-small.webp` | New transparent full-color and Carbon emblems, small header derivatives, and a pixelated Retro variant. See [emblem notes](carbon-mockup/EMBLEM.md). |
 | `images/favicons/` | Favicon set + `site.webmanifest`. |
 | `images/flags/` | `us.png`, `pt.svg` for the language switcher. |
 | `images/themes/life-of-a-vin/background.webp` | Background art for `theme-vin`. |
@@ -68,7 +68,7 @@ Shared partials and JS bundles are loaded with `?v=PARTIAL_VERSION` (see top of 
 
 Google Analytics loads on every public HTML page, including articles and error pages, using measurement ID `G-9D6Q6F0NB5`. It measures page views and broad site interactions. Google Signals and ad personalization remain disabled.
 
-In the GA4 web stream, keep Enhanced Measurement and **Page changes based on browser history events** enabled for legacy theme navigation. Carbon uses existing document URLs and standard page loads. Do not paste a second Google tag snippet into the HTML files; the site loads it centrally from `js/analytics.js`. Theme context is attached to page views and interactions, with `theme_view` and `theme_change` events. Localhost does not send Analytics requests. See [reporting setup](carbon-mockup/ANALYTICS.md).
+In the GA4 web stream, keep Enhanced Measurement and **Page changes based on browser history events** enabled for legacy theme navigation. Carbon keeps the existing document URLs and changes its five main pages in place, with measured virtual page views. Do not paste a second Google tag snippet into the HTML files; the site loads it centrally from `js/analytics.js`. Theme context is attached to page views and interactions, with `theme_view` and `theme_change` events. Localhost does not send Analytics requests. See [reporting setup](carbon-mockup/ANALYTICS.md).
 
 ## Adding a new monthly image
 The gallery and the home-page "Image of the Month" never load the original

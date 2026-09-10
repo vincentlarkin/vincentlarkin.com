@@ -26,7 +26,7 @@
   }
   let legacyStyles;
   function loadLegacyStyles() {
-    return legacyStyles ||= Promise.all(['styles', 'theme-retro', 'theme-vin', 'theme-editorial'].map(name => stylesheet(`/css/${name}.css?v=20260803c`)));
+    return legacyStyles ||= Promise.all(['styles', 'theme-retro', 'theme-vin', 'theme-editorial'].map(name => stylesheet(`/css/${name}.css?v=20260910-emblem`)));
   }
   // Start both downloads in the head, without waiting for the document,
   // legacy scripts, a manifest round trip, or the stylesheet to finish first.

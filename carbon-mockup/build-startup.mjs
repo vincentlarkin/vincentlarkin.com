@@ -6,7 +6,7 @@ export function writeStartup() {
   const entry = manifest['src/main.jsx'];
   const font = Object.values(manifest).find(item => item.file?.endsWith('.woff2') && item.file.includes('sans-latin-400'));
   const critical = fs.readFileSync('src/startup.css', 'utf8').replace(/\s+/g, ' ').trim();
-  const tag = `<style id="carbon-startup-style">${critical}</style>\n  <script src="/js/preferences.js?v=20260908" data-carbon-js="/assets/carbon/${entry.file}" data-carbon-css="${entry.css.map(file => '/assets/carbon/' + file).join(',')}"${font ? ` data-carbon-font="/assets/carbon/${font.file}"` : ''}></script>`;
+  const tag = `<style id="carbon-startup-style">${critical}</style>\n  <script src="/js/preferences.js?v=20260910-emblem" data-carbon-js="/assets/carbon/${entry.file}" data-carbon-css="${entry.css.map(file => '/assets/carbon/' + file).join(',')}"${font ? ` data-carbon-font="/assets/carbon/${font.file}"` : ''}></script>`;
   const files = [...fs.readdirSync('..').filter(file => file.endsWith('.html')).map(file => '../' + file), ...fs.readdirSync('../articles').filter(file => file.endsWith('.html')).map(file => '../articles/' + file)];
   for (const file of files) {
     let html = fs.readFileSync(file, 'utf8');
@@ -19,11 +19,12 @@ export function writeStartup() {
       html = html.replace(/((?:  <link rel="stylesheet" href="\/css\/[^\n]+\r?\n)+)/, '  <noscript id="legacy-styles">\n$1  </noscript>\n');
     }
     html = html.replace(/<script src="\/js\/analytics.js[^>]*><\/script>/, '<script defer src="/js/analytics.js?v=20260904"></script>');
-    html = html.replace(/<script src="\/js\/i18n.js[^>]*><\/script>\s*<script src="\/js\/site.js[^>]*><\/script>/, '<script defer src="/js/boot.js?v=20260908"></script>');
-    html = html.replace(/<div id="site-header">[\s\S]*?<\/div>/, '<div id="site-header"><a class="startup-brand" href="/"><img src="/images/pelican-carbon-small.webp" width="36" height="40" alt="">vincentlarkin.com</a></div>');
+    html = html.replace(/<script src="\/js\/i18n.js[^>]*><\/script>\s*<script src="\/js\/site.js[^>]*><\/script>/, '<script defer src="/js/boot.js?v=20260910-emblem"></script>');
+    html = html.replace(/<script\b[^>]*src="\/js\/boot\.js[^>]*><\/script>/, '<script defer src="/js/boot.js?v=20260910-emblem"></script>');
+    html = html.replace(/<div id="site-header">[\s\S]*?<\/div>/, '<div id="site-header"><a class="startup-brand" href="/"><img src="/images/site-emblem-carbon-small.webp" width="36" height="40" alt="">vincentlarkin.com</a></div>');
     // Hidden legacy markup must not compete with the active theme for image
     // bandwidth. Its images load normally when that renderer is visible.
-    html = html.replace(/<img\b[^>]*>/g, image => image.includes('pelican-carbon-small.webp') || /\bloading\s*=/.test(image) ? image : image.replace('<img', '<img loading="lazy"'));
+    html = html.replace(/<img\b[^>]*>/g, image => image.includes('site-emblem-carbon-small.webp') || /\bloading\s*=/.test(image) ? image : image.replace('<img', '<img loading="lazy"'));
     fs.writeFileSync(file, html);
   }
 }
