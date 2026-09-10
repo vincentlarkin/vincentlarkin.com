@@ -20,6 +20,8 @@ import {
   Button,
   ClickableTile,
   Tag,
+  ContainedList,
+  ContainedListItem,
   Modal,
   Search,
   Tabs,
@@ -446,23 +448,23 @@ function About() {
           <h2>Vincent Larkin</h2>
           <p>{t("Director of Operations")}</p>
           <p>{t("Shreveport–Bossier City Area")}</p>
-          <div className="skills">
-            <span className="eyebrow">{t("Skills")}</span>
-            <div>
-              {[
-                "Project management",
-                "Operations",
-                "International shipping",
-                "Software",
-                "Japanese · JLPT N5",
-              ].map((s) => (
-                <Tag key={t(s)} type="gray">
-                  {t(s)}
-                </Tag>
-              ))}
-            </div>
-          </div>
         </div>
+        <ContainedList
+          className="skills"
+          label={t("Skills")}
+          kind="on-page"
+          size="lg"
+        >
+          {[
+            "Project management",
+            "Operations",
+            "International shipping",
+            "Software",
+            "Japanese · JLPT N5",
+          ].map((s) => (
+            <ContainedListItem key={s}>{t(s)}</ContainedListItem>
+          ))}
+        </ContainedList>
       </section>
       <section className="wrap contact-details section-grid">
         <SectionIntro number="01" title={t("Contact")} />

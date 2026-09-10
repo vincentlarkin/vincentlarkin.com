@@ -23,7 +23,7 @@ Open http://127.0.0.1:4173. The server listens only on this computer. Commit the
 - Header tabs and links between Home, About, Gallery, News / Books, and Changelog switch in place using the existing document URLs. A brief Carbon crossfade keeps the header and holiday strip steady; reduced-motion users get an immediate update. Browser Back/Forward restores scroll position, and titles, canonical URLs, focus, and Analytics follow the current page. Article and privacy links retain normal document navigation.
 - The live GitHub feed shows recent commits, with a clearly labeled saved fallback if GitHub is unavailable.
 - The header preserves the selected blue-and-white pelican with the US/PT shield. Louisiana911 uses its original Olympus artwork. The archive uses a generated, understated gold crest.
-- The header is 56px high. The portrait is 160px on desktop and 128px on mobile. Copy remains factual and short.
+- The header is 56px high. The portrait is 160px on desktop, 128px on tablets, and 96px on phones. The About skills use Carbon's flat ContainedList instead of pills. Copy remains factual and short.
 - Carbon light/dark, Retro, and Life of a VIN are available through the labeled Theme menu at the top, including on mobile. The desktop moon/sun also switches Carbon light/dark. The adjacent EN/PT/JA menu offers English, Português, and 日本語 with full native names and descriptive screen-reader labels. Original articles retain their source language. On small phones, Search is available in the navigation menu to leave room for both preferences.
 - Header dropdowns use a consistent dark surface, visible selected checks, keyboard focus, and one open menu at a time. Their position accounts for the holiday strip, keeping every option visible and clickable.
 - A thin country-colored holiday strip restores the holiday display beneath the header. It covers U.S., Portuguese, Japanese, and Louisiana holidays, with a small Louisiana flag glyph and brief particles. See [HOLIDAYS.md](HOLIDAYS.md) for official calendar sources, observance rules, and annual updates.
@@ -31,7 +31,7 @@ Open http://127.0.0.1:4173. The server listens only on this computer. Commit the
 
 ## Carbon implementation
 
-The design uses actual Carbon React components, IBM Plex fonts, semantic light/dark tokens, spacing and motion tokens, a responsive 16-column layout, and Carbon keyboard interactions. Components include Header, SideNav, Button, ClickableTile, Theme, Tag, Breadcrumb, Tabs, Accordion, Modal, Search, and Select. Fonts and images are self-hosted. Third-party licenses are included in the built assets.
+The design uses actual Carbon React components, IBM Plex fonts, semantic light/dark tokens, spacing and motion tokens, a responsive 16/8/4-column layout, and Carbon keyboard interactions. Components include Header, SideNav, Button, ClickableTile, Theme, Tag, ContainedList, OverflowMenu, Breadcrumb, Tabs, Accordion, Modal, and Search. Fonts and images are self-hosted. Third-party licenses are included in the built assets.
 
 See [DESIGN-NOTES.md](DESIGN-NOTES.md) for the official documentation reviewed, [EMBLEM.md](EMBLEM.md) for the header asset, and [ARCHIVE-IMAGE.md](ARCHIVE-IMAGE.md) for the archive image and generation prompt.
 
@@ -43,6 +43,7 @@ With the local site server running:
 npm run test:site
 node qa-navigation.mjs
 node qa-startup.mjs
+node qa-carbon-refinement.mjs
 node qa-first-load.mjs
 ```
 

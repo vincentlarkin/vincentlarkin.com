@@ -1,5 +1,25 @@
 # Carbon documentation and design decisions
 
+## September 10 refinement
+
+Reviewed the [Carbon repository](https://github.com/carbon-design-system/carbon), the official guidance below, and the installed React 1.115.0 component and Sass source. The refinement keeps Vincent's own content, emblem, colors, and photographs; it applies Carbon's layout and interaction language without adding IBM branding.
+
+| Guidance reviewed | Result in this pass |
+| --- | --- |
+| [IBM Design Language: layout and hierarchy](https://www.ibm.com/design/language/layout/tips-and-techniques/) | Profile information sits beside the small portrait; a separate skills column has consistent rules and readable rows. Sections use type and spacing to establish hierarchy. |
+| [2x Grid foundations](https://carbondesignsystem.com/elements/2x-grid/overview/) and [usage](https://carbondesignsystem.com/elements/2x-grid/usage/) | The phone/tablet boundary is now 672px, with the large grid at 1056px. Phones use four-column scaffolding and full-width content; tablets use eight-column scaffolding and two-column photo/index grids. Desktop keeps the existing three-photo composition, which the usage guidance permits when appropriate to the content. |
+| [Typography type sets](https://carbondesignsystem.com/elements/typography/type-sets/) | Page leads use `fluid-heading-05`; phone leads use `heading-06`, home display `heading-07`, and profile names `heading-04`. Native token line heights and weights replace arbitrary heading overrides. |
+| [Tag usage](https://carbondesignsystem.com/components/tag/usage/) and [contained list usage](https://carbondesignsystem.com/components/contained-list/usage/) | About's pill-shaped tags become a real `ContainedList` with five read-only `ContainedListItem` rows. It uses the on-page variant, a visible Skills label, 48px rows, native list semantics, and the component's own Sass. No false button affordances or truncation. |
+| [Structured list usage](https://carbondesignsystem.com/components/structured-list/usage/) | Considered for the profile, but a single small collection with one label is better served by ContainedList; no unnecessary table structure. |
+| [UI shell header](https://carbondesignsystem.com/components/UI-shell-header/usage/) | Persistent Theme and Language controls remain in the 56px user-requested header. Responsive navigation, holiday-strip clearance, keyboard interaction, and translated menus are regression checked. |
+| [Buttons](https://carbondesignsystem.com/components/button/usage/) and [spacing](https://carbondesignsystem.com/elements/spacing/overview/) | Phone actions stack at full width with 48px targets and 8px separation. The primary/ghost hierarchy stays intact. Footer targets grow to 44px and section gaps use the 8px rhythm. |
+
+The phone profile portrait is now 96px wide, tablets 128px, and desktops 160px. Phone galleries show one photograph per row. All three recent photographs remain available as compact image rows. The changelog's external history link and reading count remain visible on small screens. Contact values align at the left edge and the email no longer competes with a redundant leading icon.
+
+Verification: `qa-carbon-refinement.mjs` covers five pages at 320, 390, 671, 672, 768, 1056, 1312, and 1584px, plus PT/JA at 320px. It checks geometry, overflow, list semantics, button targets, photo columns, formerly hidden content, and WCAG A/AA rules. Existing menu/navigation/startup/production checks cover the remaining interactions. Only the required contained-list styles were added; the startup optimizations and small artwork copies remain.
+
+## Initial implementation review
+
 Reviewed September 4, 2026, against Carbon React 1.115.0 and the current Carbon documentation. This is a focused review of the foundations and components used in this mockup, not a claim to have read every page of the Carbon ecosystem.
 
 ## Foundations
