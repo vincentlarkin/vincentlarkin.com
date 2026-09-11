@@ -75,7 +75,7 @@ checks.push({
 await page.goto(`${base}/#/about`);
 await page.getByRole("button", { name: "Copy email address" }).click();
 expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-  "vincent@vincentlarkin.com",
+  "contact@vincentlarkin.com",
 );
 await expect(page.getByRole("button", { name: "Email copied" })).toBeVisible();
 checks.push({ label: "Copy email works with confirmation", passed: true });

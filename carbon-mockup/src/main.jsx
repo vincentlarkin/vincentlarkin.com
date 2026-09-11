@@ -429,7 +429,7 @@ function About() {
   useEffect(() => () => clearTimeout(timer.current), []);
   async function copyEmail() {
     try {
-      await navigator.clipboard.writeText("vincent@vincentlarkin.com");
+      await navigator.clipboard.writeText("contact@vincentlarkin.com");
       setCopied(true);
       setCopyError(false);
       timer.current = setTimeout(() => setCopied(false), 2500);
@@ -470,10 +470,10 @@ function About() {
         <SectionIntro number="01" title={t("Contact")} />
         <div className="contact-table">
           <div className="email-row">
-            <a href="mailto:vincent@vincentlarkin.com">
+            <a href="mailto:contact@vincentlarkin.com">
               <Email size={24} />
               <span>
-                <small>{t("Email")}</small>vincent@vincentlarkin.com
+                <small>{t("Email")}</small>contact@vincentlarkin.com
               </span>
               <ArrowUpRight size={20} />
             </a>
@@ -685,7 +685,7 @@ function ContactBanner() {
           <h2>{t("Contact")}</h2>
         </div>
         <Button
-          href="mailto:vincent@vincentlarkin.com"
+          href="mailto:contact@vincentlarkin.com"
           kind="ghost"
           renderIcon={ArrowUpRight}
         >
@@ -1076,7 +1076,7 @@ function App() {
               LinkedIn
               <ArrowUpRight size={16} />
             </a>
-            <a href="mailto:vincent@vincentlarkin.com">
+            <a href="mailto:contact@vincentlarkin.com">
               {t("Email")}
               <ArrowUpRight size={16} />
             </a>

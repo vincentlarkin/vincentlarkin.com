@@ -9,7 +9,7 @@ if (window.sitePreferences?.theme === 'theme-light' && !window.carbonFailed) {
     });
     window.carbonFailed = true;
     const retry = document.createElement('script');
-    retry.src = '/js/site.js?v=20260910-emblem';
+    retry.src = '/js/site.js?v=20260911-contact';
     retry.onload = () => window.siteUtils.initPage(document.body.dataset.page || null, null);
     document.body.appendChild(retry);
   });
@@ -19,7 +19,7 @@ if (window.sitePreferences?.theme === 'theme-light' && !window.carbonFailed) {
 
 // Theme initialization
 const SITE_THEMES = ['theme-light', 'theme-retro', 'theme-vin'];
-const PARTIAL_VERSION = '20260910-emblem';
+const PARTIAL_VERSION = '20260911-contact';
 const THEME_LABELS = {
   'theme-light': 'Carbon',
   'theme-retro': 'Retro Theme',
