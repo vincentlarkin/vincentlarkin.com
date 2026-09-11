@@ -19,7 +19,7 @@
     for (const name of ['i18n', 'site']) {
       await new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = `/js/${name}.js?v=20260910-emblem`;
+        script.src = `/js/${name}.js?v=20260911-contact`;
         script.onload = resolve;
         script.onerror = reject;
         document.body.appendChild(script);
