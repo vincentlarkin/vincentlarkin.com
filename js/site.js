@@ -1,25 +1,9 @@
 (function () {
-if (window.sitePreferences?.theme === 'theme-light' && !window.carbonFailed) {
-  window.sitePreferences.mountCarbon().catch(error => {
-    console.error('Carbon could not load; showing the readable fallback.', error);
-    document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-      const pathname = new URL(link.href).pathname;
-      if (pathname.startsWith('/assets/carbon/')) link.remove();
-      if (pathname.startsWith('/css/')) link.disabled = false;
-    });
-    window.carbonFailed = true;
-    const retry = document.createElement('script');
-    retry.src = '/js/site.js?v=20260911-contact';
-    retry.onload = () => window.siteUtils.initPage(document.body.dataset.page || null, null);
-    document.body.appendChild(retry);
-  });
-  return;
-}
-// js/site.js - Shared site functionality
+// Retro/VIN and readable fallback functionality. boot.js owns renderer startup.
 
 // Theme initialization
 const SITE_THEMES = ['theme-light', 'theme-retro', 'theme-vin'];
-const PARTIAL_VERSION = '20260911-contact';
+const PARTIAL_VERSION = '20260912-cleanup';
 const THEME_LABELS = {
   'theme-light': 'Carbon',
   'theme-retro': 'Retro Theme',
@@ -51,7 +35,6 @@ function getLocaleForLang(lang) {
 
 function getStoredTheme() {
   const savedTheme = window.sitePreferences?.theme || 'theme-light';
-  if (savedTheme === 'theme-dark') return 'theme-light';
   return SITE_THEMES.includes(savedTheme) ? savedTheme : 'theme-light';
 }
 
@@ -656,10 +639,6 @@ function setCustomSelectValue(root, value) {
   if (labelEl && optionLabel) labelEl.textContent = optionLabel.textContent;
   if (iconEl && optionIcon) iconEl.textContent = optionIcon.textContent;
   if (flagEl && optionFlag) flagEl.src = optionFlag.src;
-}
-
-function getCustomSelectValue(root) {
-  return root ? root.dataset.value : null;
 }
 
 function initThemeSelect() {
@@ -1511,7 +1490,6 @@ window.closeLightbox = closeLightbox;
 window.showMoreCommits = showMoreCommits;
 window.initCustomSelect = initCustomSelect;
 window.setCustomSelectValue = setCustomSelectValue;
-window.getCustomSelectValue = getCustomSelectValue;
 
 // Export for use
 window.siteUtils = {

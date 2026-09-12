@@ -56,8 +56,8 @@ See [Carbon source notes](carbon-mockup/README.md) and [Analytics and theme repo
 ## Default theme
 `theme-light` now selects Carbon, replacing Olympus. Its light/dark preference is retained separately in `vl-carbon-theme`. The default is set in three places:
 1. Each HTML file starts with `theme-light` on its `<body>` where applicable.
-2. The inline boot script in `index.html` falls back to `theme-light`.
-3. `js/preferences.js` selects `theme-light` if nothing valid is in `localStorage`; `js/site.js` mounts Carbon for that preference.
+2. `js/preferences.js` validates stored preferences and falls back to `theme-light`.
+3. `js/boot.js` mounts Carbon or initializes the older renderer once. Individual pages do not run their own initializers.
 
 Life of a VIN remains an isolated opt-in theme. Its stylesheet and homepage block should not be changed as part of Carbon work. Switching between Carbon and a legacy theme reloads the current URL. Switching Carbon light/dark or Retro/VIN updates the current page.
 

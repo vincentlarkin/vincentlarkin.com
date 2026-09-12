@@ -11,7 +11,27 @@ The global event context includes `site_theme` and `site_language`, including th
 | `language_change` | `previous_language`, `language_code`, current context | A language preference actually changes |
 | `gallery_image_open` | `image_name`, current context | Opening a photograph |
 
-Existing navigation, outbound, contact, download, engagement, scroll, error, and video events remain. Search queries and email addresses are not sent. Clicking an already selected theme does not generate a change. Full page navigation in Carbon lets the Google tag send one standard page view per document; it does not add a second manual page-view event.
+Existing navigation, outbound, contact, download, engagement, scroll, error, and video events remain. Search queries and email addresses are not sent by custom interaction events. Clicking an already selected theme does not generate a change. Carbon changes its main pages in place through the History API; Enhanced Measurement tracks those page changes. Other document links navigate normally. There is no second manual page-view event.
+
+## Useful next measurements
+
+Prioritize questions with a clear site decision:
+
+| Question | Available now | Additional work |
+| --- | --- | --- |
+| Which sources bring engaged visitors? | Session source/medium, landing page, engagement, contact_click key event | Consistent UTM tags on links posted externally; no extra site tracker needed |
+| What do people do after landing? | Page views, navigation_click, outbound_click | Build a GA path exploration and an optional Home → About → contact intent funnel |
+| Which projects draw interest? | Outbound destination, link label and placement | Compare clicks to sessions that saw the relevant page; add card-visibility events only if true impression-based CTR becomes useful |
+| Which photographs keep visitors browsing? | gallery_image_open with image_name | Track viewer next/previous and year-filter changes to distinguish browsing from initial opens |
+| Does site search help? | Link/photo clicks after search exist but have no explicit search attribution | Add search_open, result count, zero-result state and result selection; omit raw typed queries |
+| Do people try to contact me? | Email-link contact_click | Add a separate contact_copy event only after clipboard copying succeeds; it still measures intent, not a sent email |
+| Do slower loads affect engagement? | Page/device/theme and engagement | Add sampled Web Vitals and bounded load-failure categories, avoiding raw stack traces and user-entered values |
+
+The search modal, email-copy button, photo next/previous controls, and year filter currently have no dedicated events. This is a roadmap, not a claim that those events were implemented. Existing article/scroll/active-reading events can already support content comparisons; cumulative reading thresholds must not be summed as total reading time.
+
+GA supports [path explorations](https://support.google.com/analytics/answer/9317498?hl=en) and [funnel explorations](https://support.google.com/analytics/answer/9327974?hl=en) from the existing event stream. Start with those and source quality after enough post-repair data accumulates. The linked Search Console Domain property includes subdomains, so isolate the personal site's hostname before interpreting its search performance.
+
+The production CSP repair and GA reporting setup were verified on September 12, 2026: page views, navigation and named photo events reached Realtime. Historical records before that repair are incomplete. Thirteen event dimensions and contact_click as a once-per-session key event were registered in GA; future administrators should check existing definitions before adding duplicates.
 
 ## GA4 reporting setup
 

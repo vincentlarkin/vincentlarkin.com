@@ -49,6 +49,8 @@ node qa-first-load.mjs
 
 This uses installed Chrome through Playwright. It checks desktop and narrow layouts, accessible page structure, automated WCAG A/AA rules, original project assets, the GitHub feed, light/dark persistence, all legacy theme transitions, language changes, the photo viewer, and real Google tag request payloads. Collection requests are intercepted, so test traffic never reaches Analytics. Screenshots and reports are saved under ignored `qa/`.
 
+For the production, startup, and navigation suites on a machine with Edge instead of Chrome, set `QA_BROWSER_CHANNEL=msedge` (PowerShell: `$env:QA_BROWSER_CHANNEL='msedge'`). These tests use isolated browser contexts, not the signed-in browser profile.
+
 The earlier `qa.mjs`, `qa-interactions.mjs`, and `qa-refinements.mjs` document design-sandbox checks. Production checks use `qa-production.mjs`.
 
 `qa-navigation.mjs` checks desktop/mobile navigation without reloads, native and fallback transitions, reduced motion, repeated clicks, Back/Forward, scroll restoration, focus, direct links, and article return navigation. The production test verifies one real Google page-view payload per tab change, intercepted locally.

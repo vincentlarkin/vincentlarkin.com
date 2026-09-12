@@ -3,7 +3,7 @@
    holiday monitor, and custom dropdown component.
 
    Theme-specific styles live in:
-     css/theme-editorial.css (default Olympus-inspired light theme)
+     css/theme-editorial.css (readable fallback when Carbon cannot start)
      css/theme-retro.css     (retro IBM/Mosaic theme)
      css/theme-vin.css       ("Life of a VIN" gothic theme) */
 
