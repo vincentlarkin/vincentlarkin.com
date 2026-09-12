@@ -1,7 +1,7 @@
 import { chromium, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await chromium.launch({ channel: process.env.QA_BROWSER_CHANNEL || 'chrome' });
 const errors = [];
 for (const mode of ['native', 'fallback', 'reduced', 'mobile']) {
   const context = await browser.newContext({

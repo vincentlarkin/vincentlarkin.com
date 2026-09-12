@@ -1,5 +1,5 @@
 import { chromium, expect } from '@playwright/test';
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await chromium.launch({ channel: process.env.QA_BROWSER_CHANNEL || 'chrome' });
 const base = 'http://127.0.0.1:4173';
 for (const dark of [false, true]) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 950 } });
@@ -36,6 +36,31 @@ for (const extension of ['js', 'css']) {
   await page.waitForFunction(() => !!window.siteUtils);
   expect(await page.evaluate(() => window.carbonFailed)).toBe(true);
   await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible();
+  await context.close();
+}
+// boot.js alone must initialize direct links for each supported older theme.
+for (const theme of ['theme-retro', 'theme-vin']) {
+  const context = await browser.newContext();
+  await context.addInitScript(theme => localStorage.setItem('theme', theme), theme);
+  await context.route('https://api.github.com/**', route => route.fulfill({ json: [] }));
+  const page = await context.newPage();
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  for (const route of ['/', '/gallery.html', '/articles/learson-dies.html']) {
+    const partials = [];
+    const onRequest = request => {
+      if (['/header.html', '/footer.html'].includes(new URL(request.url()).pathname)) partials.push(new URL(request.url()).pathname);
+    };
+    page.on('request', onRequest);
+    await page.goto(base + route);
+    await expect(page.locator('body')).toHaveClass(new RegExp(theme));
+    await expect(page.locator('#site-header nav:visible').first()).toBeVisible();
+    await expect(page.locator('main')).toBeVisible();
+    await expect(page.locator('#root')).toHaveCount(0);
+    expect(partials.sort()).toEqual(['/footer.html', '/header.html']);
+    page.off('request', onRequest);
+  }
+  expect(errors).toEqual([]);
   await context.close();
 }
 const noJS = await browser.newContext({ javaScriptEnabled: false });

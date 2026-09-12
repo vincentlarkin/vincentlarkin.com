@@ -19,8 +19,8 @@ export function writeStartup() {
       html = html.replace(/((?:  <link rel="stylesheet" href="\/css\/[^\n]+\r?\n)+)/, '  <noscript id="legacy-styles">\n$1  </noscript>\n');
     }
     html = html.replace(/<script src="\/js\/analytics.js[^>]*><\/script>/, '<script defer src="/js/analytics.js?v=20260904"></script>');
-    html = html.replace(/<script src="\/js\/i18n.js[^>]*><\/script>\s*<script src="\/js\/site.js[^>]*><\/script>/, '<script defer src="/js/boot.js?v=20260911-contact"></script>');
-    html = html.replace(/<script\b[^>]*src="\/js\/boot\.js[^>]*><\/script>/, '<script defer src="/js/boot.js?v=20260911-contact"></script>');
+    html = html.replace(/<script src="\/js\/i18n.js[^>]*><\/script>\s*<script src="\/js\/site.js[^>]*><\/script>/, '<script defer src="/js/boot.js?v=20260912-cleanup"></script>');
+    html = html.replace(/<script\b[^>]*src="\/js\/boot\.js[^>]*><\/script>/, '<script defer src="/js/boot.js?v=20260912-cleanup"></script>');
     html = html.replace(/<div id="site-header">[\s\S]*?<\/div>/, '<div id="site-header"><a class="startup-brand" href="/"><img src="/images/site-emblem-carbon-small.webp" width="36" height="40" alt="">vincentlarkin.com</a></div>');
     // Hidden legacy markup must not compete with the active theme for image
     // bandwidth. Its images load normally when that renderer is visible.
