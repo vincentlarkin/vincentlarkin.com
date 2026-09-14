@@ -1103,6 +1103,10 @@ function App() {
           <span>© {new Date().getFullYear()} Vincent Larkin</span>
           <div>
             <a href={hrefFor("privacy")}>{t("Privacy")}</a>
+            <a href="https://n7vwl.com/" {...external}>
+              N7VWL
+              <ArrowUpRight size={14} />
+            </a>
             <a href="https://status.vincentlarkin.com" {...external}>
               {t("Site status")}
               <ArrowUpRight size={14} />
