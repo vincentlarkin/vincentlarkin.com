@@ -3,7 +3,7 @@
 
 // Theme initialization
 const SITE_THEMES = ['theme-light', 'theme-retro', 'theme-vin'];
-const PARTIAL_VERSION = '20260912-cleanup';
+const PARTIAL_VERSION = '20260914-n7vwl';
 const THEME_LABELS = {
   'theme-light': 'Carbon',
   'theme-retro': 'Retro Theme',
