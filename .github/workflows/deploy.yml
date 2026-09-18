@@ -26,86 +26,33 @@ jobs:
           oauth-secret: ${{ secrets.TAILSCALE_OAUTH_SECRET }}
           tags: tag:ci
       
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@55dabf81b49d4120609345970c91507e2d734799 # v1.0.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: root
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            set -euo pipefail
+      - name: Deploy through restricted SSH account
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          DEPLOY_SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          umask 077
+          key_file="$(mktemp "$RUNNER_TEMP/deploy-key.XXXXXX")"
+          hosts_file="$(mktemp "$RUNNER_TEMP/deploy-hosts.XXXXXX")"
+          trap 'rm -f "$key_file" "$hosts_file"' EXIT
+          printf '%s\n' "$DEPLOY_SSH_KEY" > "$key_file"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$hosts_file"
+          ssh -T -i "$key_file" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o HostKeyAlias=truenas-deploy \
+            -o HostKeyAlgorithms=ssh-ed25519 \
+            -o UserKnownHostsFile="$hosts_file" \
+            -o GlobalKnownHostsFile=/dev/null \
+            -o ConnectTimeout=20 \
+            -o ServerAliveInterval=30 \
+            -o ServerAliveCountMax=3 \
+            -l "$DEPLOY_SSH_USER" "$SSH_HOST" "deploy $GITHUB_SHA"
 
-            DEPLOY_SHA="${{ github.sha }}"
-            echo "Starting deployment..."
-
-            WEBROOT="/mnt/Pool3x2/web"
-            LIVE_DIR="${WEBROOT}/vincentlarkin"
-            REPO_URL="https://github.com/vincentlarkin/vincentlarkin.com.git"
-            TMP_BASE="${WEBROOT}/.deploy_tmp"
-            NGINX_CONTAINER="ix-my-website-my-website-1"
-            TS="$(date +%Y%m%d_%H%M%S)"
-            WORK_DIR="${TMP_BASE}/vincentlarkin_${TS}"
-            NEW_DIR="${TMP_BASE}/vincentlarkin_live_${TS}"
-            OLD_DIR="${TMP_BASE}/vincentlarkin_old_${TS}"
-
-            if [ ! -d "$WEBROOT" ]; then
-              echo "❌ Error: $WEBROOT directory does not exist!"
-              exit 1
-            fi
-
-            mkdir -p "$TMP_BASE"
-
-            echo "Preparing deployment workspace"
-            rm -rf "$WORK_DIR" "$NEW_DIR"
-            git clone --depth 1 --branch main "$REPO_URL" "$WORK_DIR"
-            git -C "$WORK_DIR" fetch --depth 1 origin "$DEPLOY_SHA"
-            git -C "$WORK_DIR" checkout --detach "$DEPLOY_SHA"
-            test "$(git -C "$WORK_DIR" rev-parse HEAD)" = "$DEPLOY_SHA"
-
-            echo "Preparing clean deploy directory (no .git)..."
-            rsync -a --delete \
-              --exclude '.git' \
-              --exclude '.github' \
-              --exclude '.env' \
-              --exclude '.env.*' \
-              --exclude 'carbon-mockup' \
-              "$WORK_DIR"/ "$NEW_DIR"/
-
-            if [ -d "$NEW_DIR/.git" ]; then
-              echo "❌ Safety check failed: .git exists in new deploy dir"
-              exit 1
-            fi
-
-            if [ -d "$LIVE_DIR" ]; then
-              echo "Swapping current live dir..."
-              mv "$LIVE_DIR" "$OLD_DIR"
-            fi
-
-            echo "Activating new release"
-            mv "$NEW_DIR" "$LIVE_DIR"
-
-            echo "Cleaning temporary deploy folders..."
-            rm -rf "$WORK_DIR" "$OLD_DIR"
-
-            echo "Repository deployed (clean, no .git)."
-
-            if ! command -v docker >/dev/null 2>&1; then
-              echo "⚠️  Warning: docker command not found, skipping reload"
-            elif [ "$(docker inspect -f '{{.State.Running}}' "$NGINX_CONTAINER" 2>/dev/null || true)" = "true" ]; then
-              if docker exec "$NGINX_CONTAINER" nginx -t; then
-                docker exec "$NGINX_CONTAINER" nginx -s reload
-                echo "✅ Nginx reloaded successfully"
-              else
-                echo "⚠️  Nginx config test failed; not reloading"
-                exit 1
-              fi
-            else
-              echo "⚠️  Warning: nginx container '$NGINX_CONTAINER' not running or not found, skipping reload"
-            fi
-
-            test ! -d "$LIVE_DIR/.git" && echo "✅ .git not present in live dir"
-            echo "✅ Deployed vincentlarkin.com at $(date -Is)"
-      
       - name: Notify on failure
         if: failure()
         run: |
