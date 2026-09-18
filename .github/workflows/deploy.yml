@@ -5,8 +5,18 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+# Serialize production swaps; never cancel an in-progress deployment.
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - name: Connect to Tailscale
@@ -25,6 +35,7 @@ jobs:
           script: |
             set -euo pipefail
 
+            DEPLOY_SHA="${{ github.sha }}"
             echo "Starting deployment..."
 
             WEBROOT="/mnt/Pool3x2/web"
@@ -44,14 +55,19 @@ jobs:
 
             mkdir -p "$TMP_BASE"
 
-            echo "Cloning repo into temp workspace: $WORK_DIR"
+            echo "Preparing deployment workspace"
             rm -rf "$WORK_DIR" "$NEW_DIR"
-            git clone --depth 1 "$REPO_URL" "$WORK_DIR"
+            git clone --depth 1 --branch main "$REPO_URL" "$WORK_DIR"
+            git -C "$WORK_DIR" fetch --depth 1 origin "$DEPLOY_SHA"
+            git -C "$WORK_DIR" checkout --detach "$DEPLOY_SHA"
+            test "$(git -C "$WORK_DIR" rev-parse HEAD)" = "$DEPLOY_SHA"
 
             echo "Preparing clean deploy directory (no .git)..."
             rsync -a --delete \
               --exclude '.git' \
               --exclude '.github' \
+              --exclude '.env' \
+              --exclude '.env.*' \
               --exclude 'carbon-mockup' \
               "$WORK_DIR"/ "$NEW_DIR"/
 
@@ -65,7 +81,7 @@ jobs:
               mv "$LIVE_DIR" "$OLD_DIR"
             fi
 
-            echo "Activating new release -> $LIVE_DIR"
+            echo "Activating new release"
             mv "$NEW_DIR" "$LIVE_DIR"
 
             echo "Cleaning temporary deploy folders..."
