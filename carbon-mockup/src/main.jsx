@@ -1111,6 +1111,8 @@ function App() {
               {t("Site status")}
               <ArrowUpRight size={14} />
             </a>
+            <a href="/llms.txt">llms.txt</a>
+            <a href="https://larkincomputingbureau.com/">LCB</a>
             <a href="https://carbondesignsystem.com/" {...external}>
               {t("Built with Carbon")}
               <ArrowUpRight size={14} />
