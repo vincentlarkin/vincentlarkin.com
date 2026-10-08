@@ -199,6 +199,7 @@ const navByPage = {
 // Monthly Gallery data
 const monthlyImages = {
   "2026": [
+    { file: "agosto-setembro-2026.webp", month: "agosto", year: 2026, type: "image", caption: { en: "August-September 2026", pt: "Agosto-Setembro de 2026", ja: "2026\u5E748\u6708\u301C9\u6708" } },
     { file: "junho-julho-2026.webp", month: "junho", year: 2026, type: "image", caption: { en: "June-July 2026", pt: "Junho-Julho de 2026", ja: "2026\u5E746\u6708\u301C7\u6708" } },
     { file: "abril-2026.webp", month: "abril", year: 2026, type: "image", caption: { en: "April-May 2026", pt: "Abril-Maio de 2026", ja: "2026\u5E744\u6708\u301C5\u6708" } },
     { file: "marco-2026.webp", month: "março", year: 2026, type: "image" },

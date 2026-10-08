@@ -1,5 +1,11 @@
 export const photos = [
   {
+    file: "agosto-setembro-2026.webp",
+    date: "August–September 2026",
+    year: "2026",
+    alt: "An In-N-Out Burger restaurant with red awnings beneath a blue, cloud-streaked sky.",
+  },
+  {
     file: "junho-julho-2026.webp",
     date: "June–July 2026",
     year: "2026",
