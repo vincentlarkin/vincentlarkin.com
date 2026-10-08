@@ -42,7 +42,7 @@ const embeddedTranslations = {
   index: {
     'status-text':      { en: 'site online',      pt: 'site online',      ja: '\u30B5\u30A4\u30C8\u7A3C\u50CD\u4E2D' },
     'monthly-label':    { en: 'Image of the Month', pt: 'Imagem do M\u00EAs', ja: '\u4ECA\u6708\u306E\u753B\u50CF' },
-    'monthly-caption':  { en: 'June-July 2026',    pt: 'Junho-Julho de 2026', ja: '2026\u5E746\u6708\u301C7\u6708' },
+    'monthly-caption':  { en: 'August-September 2026',    pt: 'Agosto-Setembro de 2026', ja: '2026\u5E748\u6708\u301C9\u6708' },
     'links-label':      { en: 'Quick Links',       pt: 'Links R\u00E1pidos', ja: '\u30AF\u30A4\u30C3\u30AF\u30EA\u30F3\u30AF' },
     'link-about':       { en: 'About',             pt: 'Sobre',            ja: '\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB' },
     'link-gallery':     { en: 'Gallery',           pt: 'Galeria',          ja: '\u30AE\u30E3\u30E9\u30EA\u30FC' },

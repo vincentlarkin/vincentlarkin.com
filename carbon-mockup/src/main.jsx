@@ -136,7 +136,7 @@ function PhotoButton({ photo, onOpen, featured = false }) {
           <span>{photo.date}</span>
         </span>
         <span className="photo-count">
-          {featured ? "01 / 09" : <ArrowUpRight size={20} />}
+          {featured ? `01 / ${String(photos.length).padStart(2, "0")}` : <ArrowUpRight size={20} />}
         </span>
       </span>
     </button>
@@ -348,7 +348,7 @@ function Gallery({ onPhoto }) {
       <PageLead label={t("Gallery")} title={t("Gallery")}>
         {t("Monthly photographs.")}
         <span className="lead-note">
-          August 2025 — July 2026 · {photos.length} photographs
+          August 2025 — September 2026 · {photos.length} photographs
         </span>
       </PageLead>
       <section
@@ -362,13 +362,13 @@ function Gallery({ onPhoto }) {
           <TabList aria-label={t("Filter photographs by year")}>
             <Tab>
               {t("All photographs")}
-              <span className="tab-count">09</span>
+              <span className="tab-count">{String(selections[0].length).padStart(2, "0")}</span>
             </Tab>
             <Tab>
-              2026 <span className="tab-count">05</span>
+              2026 <span className="tab-count">{String(selections[1].length).padStart(2, "0")}</span>
             </Tab>
             <Tab>
-              2025 <span className="tab-count">04</span>
+              2025 <span className="tab-count">{String(selections[2].length).padStart(2, "0")}</span>
             </Tab>
           </TabList>
           <TabPanels>
@@ -1218,7 +1218,7 @@ function App() {
                 Previous
               </Button>
               <span className="mono" aria-live="polite">
-                {String(photoIndex + 1).padStart(2, "0")} / 09
+                {String(photoIndex + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}
               </span>
               <Button
                 kind="ghost"

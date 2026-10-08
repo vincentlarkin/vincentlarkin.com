@@ -41,7 +41,7 @@ checks.push({
 });
 await page.goto(`${base}/#/gallery`);
 const photoTrigger = page.getByRole("button", {
-  name: "View photograph: June–July 2026",
+  name: "View photograph: August–September 2026",
 });
 await photoTrigger.click();
 await page.waitForTimeout(500);
