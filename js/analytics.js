@@ -115,9 +115,9 @@
   }
 
   function linkPlacement(link) {
+    if (link.closest('nav')) return 'navigation';
     if (link.closest('header, #site-header')) return 'header';
     if (link.closest('footer, #site-footer')) return 'footer';
-    if (link.closest('nav')) return 'navigation';
     return 'content';
   }
 
