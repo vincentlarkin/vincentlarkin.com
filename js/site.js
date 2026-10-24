@@ -893,6 +893,19 @@ function shouldHandleLink(link) {
   return spaRoutes.has(url.pathname) || spaRoutes.has(normalizePath(url.pathname));
 }
 
+// Look anchors up by id: a hash like #2026 or #a.b is not a valid CSS selector.
+function scrollToHash(hash) {
+  if (!hash) return;
+  let id;
+  try {
+    id = decodeURIComponent(hash.slice(1));
+  } catch (error) {
+    return;
+  }
+  const target = document.getElementById(id);
+  if (target) target.scrollIntoView({ behavior: 'smooth' });
+}
+
 function navigate(url, options = {}) {
   if (navInFlight) return;
 
@@ -908,10 +921,7 @@ function navigate(url, options = {}) {
   }
 
   if (!isHistoryNav && targetPath === currentPath && targetUrl.search === currentUrl.search) {
-    if (targetUrl.hash) {
-      const target = document.querySelector(targetUrl.hash);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToHash(targetUrl.hash);
     return;
   }
 
@@ -971,10 +981,7 @@ function navigate(url, options = {}) {
         }
         updateRetroAddress(targetUrl.href);
         if (targetUrl.hash) {
-          const target = document.querySelector(targetUrl.hash);
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
+          scrollToHash(targetUrl.hash);
         } else {
           window.scrollTo({ top: 0, behavior: 'auto' });
         }
@@ -1326,7 +1333,9 @@ function renderCommit(commit) {
     ? `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}/commit/${safeSha}`
     : `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}`;
   const fallbackAvatarUrl = `https://github.com/${GITHUB_USERNAME}.png`;
-  const avatarUrl = getSafeGitHubImageUrl(changelogState.userData && changelogState.userData.avatar_url, fallbackAvatarUrl);
+  const ownerAvatarUrl = getSafeGitHubImageUrl(changelogState.userData && changelogState.userData.avatar_url, fallbackAvatarUrl);
+  // Show the commit author's own avatar; GitHub leaves author null for unlinked emails.
+  const avatarUrl = getSafeGitHubImageUrl(commit.author && commit.author.avatar_url, ownerAvatarUrl);
   const messageLines = commit.commit.message.split('\n');
   const title = messageLines[0];
 
