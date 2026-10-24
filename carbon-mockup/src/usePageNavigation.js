@@ -10,6 +10,7 @@ export function usePageNavigation({ route, paths, setPage, closeMenus, main }) {
     const titles = {
       home: "vincentlarkin.com",
       about: "About — vincentlarkin.com",
+      projects: "Projects — vincentlarkin.com",
       gallery: "Gallery — vincentlarkin.com",
       reading: "News / Books — vincentlarkin.com",
       changelog: "Changelog — vincentlarkin.com",

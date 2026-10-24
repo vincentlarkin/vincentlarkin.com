@@ -30,6 +30,7 @@ const embeddedTranslations = {
   nav: {
     'nav-home':      { en: 'Home',                       pt: 'In\u00EDcio',                       ja: '\u30DB\u30FC\u30E0' },
     'nav-about':     { en: 'About',                      pt: 'Sobre',                             ja: '\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB' },
+    'nav-projects':  { en: 'Projects',                   pt: 'Projetos',                          ja: '\u30D7\u30ED\u30B8\u30A7\u30AF\u30C8' },
     'nav-news':      { en: 'News / Books',               pt: 'Not\u00EDcias / Livros',            ja: '\u30CB\u30E5\u30FC\u30B9 / \u672C' },
     'nav-gallery':   { en: 'Gallery',                    pt: 'Galeria',                           ja: '\u30AE\u30E3\u30E9\u30EA\u30FC' },
     'nav-changelog': { en: 'Changelog',                  pt: 'Changelog',                         ja: '\u66F4\u65B0\u5C65\u6B74' },

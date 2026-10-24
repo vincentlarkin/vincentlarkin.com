@@ -191,6 +191,7 @@ const spaRoutes = new Set([
 const navByPage = {
   index: 'nav-home',
   about: 'nav-about',
+  projects: 'nav-projects',
   news: 'nav-news',
   gallery: 'nav-gallery',
   changelog: 'nav-changelog'
@@ -777,6 +778,7 @@ function getPageFromPath(pathname) {
   const normalized = normalizePath(pathname);
   if (normalized === '/') return 'index';
   if (normalized === '/about.html') return 'about';
+  if (normalized === '/projects.html') return 'projects';
   if (normalized === '/news.html') return 'news';
   if (normalized === '/gallery.html') return 'gallery';
   if (normalized === '/changelog.html') return 'changelog';

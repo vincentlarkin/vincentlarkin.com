@@ -31,10 +31,92 @@ export const translations = {
     "サイトの更新と履歴。",
   ],
   "Public information": ["Informação pública", "公共情報"],
-  "911 incident information for one parish and three Louisiana cities.": [
-    "Informações de ocorrências do 911 numa paróquia e em três cidades da Louisiana.",
-    "ルイジアナ州の1郡と3都市の911通報情報。",
+  "911 incident information for one parish and four Louisiana cities.": [
+    "Informações de ocorrências do 911 numa paróquia e em quatro cidades da Louisiana.",
+    "ルイジアナ州の1郡と4都市の911通報情報。",
   ],
+  "View all projects": ["Ver todos os projetos", "すべてのプロジェクトを見る"],
+  "Websites and software I build and run.": [
+    "Sites e software que crio e mantenho.",
+    "私が作り、運営しているウェブサイトとソフトウェア。",
+  ],
+  projects: ["projetos", "件のプロジェクト"],
+  Visit: ["Visitar", "サイトへ:"],
+  "Civic information": ["Informação cívica", "行政情報"],
+  "Reference archive": ["Arquivo de referência", "資料アーカイブ"],
+  "A public incident monitor that puts 911 calls and traffic incidents from across Louisiana on one map.": [
+    "Um monitor público de ocorrências que reúne chamadas do 911 e incidentes de trânsito de toda a Louisiana num só mapa.",
+    "ルイジアナ州各地の911通報と交通事故を一つの地図にまとめた公開インシデントモニター。",
+  ],
+  "Live Caddo Parish 911 calls, with Baton Rouge and Lafayette traffic incidents": [
+    "Chamadas do 911 da Paróquia de Caddo em direto, com incidentes de trânsito de Baton Rouge e Lafayette",
+    "キャド郡の911通報をリアルタイムで表示。バトンルージュとラファイエットの交通事故も掲載",
+  ],
+  "Daily New Orleans records and Lake Charles closed calls": [
+    "Registos diários de Nova Orleães e chamadas encerradas de Lake Charles",
+    "ニューオーリンズの日次記録とレイクチャールズの対応済み通報",
+  ],
+  "Map and list views, history by date, and monthly summaries": [
+    "Vistas de mapa e lista, histórico por data e resumos mensais",
+    "地図とリスト表示、日付ごとの履歴、月次まとめ",
+  ],
+  "Public safety": ["Segurança pública", "公共の安全"],
+  "Live data": ["Dados em direto", "リアルタイムデータ"],
+  Maps: ["Mapas", "地図"],
+  "A plain-language directory of Louisiana local government: parish offices, who to call about services where you live, and who represents you.": [
+    "Um diretório em linguagem simples do governo local da Louisiana: serviços das paróquias, a quem ligar sobre os serviços onde vive e quem o representa.",
+    "ルイジアナ州の地方行政をわかりやすくまとめたディレクトリ。郡の窓口、お住まいの地域のサービスの問い合わせ先、あなたの代表者がわかります。",
+  ],
+  "Pages for all 64 parishes, with their offices, boards, and towns": [
+    "Páginas para as 64 paróquias, com os seus serviços, conselhos e localidades",
+    "全64郡のページ。窓口、委員会、市町村を掲載",
+  ],
+  "An address lookup for water, trash, permits, power, gas, and voting districts": [
+    "Pesquisa por morada para água, lixo, licenças, eletricidade, gás e círculos eleitorais",
+    "住所から水道、ごみ収集、許可、電気、ガス、選挙区を検索",
+  ],
+  "A guide to how Louisiana government works, with every official and party majority": [
+    "Um guia sobre o funcionamento do governo da Louisiana, com todos os eleitos e as maiorias partidárias",
+    "ルイジアナ州政府のしくみガイド。すべての公職者と各議会の多数党を掲載",
+  ],
+  Government: ["Governo", "行政"],
+  "Civic data": ["Dados cívicos", "行政データ"],
+  "A self-hosted reference archive of flags, seals, insignia, laws, and artifacts, with every record stored locally.": [
+    "Um arquivo de referência autoalojado de bandeiras, selos, insígnias, leis e artefactos, com todos os registos guardados localmente.",
+    "旗、紋章、記章、法令、資料を集めたセルフホストの資料アーカイブ。すべての記録をローカルに保存しています。",
+  ],
+  "Flags, seals, and coats of arms from around the world": [
+    "Bandeiras, selos e brasões de todo o mundo",
+    "世界各国の旗、印章、紋章",
+  ],
+  "Readers for federal regulations, founding documents, and state law": [
+    "Leitores para regulamentos federais, documentos fundadores e leis estaduais",
+    "連邦規則、建国文書、州法を読めるリーダー",
+  ],
+  "License plates, military manuals, documents, and paintings": [
+    "Matrículas, manuais militares, documentos e pinturas",
+    "ナンバープレート、軍事マニュアル、文書、絵画",
+  ],
+  Archive: ["Arquivo", "アーカイブ"],
+  "Self-hosted": ["Autoalojado", "セルフホスト"],
+  "Small personal software, made with care. Its main app, lcb-ai, runs AI models on your own computer.": [
+    "Pequeno software pessoal, feito com cuidado. A aplicação principal, lcb-ai, executa modelos de IA no seu próprio computador.",
+    "丁寧に作られた小さな個人向けソフトウェア。主力アプリの lcb-ai は、AI モデルをご自身のコンピューターで動かします。",
+  ],
+  "lcb-ai: local models, saved conversations, and your own workspace": [
+    "lcb-ai: modelos locais, conversas guardadas e o seu próprio espaço de trabalho",
+    "lcb-ai:ローカルモデル、保存された会話、自分だけのワークスペース",
+  ],
+  "Available for Windows and native Linux": [
+    "Disponível para Windows e Linux nativo",
+    "Windows とネイティブ Linux に対応",
+  ],
+  "Also home to lcb-hermes and Neptune": [
+    "Também inclui lcb-hermes e Neptune",
+    "lcb-hermes と Neptune も提供",
+  ],
+  "Local AI": ["IA local", "ローカル AI"],
+  Desktop: ["Ambiente de trabalho", "デスクトップ"],
   "Personal archive": ["Arquivo pessoal", "個人アーカイブ"],
   "The archive": ["O arquivo", "アーカイブ"],
   "Paintings and other collections.": [

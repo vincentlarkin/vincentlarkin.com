@@ -65,9 +65,80 @@ export const photoSrc = (p, size = "thumbs-md") =>
 export const navigation = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
+  { id: "projects", label: "Projects" },
   { id: "gallery", label: "Gallery" },
   { id: "reading", label: "News / Books" },
   { id: "changelog", label: "Changelog" },
+];
+export const projects = [
+  {
+    id: "louisiana911",
+    title: "Louisiana911",
+    category: "Public information",
+    url: "https://louisiana911.com",
+    domain: "louisiana911.com",
+    image: "/images/projects/louisiana911-card.webp",
+    alt: "The Louisiana911 map of Shreveport with recent 911 calls listed beside it.",
+    description:
+      "A public incident monitor that puts 911 calls and traffic incidents from across Louisiana on one map.",
+    highlights: [
+      "Live Caddo Parish 911 calls, with Baton Rouge and Lafayette traffic incidents",
+      "Daily New Orleans records and Lake Charles closed calls",
+      "Map and list views, history by date, and monthly summaries",
+    ],
+    tags: ["Public safety", "Live data", "Maps"],
+  },
+  {
+    id: "ladf",
+    title: "Louisiana Data & Defense Foundation",
+    category: "Civic information",
+    url: "https://ladf.us",
+    domain: "ladf.us",
+    image: "/images/projects/ladf-card.webp",
+    alt: "The ladf.us home page, with an election notice and an address search.",
+    description:
+      "A plain-language directory of Louisiana local government: parish offices, who to call about services where you live, and who represents you.",
+    highlights: [
+      "Pages for all 64 parishes, with their offices, boards, and towns",
+      "An address lookup for water, trash, permits, power, gas, and voting districts",
+      "A guide to how Louisiana government works, with every official and party majority",
+    ],
+    tags: ["Government", "Civic data", "Maps"],
+  },
+  {
+    id: "archive",
+    title: "Royal Archive",
+    category: "Reference archive",
+    url: "https://archive.vincentlarkin.com",
+    domain: "archive.vincentlarkin.com",
+    image: "/images/projects/archive-card.webp",
+    alt: "The Royal Archive home page, titled Flags, Seals, Insignia, Laws, Plates & Artifacts.",
+    description:
+      "A self-hosted reference archive of flags, seals, insignia, laws, and artifacts, with every record stored locally.",
+    highlights: [
+      "Flags, seals, and coats of arms from around the world",
+      "Readers for federal regulations, founding documents, and state law",
+      "License plates, military manuals, documents, and paintings",
+    ],
+    tags: ["Archive", "Self-hosted"],
+  },
+  {
+    id: "lcb",
+    title: "Larkin Computing Bureau",
+    category: "Software",
+    url: "https://larkincomputingbureau.com",
+    domain: "larkincomputingbureau.com",
+    image: "/images/projects/lcb-card.webp",
+    alt: "The Larkin Computing Bureau home page, introducing lcb-ai with the headline AI. At home.",
+    description:
+      "Small personal software, made with care. Its main app, lcb-ai, runs AI models on your own computer.",
+    highlights: [
+      "lcb-ai: local models, saved conversations, and your own workspace",
+      "Available for Windows and native Linux",
+      "Also home to lcb-hermes and Neptune",
+    ],
+    tags: ["Software", "Local AI", "Desktop"],
+  },
 ];
 export const changes = [
   {

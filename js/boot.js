@@ -26,7 +26,7 @@
       });
     }
     const page = document.body.dataset.page || null;
-    const nav = { index: 'nav-home', about: 'nav-about', gallery: 'nav-gallery', news: 'nav-news', changelog: 'nav-changelog' };
+    const nav = { index: 'nav-home', about: 'nav-about', projects: 'nav-projects', gallery: 'nav-gallery', news: 'nav-news', changelog: 'nav-changelog' };
     await window.siteUtils.initPage(page, nav[page] || null);
   } catch (error) {
     console.error('Showing the static page because interactive features could not load.', error);

@@ -61,7 +61,7 @@ import "@fontsource/ibm-plex-sans/latin-400.css";
 import "@fontsource/ibm-plex-sans/latin-500.css";
 import "@fontsource/ibm-plex-sans/latin-600.css";
 import "@fontsource/ibm-plex-mono/latin-400.css";
-import { photos, photoSrc, navigation, changes, articles } from "./data";
+import { photos, photoSrc, navigation, changes, articles, projects } from "./data";
 import "./styles.scss";
 import { t, language } from "./translations";
 import { HolidayBanner, useHolidays } from "./HolidayBanner";
@@ -71,6 +71,7 @@ const external = { target: "_blank", rel: "noopener noreferrer" };
 const paths = {
   home: "/",
   about: "/about.html",
+  projects: "/projects.html",
   gallery: "/gallery.html",
   reading: "/news.html",
   changelog: "/changelog.html",
@@ -227,7 +228,12 @@ function Home({ onPhoto }) {
       </section>
       <section className="projects-band">
         <div className="wrap section-grid">
-          <SectionIntro number="01" title={t("Projects")} />
+          <SectionIntro
+            number="01"
+            title={t("Projects")}
+            href={hrefFor("projects")}
+            link={t("View all projects")}
+          />
           <ClickableTile
             className="project-tile"
             href="https://louisiana911.com"
@@ -245,7 +251,7 @@ function Home({ onPhoto }) {
               <h3>Louisiana911</h3>
               <p>
                 {t(
-                  "911 incident information for one parish and three Louisiana cities.",
+                  "911 incident information for one parish and four Louisiana cities.",
                 )}
               </p>
               <span className="project-domain">
@@ -418,6 +424,69 @@ function Gallery({ onPhoto }) {
           ))}
         </div>
       </section>
+    </>
+  );
+}
+
+function Projects() {
+  return (
+    <>
+      <PageLead label={t("Projects")} title={t("Projects")}>
+        {t("Websites and software I build and run.")}
+        <span className="lead-note">
+          {projects.length} {t("projects")}
+        </span>
+      </PageLead>
+      <section className="wrap project-list" aria-label={t("Projects")}>
+        {projects.map((project, i) => (
+          <article
+            className="project-feature"
+            key={project.id}
+            aria-labelledby={`project-${project.id}`}
+          >
+            <div className="project-feature-meta">
+              <span className="mono">{String(i + 1).padStart(2, "0")}</span>
+              <span className="eyebrow">{t(project.category)}</span>
+            </div>
+            <a
+              className="project-feature-shot"
+              href={project.url}
+              {...external}
+              tabIndex={-1}
+              aria-hidden="true"
+            >
+              <img src={project.image} alt="" loading={i ? "lazy" : "eager"} />
+            </a>
+            <div className="project-feature-body">
+              <h2 id={`project-${project.id}`}>{project.title}</h2>
+              <p className="project-feature-description">
+                {t(project.description)}
+              </p>
+              <ul className="project-feature-highlights">
+                {project.highlights.map((item) => (
+                  <li key={item}>{t(item)}</li>
+                ))}
+              </ul>
+              <div className="project-feature-tags">
+                {project.tags.map((tag) => (
+                  <Tag key={tag} type="gray" size="md">
+                    {t(tag)}
+                  </Tag>
+                ))}
+              </div>
+              <Button
+                href={project.url}
+                {...external}
+                kind="tertiary"
+                renderIcon={Launch}
+              >
+                {t("Visit")} {project.domain}
+              </Button>
+            </div>
+          </article>
+        ))}
+      </section>
+      <ContactBanner />
     </>
   );
 }
@@ -818,16 +887,11 @@ function App() {
       category: "Photograph",
       index: i,
     })),
-    {
-      title: "Louisiana911",
+    ...projects.map((p) => ({
+      title: p.title,
       category: "Project",
-      href: "https://louisiana911.com",
-    },
-    {
-      title: "Personal archive",
-      category: "Project",
-      href: "https://archive.vincentlarkin.com",
-    },
+      href: p.url,
+    })),
   ];
   const results = query.trim()
     ? searchable.filter((r) =>
@@ -1037,6 +1101,8 @@ function App() {
           <Gallery onPhoto={openPhoto} />
         ) : page === "about" ? (
           <About />
+        ) : page === "projects" ? (
+          <Projects />
         ) : page === "reading" ? (
           <Reading />
         ) : page === "changelog" ? (
