@@ -1121,6 +1121,13 @@ main.gallery-page {
   background: var(--border);
 }
 
+a.section-toggle.section-link {
+  box-sizing: border-box;
+  margin-top: 1rem;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+}
+
 .section-content {
   display: none;
   padding: 1rem;

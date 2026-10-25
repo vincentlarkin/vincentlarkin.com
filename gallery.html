@@ -23,7 +23,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png?v=20260910">
   <link rel="manifest" href="/images/favicons/site.webmanifest?v=20260910">
   <noscript id="legacy-styles">
-  <link rel="stylesheet" href="/css/styles.css?v=20260910-emblem">
+  <link rel="stylesheet" href="/css/styles.css?v=20261024-paint">
   <link rel="stylesheet" href="/css/theme-retro.css?v=20260910-emblem">
   <link rel="stylesheet" href="/css/theme-vin.css?v=20260803c">
   <link rel="stylesheet" href="/css/theme-editorial.css?v=20260803c">
@@ -54,14 +54,11 @@
         <div id="gallery-container" class="gallery-container"></div>
       </div>
       
-      <!-- Paintings Section -->
-      <button class="section-toggle" onclick="toggleSection('paintings-section')" id="paintings-toggle">
+      <!-- Paintings live in the archive -->
+      <a class="section-toggle section-link" href="https://archive.vincentlarkin.com/paintings.html" target="_blank" rel="noopener" id="paintings-toggle">
         <span id="paintings-label">Paintings</span>
-        <span class="toggle-icon">▲</span>
-      </button>
-      <div class="section-content" id="paintings-section" style="display: block;">
-        <p class="archive-notice"><span id="paintings-archive-prefix">Moved to</span> <a href="https://archive.vincentlarkin.com/paintings.html" target="_blank" rel="noopener">archive.vincentlarkin.com/paintings.html</a></p>
-      </div>
+        <span class="toggle-icon" aria-hidden="true">↗</span>
+      </a>
     </main>
     
     <!-- Lightbox Modal -->
