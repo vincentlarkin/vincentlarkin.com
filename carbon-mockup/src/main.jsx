@@ -396,12 +396,12 @@ function Gallery({ onPhoto }) {
           <h2>{t("Paintings")}</h2>
           <p>From the personal archive.</p>
           <Button
-            href="https://archive.vincentlarkin.com"
+            href="https://archive.vincentlarkin.com/paintings.html"
             {...external}
             kind="tertiary"
             renderIcon={Launch}
           >
-            Visit the archive
+            View the paintings
           </Button>
         </div>
         <div className="painting-images">
