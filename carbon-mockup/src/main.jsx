@@ -55,6 +55,7 @@ import {
   Copy,
   Checkmark,
   ChevronDown,
+  StarFilled,
 } from "@carbon/react/icons";
 import "@fontsource/ibm-plex-sans/latin-300.css";
 import "@fontsource/ibm-plex-sans/latin-400.css";
@@ -458,7 +459,15 @@ function Projects() {
               <img src={project.image} alt="" loading={i ? "lazy" : "eager"} />
             </a>
             <div className="project-feature-body">
-              <h2 id={`project-${project.id}`}>{project.title}</h2>
+              <h2 id={`project-${project.id}`}>
+                {project.title}
+                {project.featured && (
+                  <span className="project-featured" title={t("Featured")}>
+                    <StarFilled size={24} aria-hidden="true" />
+                    <span className="sr-only">{t("Featured")}</span>
+                  </span>
+                )}
+              </h2>
               <p className="project-feature-description">
                 {t(project.description)}
               </p>

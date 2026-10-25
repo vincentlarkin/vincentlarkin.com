@@ -93,10 +93,11 @@ export const translations = {
     "Leitores para regulamentos federais, documentos fundadores e leis estaduais",
     "連邦規則、建国文書、州法を読めるリーダー",
   ],
-  "License plates, military manuals, documents, and paintings": [
-    "Matrículas, manuais militares, documentos e pinturas",
-    "ナンバープレート、軍事マニュアル、文書、絵画",
+  "License plates, military manuals, and paintings": [
+    "Matrículas, manuais militares e pinturas",
+    "ナンバープレート、軍事マニュアル、絵画",
   ],
+  Featured: ["Em destaque", "注目"],
   Archive: ["Arquivo", "アーカイブ"],
   "Self-hosted": ["Autoalojado", "セルフホスト"],
   "Small personal software, made with care. Its main app, lcb-ai, runs AI models on your own computer.": [

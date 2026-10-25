@@ -112,13 +112,14 @@ export const projects = [
     url: "https://archive.vincentlarkin.com",
     domain: "archive.vincentlarkin.com",
     image: "/images/projects/archive-card.webp",
-    alt: "The Royal Archive home page, titled Flags, Seals, Insignia, Laws, Plates & Artifacts.",
+    alt: "The Royal Archive home page, with its table of collections.",
+    featured: true,
     description:
       "A self-hosted reference archive of flags, seals, insignia, laws, and artifacts, with every record stored locally.",
     highlights: [
       "Flags, seals, and coats of arms from around the world",
       "Readers for federal regulations, founding documents, and state law",
-      "License plates, military manuals, documents, and paintings",
+      "License plates, military manuals, and paintings",
     ],
     tags: ["Archive", "Self-hosted"],
   },
