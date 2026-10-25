@@ -97,7 +97,6 @@ export const translations = {
     "Matrículas, manuais militares e pinturas",
     "ナンバープレート、軍事マニュアル、絵画",
   ],
-  Featured: ["Em destaque", "注目"],
   Archive: ["Arquivo", "アーカイブ"],
   "Self-hosted": ["Autoalojado", "セルフホスト"],
   "Small personal software, made with care. Its main app, lcb-ai, runs AI models on your own computer.": [

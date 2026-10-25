@@ -459,15 +459,7 @@ function Projects() {
               <img src={project.image} alt="" loading={i ? "lazy" : "eager"} />
             </a>
             <div className="project-feature-body">
-              <h2 id={`project-${project.id}`}>
-                {project.title}
-                {project.featured && (
-                  <span className="project-featured" title={t("Featured")}>
-                    <StarFilled size={24} aria-hidden="true" />
-                    <span className="sr-only">{t("Featured")}</span>
-                  </span>
-                )}
-              </h2>
+              <h2 id={`project-${project.id}`}>{project.title}</h2>
               <p className="project-feature-description">
                 {t(project.description)}
               </p>
@@ -952,6 +944,7 @@ function App() {
                 isCurrentPage={page === n.id}
               >
                 {t(n.label)}
+                {n.star && <StarFilled size={16} className="nav-star" aria-hidden="true" />}
               </HeaderMenuItem>
             ))}
           </HeaderNavigation>
@@ -1096,6 +1089,7 @@ function App() {
                   onClick={() => setMenuOpen(false)}
                 >
                   {t(n.label)}
+                  {n.star && <StarFilled size={16} className="nav-star" aria-hidden="true" />}
                 </SideNavLink>
               ))}
             </SideNavItems>

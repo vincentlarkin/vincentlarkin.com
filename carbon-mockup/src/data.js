@@ -65,7 +65,7 @@ export const photoSrc = (p, size = "thumbs-md") =>
 export const navigation = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
-  { id: "projects", label: "Projects" },
+  { id: "projects", label: "Projects", star: true },
   { id: "gallery", label: "Gallery" },
   { id: "reading", label: "News / Books" },
   { id: "changelog", label: "Changelog" },
@@ -113,7 +113,6 @@ export const projects = [
     domain: "archive.vincentlarkin.com",
     image: "/images/projects/archive-card.webp",
     alt: "The Royal Archive home page, with its table of collections.",
-    featured: true,
     description:
       "A self-hosted reference archive of flags, seals, insignia, laws, and artifacts, with every record stored locally.",
     highlights: [

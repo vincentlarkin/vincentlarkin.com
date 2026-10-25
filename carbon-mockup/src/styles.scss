@@ -762,11 +762,10 @@ main:focus {
   @include type.type-style("heading-05");
   margin-bottom: 16px;
 }
-.project-featured {
-  display: inline-flex;
-  margin-left: 12px;
-  vertical-align: -2px;
-  color: #b28600;
+.nav-star {
+  margin-left: 6px;
+  vertical-align: -3px;
+  fill: #f1c21b;
 }
 .project-feature-description {
   @include type.type-style("body-02");
