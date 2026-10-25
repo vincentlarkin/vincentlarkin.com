@@ -6,7 +6,7 @@
 
 - [Home](https://vincentlarkin.com/): Project highlights, recent site notes, featured topics, contact links, and the latest monthly image.
 - [About](https://vincentlarkin.com/about.html): Professional profile, skills, location, and contact information.
-- [Projects](https://vincentlarkin.com/projects.html): Louisiana911, the Louisiana Data & Defense Foundation (ladf.us), the Royal Archive, and Larkin Computing Bureau.
+- [Projects](https://vincentlarkin.com/projects.html): Louisiana911, the Louisiana Data & Defense Foundation (ladf.us), Acervo, and Larkin Computing Bureau.
 - [News / Books](https://vincentlarkin.com/news.html): Curated article archive and bookshelf.
 - [Gallery](https://vincentlarkin.com/gallery.html): Monthly photo gallery and visual archive.
 - [Changelog](https://vincentlarkin.com/changelog.html): Recent updates pulled from the site's public GitHub history.

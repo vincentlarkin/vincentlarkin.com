@@ -107,12 +107,12 @@ export const projects = [
   },
   {
     id: "archive",
-    title: "Royal Archive",
+    title: "Acervo",
     category: "Reference archive",
     url: "https://archive.vincentlarkin.com",
     domain: "archive.vincentlarkin.com",
     image: "/images/projects/archive-card.webp",
-    alt: "The Royal Archive home page, with its table of collections.",
+    alt: "The Acervo home page, with its table of collections.",
     description:
       "A self-hosted reference archive of flags, seals, insignia, laws, and artifacts, with every record stored locally.",
     highlights: [
