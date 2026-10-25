@@ -10,7 +10,7 @@ npm run build:site
 npm run serve:site
 ```
 
-Open http://127.0.0.1:4173. The server listens only on this computer. Commit the generated `../assets/carbon/` and updated root/article HTML together with source changes: the build writes matching early asset URLs into each page. the server serves the prebuilt files and does not need Node. The deployment excludes this development directory.
+Open http://127.0.0.1:4173. The server listens only on this computer. Commit the generated `../assets/carbon/` and updated root/article HTML together with source changes: the build writes matching early asset URLs into each page. The server serves the prebuilt files and does not need Node. The deployment excludes this development directory.
 
 `npm run dev` remains an isolated design sandbox with hash navigation. Use `serve:site` for production checks, theme switching, real article pages, and Analytics verification. Stop one server before starting the other; both use port 4173.
 
