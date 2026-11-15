@@ -41,7 +41,7 @@ checks.push({
 });
 await page.goto(`${base}/#/gallery`);
 const photoTrigger = page.getByRole("button", {
-  name: "View photograph: August–September 2026",
+  name: "View photograph: October–November 2026, Centennial Hall, Fair Park · Dallas, Texas",
 });
 await photoTrigger.click();
 await page.waitForTimeout(500);

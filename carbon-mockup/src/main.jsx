@@ -117,7 +117,7 @@ function PhotoButton({ photo, onOpen, featured = false }) {
     <button
       className={`photo-button ${featured ? "featured-photo" : ""}`}
       onClick={(event) => onOpen(photos.indexOf(photo), event.currentTarget)}
-      aria-label={`View photograph: ${photo.date}`}
+      aria-label={`View photograph: ${photo.date}${photo.location ? `, ${photo.location}` : ""}`}
     >
       <span className="photo-crop">
         <img
@@ -136,6 +136,9 @@ function PhotoButton({ photo, onOpen, featured = false }) {
             <span className="eyebrow">{t("Image of the month")}</span>
           )}
           <span>{photo.date}</span>
+          {photo.location && (
+            <span className="photo-location">{photo.location}</span>
+          )}
         </span>
         <span className="photo-count">
           {featured ? `01 / ${String(photos.length).padStart(2, "0")}` : <ArrowUpRight size={20} />}
@@ -355,7 +358,7 @@ function Gallery({ onPhoto }) {
       <PageLead label={t("Gallery")} title={t("Gallery")}>
         {t("Monthly photographs.")}
         <span className="lead-note">
-          August 2025 — September 2026 · {photos.length} photographs
+          August 2025 — November 2026 · {photos.length} photographs
         </span>
       </PageLead>
       <section
@@ -884,7 +887,7 @@ function App() {
       href: `/articles/${a.file}`,
     })),
     ...photos.map((p, i) => ({
-      title: p.date,
+      title: p.location ? `${p.date} · ${p.location}` : p.date,
       category: "Photograph",
       index: i,
     })),
@@ -1276,6 +1279,12 @@ function App() {
               src={photoSrc(photo, "")}
               alt={photo.alt}
             />
+            {photo.location && (
+              <p className="lightbox-location">
+                <Location size={16} />
+                {photo.location}
+              </p>
+            )}
             <div className="lightbox-controls">
               <Button
                 kind="ghost"

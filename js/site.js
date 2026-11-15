@@ -200,6 +200,10 @@ const navByPage = {
 // Monthly Gallery data
 const monthlyImages = {
   "2026": [
+    { file: "outubro-novembro-2026.webp", month: "outubro", year: 2026, type: "image",
+      caption: { en: "October-November 2026", pt: "Outubro-Novembro de 2026", ja: "2026\u5E7410\u6708\u301C11\u6708" },
+      location: { en: "Centennial Hall, Fair Park \u00B7 Dallas, Texas", pt: "Centennial Hall, Fair Park \u00B7 Dallas, Texas", ja: "\u30C6\u30AD\u30B5\u30B9\u5DDE\u30C0\u30E9\u30B9\u30FB\u30D5\u30A7\u30A2\u30D1\u30FC\u30AF\u3001\u30BB\u30F3\u30C6\u30CB\u30A2\u30EB\u30DB\u30FC\u30EB" },
+      alt: "Carlo Ciampaglia's 1936 mural Navigation on Centennial Hall at Fair Park: a man holding a small ship's wheel beside a kneeling woman in a green drape, with a ship's bell, coiled rope, a compass rose and a large gauge." },
     { file: "agosto-setembro-2026.webp", month: "agosto", year: 2026, type: "image", caption: { en: "August-September 2026", pt: "Agosto-Setembro de 2026", ja: "2026\u5E748\u6708\u301C9\u6708" } },
     { file: "junho-julho-2026.webp", month: "junho", year: 2026, type: "image", caption: { en: "June-July 2026", pt: "Junho-Julho de 2026", ja: "2026\u5E746\u6708\u301C7\u6708" } },
     { file: "abril-2026.webp", month: "abril", year: 2026, type: "image", caption: { en: "April-May 2026", pt: "Abril-Maio de 2026", ja: "2026\u5E744\u6708\u301C5\u6708" } },
@@ -1045,10 +1049,11 @@ function handleLanguageChange() {
 function bindMonthlyHeroImage(image, item, label) {
   if (!image || !item) return;
   const paths = getMonthlyImagePaths(item.file);
+  const caption = getMonthlyLightboxCaption(item, label);
   image.src = paths.medium;
-  image.alt = label;
+  image.alt = item.alt || label;
   image.dataset.fullSrc = paths.full;
-  image.onclick = () => openLightbox(paths.full, label);
+  image.onclick = () => openLightbox(paths.full, caption);
 }
 
 function syncMonthlyAlt() {
@@ -1059,6 +1064,8 @@ function syncMonthlyAlt() {
   const label = caption.textContent || image.alt || '';
   if (item) {
     bindMonthlyHeroImage(image, item, label);
+    const location = document.getElementById('monthly-location');
+    if (location) location.textContent = getMonthlyImageLocation(item);
   } else {
     image.alt = label;
   }
@@ -1080,6 +1087,17 @@ function getMonthlyImageLabel(item) {
   return `${monthName} ${item.year}`;
 }
 
+function getMonthlyImageLocation(item) {
+  if (!item || !item.location) return '';
+  const lang = window.langSystem ? langSystem.getCurrentLang() : getStoredLang();
+  return item.location[lang] || item.location.en || '';
+}
+
+function getMonthlyLightboxCaption(item, label) {
+  const location = getMonthlyImageLocation(item);
+  return location ? `${label} \u2014 ${location}` : label;
+}
+
 function renderVinMonthlyImage() {
   const item = getLatestMonthlyImage();
   const image = document.getElementById('vin-monthly-image');
@@ -1091,6 +1109,11 @@ function renderVinMonthlyImage() {
 
   bindMonthlyHeroImage(image, item, label);
   caption.textContent = label;
+  const location = document.getElementById('vin-monthly-location');
+  if (location) {
+    location.textContent = getMonthlyImageLocation(item);
+    location.hidden = !location.textContent;
+  }
 }
 
 function getIndexText(key, fallback) {
@@ -1254,15 +1277,17 @@ function renderGallery() {
     yearItems.forEach(item => {
       const paths = getMonthlyImagePaths(item.file);
       const label = getMonthlyImageLabel(item);
+      const location = getMonthlyImageLocation(item);
+      const alt = (item.alt || label).replace(/"/g, '&quot;');
       const fullEsc = paths.full.replace(/'/g, "\\'");
-      const labelEsc = label.replace(/'/g, "\\'");
+      const labelEsc = getMonthlyLightboxCaption(item, label).replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
       html += `
         <div class="gallery-item">
           <div class="gallery-item-container">
-            <img src="${paths.small}" alt="${label}" class="gallery-media" loading="lazy" decoding="async" onclick="openLightbox('${fullEsc}', '${labelEsc}')">
+            <img src="${paths.small}" alt="${alt}" class="gallery-media" loading="lazy" decoding="async" onclick="openLightbox('${fullEsc}', '${labelEsc}')">
           </div>
-          <div class="gallery-item-caption">${label}</div>
+          <div class="gallery-item-caption">${label}${location ? `<span class="gallery-item-location">${location}</span>` : ''}</div>
         </div>
       `;
     });

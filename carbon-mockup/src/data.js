@@ -1,5 +1,12 @@
 export const photos = [
   {
+    file: "outubro-novembro-2026.webp",
+    date: "October–November 2026",
+    year: "2026",
+    location: "Centennial Hall, Fair Park · Dallas, Texas",
+    alt: "Carlo Ciampaglia's 1936 mural Navigation on Centennial Hall at Fair Park: a man holding a small ship's wheel beside a kneeling woman in a green drape, with a ship's bell, coiled rope, a compass rose and a large gauge.",
+  },
+  {
     file: "agosto-setembro-2026.webp",
     date: "August–September 2026",
     year: "2026",

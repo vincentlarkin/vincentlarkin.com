@@ -687,6 +687,13 @@ main.gallery-page {
   border-top: 1px solid var(--border);
 }
 
+.gallery-item-location {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
 .gallery-year-section {
   margin-bottom: 1rem;
   border: 1px solid var(--border);
@@ -1312,6 +1319,14 @@ a.section-toggle.section-link {
   font-size: 0.85rem;
   color: var(--muted);
   text-align: center;
+}
+
+.monthly-location {
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+  opacity: 0.85;
 }
 
 .links-block {
