@@ -33,6 +33,7 @@ import {
   AccordionItem,
   Breadcrumb,
   BreadcrumbItem,
+  Loading,
 } from "@carbon/react";
 import {
   ArrowRight,
@@ -145,6 +146,72 @@ function PhotoButton({ photo, onOpen, featured = false }) {
         </span>
       </span>
     </button>
+  );
+}
+
+const preloaded = new Set();
+function preloadPhoto(p) {
+  const src = photoSrc(p, "");
+  if (preloaded.has(src)) return;
+  preloaded.add(src);
+  const img = new Image();
+  img.decoding = "async";
+  img.src = src;
+}
+
+// Full-size photographs are large. Show the (already cached) medium copy
+// immediately, with a spinner, and fade the original in once it decodes.
+function PhotoStage({ photo, index, onStep }) {
+  const full = photoSrc(photo, "");
+  const [loaded, setLoaded] = useState(false);
+  const fullRef = useRef(null);
+  const touch = useRef(null);
+  useEffect(() => {
+    setLoaded(Boolean(fullRef.current?.complete && fullRef.current.naturalWidth));
+  }, [full]);
+  useEffect(() => {
+    if (!loaded) return;
+    preloadPhoto(photos[(index + 1) % photos.length]);
+    preloadPhoto(photos[(index + photos.length - 1) % photos.length]);
+  }, [loaded, index]);
+  return (
+    <div
+      className={`lightbox-stage${loaded ? " is-loaded" : ""}`}
+      aria-busy={!loaded}
+      onTouchStart={(e) => {
+        touch.current = e.touches[0].clientX;
+      }}
+      onTouchEnd={(e) => {
+        if (touch.current === null) return;
+        const dx = e.changedTouches[0].clientX - touch.current;
+        touch.current = null;
+        if (Math.abs(dx) > 50) onStep(dx < 0 ? 1 : -1);
+      }}
+    >
+      <img
+        key={`preview-${photo.file}`}
+        className="lightbox-preview"
+        src={photoSrc(photo)}
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        key={full}
+        ref={fullRef}
+        className="lightbox-image"
+        src={full}
+        alt={photo.alt}
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(true)}
+      />
+      {!loaded && (
+        <div className="lightbox-loading">
+          <Loading small withOverlay={false} description="Loading full-size photograph" />
+          <span>Loading full size…</span>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -1262,6 +1329,7 @@ function App() {
         </div>
         <p className="search-tip">Ctrl / ⌘ K to search · Esc to close</p>
       </Modal>
+      <Theme theme="g100">
       <Modal
         open={photo !== null}
         launcherButtonRef={photoLauncher}
@@ -1274,17 +1342,13 @@ function App() {
       >
         {photo && (
           <>
-            <img
-              className="lightbox-image"
-              src={photoSrc(photo, "")}
-              alt={photo.alt}
+            <PhotoStage
+              photo={photo}
+              index={photoIndex}
+              onStep={(d) =>
+                setPhotoIndex((i) => (i + d + photos.length) % photos.length)
+              }
             />
-            {photo.location && (
-              <p className="lightbox-location">
-                <Location size={16} />
-                {photo.location}
-              </p>
-            )}
             <div className="lightbox-controls">
               <Button
                 kind="ghost"
@@ -1295,9 +1359,20 @@ function App() {
               >
                 Previous
               </Button>
-              <span className="mono" aria-live="polite">
-                {String(photoIndex + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}
-              </span>
+              <div className="lightbox-meta">
+                {photo.location && (
+                  <p className="lightbox-location">
+                    <Location size={16} />
+                    {photo.location}
+                  </p>
+                )}
+                <p className="lightbox-tip">
+                  <span className="mono" aria-live="polite">
+                    {String(photoIndex + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}
+                  </span>
+                  <span className="lightbox-keys"> · Use the left and right arrow keys to explore.</span>
+                </p>
+              </div>
               <Button
                 kind="ghost"
                 renderIcon={ArrowRight}
@@ -1306,12 +1381,10 @@ function App() {
                 Next
               </Button>
             </div>
-            <p className="lightbox-tip">
-              Use the left and right arrow keys to explore.
-            </p>
           </>
         )}
       </Modal>
+      </Theme>
     </Theme>
   );
 }
